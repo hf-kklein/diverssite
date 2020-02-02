@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'fschunck_tplb_db',
         'USER': 'fschunck_tplb_u',
         'PASSWORD': 'tr@ining20!',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
     }
 }
 
