@@ -74,16 +74,17 @@ WSGI_APPLICATION = 'diverssite.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'tplb': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fschunck_tplb_db',
         'USER': 'fschunck_tplb_u',
         'PASSWORD': 'tr@ining20!',
         'HOST': '127.0.0.1',
+        'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
 
