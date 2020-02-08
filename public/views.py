@@ -4,18 +4,22 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 
+from .models import Post
 
-# Create your views here.
+class IndexView(generic.ListView):
+    model = Post
+    template_name = 'public/index.html'
+    context_object_name = 'home_public_posts'
 
-# def index(request):
-#     welcome_text = "Welcome to the Website of the Saxy Divers"
-#     return HttpResponse(welcome_text)
+    def get_context_data(self, **kwargs):
+        welcome_title = "Saxy Divers Ultimate Frisbee"
+        welcome_text = "Saxy Divers spielen seit 1990 Ultimate Frisbee in Leipzig"
+        public_posts = Post.objects.filter(visibility = 'public')
+        published_posts = public_posts.filter(pub_date__lte=timezone.now())
+        queryset = published_posts
 
-def index(request):
-    # print(request)
-    welcome_text = "Welcome to the Website of the Saxy Divers"
-    context = {'welchome_text':welcome_text}
-    return render(request, 'public/index.html', context)
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
+        context = { 'welcome_title': welcome_title,
+                    'welcome_text': welcome_text,
+                    'published_posts': published_posts
+                    }
+        return context
