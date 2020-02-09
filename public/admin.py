@@ -3,14 +3,10 @@ from django.contrib import admin
 # Register your models here.
 from .models import Post
 
-# class PostAdmin(admin.ModelAdmin):
-#     fieldsets = [
-#         (None,               {'fields': ['title','text']}),
-#         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-#     ]
-#     # list_display = ('question_text', 'pub_date', 'was_published_recently')
-#     # list_filter = ['pub_date']
-#     # search_fields = ['question_text']
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('title','visibility', 'pub_date', 'page')
+    list_filter = ['pub_date','page','visibility']
+    search_fields = ['title']
 
 
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)

@@ -35,6 +35,40 @@
             background-image: linear-gradient(to bottom, #0a2257, #061638 );
         }
 
+        .list-group {
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-direction: column;
+          flex-direction: column;
+          padding-left: 0;
+          margin-bottom: 0;
+        }
+        .list-group-item {
+          position: relative;
+          display: block;
+          padding: 0.75rem 1.25rem;
+          background-color: #fff;
+          border: 1px solid rgba(0, 0, 0, 0.125);
+        }
+        .col-4 {
+          -ms-flex: 0 0 33.333333%;
+          flex: 0 0 33.333333%;
+          max-width: 33.333333%;
+        }
+        .list-group-item-action {
+          width: 100%;
+          color: #495057;
+          text-align: inherit;
+        }
+
+        .list-group-item-action:hover, .list-group-item-action:focus {
+          z-index: 1;
+          color: #495057;
+          text-decoration: none;
+          background-color: #f8f9fa;
+        }
+
+
       @media (max-width: 980px, max-height: 200px) {
         /* Enable use of floated navbar text */
         .navbar-text.pull-right {
@@ -91,9 +125,9 @@
             <ul class="nav nav-list">
               <li class="nav-header">Members</li>
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="{% url 'events:index' %}">Events</a></li>
+              <li><a href="#">Turniere</a></li>
               <li><a href="#">Mitgliederliste</a></li>
-              <li><a href="{% url 'polls:index'%}">Polls</a></li>
+              <li><a href="{% url 'events:index'%}">Polls</a></li>
               <li><a href="#">Infos</a></li>
               <li class="nav-header">Sidebar</li>
               <li><a href="#">Link</a></li>
@@ -103,23 +137,37 @@
           </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
-          <div class="hero-unit">
-            <h1>{{ welcome_title }}</h1>
-            <p>{{ welcome_text }}</p>
-            <p><a href="#" class="btn btn-primary btn-large">Learn more »</a></p>
-          </div>
           <div cslass="row-fluid">
-            {% for i in published_posts %}
-            <div class="span4">
+            {% for i in posts %}
+            <div class="span9">
 
               <h2>{{ i.title }}</h2>
 
               <p>{{ i.text }}</p>
-              <p><a class="btn" href="#">View details »</a></p>
             </div><!--/span-->
             {% endfor %}
 
           </div><!--/row-->
+
+          <div class="span9">
+            <div class="col-4">
+              <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Profile</a>
+                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Messages</a>
+                <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Settings</a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">...</div>
+                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+              </div>
+            </div>
+          </div>
+
         </div><!--/span-->
       </div><!--/row-->
 
