@@ -6,6 +6,7 @@ from django.utils import timezone
 
 from .models import Post
 
+
 class IndexView(generic.ListView):
     model = Post
     template_name = 'public/index.html'
