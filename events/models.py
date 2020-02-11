@@ -25,6 +25,7 @@ class Event(models.Model):
     name = models.CharField(max_length = 50)
     category = models.CharField(choices = categories,max_length = 20, default = 'Training')
     date = models.DateTimeField()
+    description = models.TextField(null = True)
     # date_end = models.DateTimeField(default = date + timedelta(hours = 2))
     location = models.ForeignKey('Location', on_delete=models.PROTECT,
                                  null = True)
@@ -48,4 +49,4 @@ class Participation(models.Model):
     participants = models.ForeignKey(settings.AUTH_USER_MODEL,
                                      on_delete=models.PROTECT)
     participation = models.CharField(choices = part_choices , max_length=10,
-                                     null = True)
+                                     default = "n")
