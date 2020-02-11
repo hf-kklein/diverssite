@@ -5,7 +5,7 @@ from .models import Event, Location
 
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,    {'fields': ['name','category','date','location']}),
+        (None,    {'fields': ['name','category','date','location','description']}),
         ('info',  {'fields': ['author','visibility'],
                    'classes': ['collapse']}),
     ]
