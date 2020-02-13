@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+import json
 
 from .models import Event, Participation
 from public.models import Post
@@ -19,13 +20,29 @@ def index(request):
         parti_user = parti.filter(participants = current_user.id)
         print(parti, parti_user)
         context = { 'posts':  posts,
-                    'events': events,}
+                    'events': events,
+                    'user': current_user}
 
         return render(request, 'events/index.html', context)
 
     if request.method == 'POST':
-        print(request.POST)
-        event = Event.get(id=request.POST)
+        # print(request.POST)
+
+        def nest_dict(flat):
+            result = {}
+            for k, v in flat.items():
+                _nest_dict_rec(k, v, result)
+            return result
+
+        def _nest_dict_rec(k, v, out):
+            k, *rest = k.split('_', 1)
+            if rest:
+                _nest_dict_rec(rest[0], v, out.setdefault(k, {}))
+            else:
+                out[k] = v
+
+        data = nest_dict(request.POST.dict())
+        print(data["evlist"])
         return HttpResponseRedirect(reverse('events:index'))
     # try:
     #     event = event.get(id=request.POST['event'])
