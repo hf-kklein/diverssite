@@ -20,13 +20,24 @@ def index(request):
         parti_user = parti.filter(participants = current_user.id)
         print(parti, parti_user)
         context = { 'posts':  posts,
+<<<<<<< HEAD
                     'events': events,
                     'user': current_user}
+=======
+                    'events': events,}
+>>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 
         return render(request, 'events/index.html', context)
 
     if request.method == 'POST':
+<<<<<<< HEAD
         # print(request.POST)
+=======
+        print(request.POST)
+        return HttpResponseRedirect(reverse('events:index'))
+    # try:
+    #     event = event.get(id=request.POST['event'])
+>>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 
         def nest_dict(flat):
             result = {}
@@ -47,7 +58,10 @@ def index(request):
     # try:
     #     event = event.get(id=request.POST['event'])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 #
 #     try:
 #         selected_choice = question.choice_set.get(pk=request.POST['choice'])
