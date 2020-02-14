@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from django.contrib.auth.models import User
 import json
 
 from .models import Event, Participation
@@ -17,27 +18,16 @@ def index(request):
         events = Event.objects.filter().order_by('date')
         posts = Post.objects.filter(page = 'events')
         parti = Participation.objects.all()
-        parti_user = parti.filter(participants = current_user.id)
+        parti_user = parti.filter(person = current_user.id)
         print(parti, parti_user)
         context = { 'posts':  posts,
-<<<<<<< HEAD
                     'events': events,
                     'user': current_user}
-=======
-                    'events': events,}
->>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 
         return render(request, 'events/index.html', context)
 
     if request.method == 'POST':
-<<<<<<< HEAD
         # print(request.POST)
-=======
-        print(request.POST)
-        return HttpResponseRedirect(reverse('events:index'))
-    # try:
-    #     event = event.get(id=request.POST['event'])
->>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 
         def nest_dict(flat):
             result = {}
@@ -53,15 +43,29 @@ def index(request):
                 out[k] = v
 
         data = nest_dict(request.POST.dict())
-        print(data["evlist"])
+        try:
+            evlist = data["evlist"]
+            print(evlist)
+            for u in evlist:
+                for ev in evlist[u]:
+                    p = Participation(
+                        event = Event.objects.get(pk=ev),
+                        person = User.objects.get(username=u),
+                        participation = evlist[u][ev][0]
+                        )
+                    p.save()
+
+        except (KeyError):
+            evlist = dict()
+            print("no choices were updated")
+
+
+
         return HttpResponseRedirect(reverse('events:index'))
     # try:
     #     event = event.get(id=request.POST['event'])
 
-<<<<<<< HEAD
 
-=======
->>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
 #
 #     try:
 #         selected_choice = question.choice_set.get(pk=request.POST['choice'])

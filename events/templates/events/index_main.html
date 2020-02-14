@@ -28,13 +28,11 @@
           {% for event in events %}
           <a class="list-group-item justify-content-between d-flex list-group-item-action align-items-center"
           id= "list-{{event.id}}-list" data-toggle="list" href="#list-{{event.id}}"
-<<<<<<< HEAD
           role="tab" aria-controls="{{event.id}}" name={{event.id}}>
             {{ event.date }} {{ event.category }}
             <span class="badge badge-primary badge-pill"> 14 </span>
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-secondary">
-                  <!-- <input type="radio" name="{{event.id}}" id="y" autocomplete="off" onchange='this.form.submit();'> Yes -->
                   <input type="radio" name="evlist_{{user}}_{{event.id}}" id="y" value="y"> Yes
                 </label>
                 <label class="btn btn-secondary">
@@ -42,22 +40,6 @@
                 </label>
                 <label class="btn btn-secondary">
                   <input type="radio" name="evlist_{{user}}_{{event.id}}" id="m" value="m"> Maybe
-=======
-          role="tab" aria-controls="{{event.id}}">
-            {{ event.date }} {{ event.category }}
-            <span class="badge badge-primary badge-pill"> 14 </span>
-
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary">
-                  <!-- <input type="radio" name="{{event.id}}" id="y" autocomplete="off" onchange='this.form.submit();'> Yes -->
-                  <input type="radio" name="{{event.id}}" id="y" value="y"> Yes
-                </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="{{event.id}}" id="n" value="n"> No
-                </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="{{event.id}}" id="m" value="m"> Maybe
->>>>>>> cc3db1c5713fe6e8af56866d1199199724a2d436
                 </label>
               </div>
           </a>

@@ -1,7 +1,8 @@
 from django.db import models
 from datetime import timedelta
 from django.conf import settings
-
+import itertools as it
+from django.contrib.auth.models import User
 
 categories = (
     ('training','Training'),
@@ -43,10 +44,12 @@ part_choices = (
 
 )
 
+
+
 class Participation(models.Model):
     id = models.AutoField(primary_key=True)
-    event = models.ForeignKey('Event', on_delete=models.CASCADE)
-    participants = models.ForeignKey(settings.AUTH_USER_MODEL,
+    event = models.ForeignKey('Event', on_delete=models.CASCADE,)
+    person = models.ForeignKey(settings.AUTH_USER_MODEL,
                                      on_delete=models.PROTECT)
     participation = models.CharField(choices = part_choices , max_length=10,
                                      default = "n")
