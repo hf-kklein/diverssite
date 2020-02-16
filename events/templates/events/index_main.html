@@ -23,14 +23,14 @@
   <form action="{% url 'events:index' %}" method="post" name="participation">
     {% csrf_token %}
     <div class="row">
-      <div class="col-6">
+      <div class="col-9">
         <div class="list-group" id="eventlist" role="tablist">
           {% for event, content in events.items %}
           <a class="list-group-item justify-content-between d-flex list-group-item-action align-items-center"
           id= "list-{{event}}-list" data-toggle="list" href="#list-{{event}}"
           role="tab" aria-controls="{{event}}" name={{event}}>
             {{ content.event.date }} {{ content.event.category }}
-            <span class="badge badge-primary badge-pill"> 14 </span>
+              <span class="badge badge-primary badge-pill"> {{content.participation_count}} </span>
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 {% for choice_short, choice in content.choices.items %}
                 <label class="btn btn-secondary">
@@ -48,7 +48,7 @@
           {% endfor %}
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-3">
         <div class="tab-content">
           {% for event, content in events.items %}
           <div class="tab-pane" id="list-{{content.event.id}}"

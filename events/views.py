@@ -20,12 +20,14 @@ def index(request):
         parti = Participation.objects.all()
         parti_user = parti.filter(person = current_user.id)
         choices_query = PartChoice.objects.all()
+        yes = PartChoice.objects.get(choice = 'y')
 
 
 
         events = dict()
         for event in event_query:
             participation_all = event.participation_set.all()
+            part_count = len(participation_all.filter(part = yes))
             try:
                 participation_user = event.participation_set.get(person = current_user).part.choicetext
             except:
@@ -33,22 +35,15 @@ def index(request):
 
             choices = dict()
             for i in choices_query:
-                # if i.choicetext == user_choice:
-                #     activate = "yes"
-                # else:
-                #     activate = "no"
                 choices[i.choice] = {'choicetext': i.choicetext,
                                      'userchoice': participation_user}
-                              # 'activate' : activate}
-                # print(choice.choicetext, user_choice)
 
-            # print(choices)
             events[event.id] = {'event': event,
                                 'participation_all': participation_all,
+                                'participation_count': part_count,
                                 'participation_user': participation_user,
                                 'choices': choices}
 
-        # print(events)
         context = { 'posts':  posts,
                     # 'events': event_query,
                     'events': events,
