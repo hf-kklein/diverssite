@@ -15,18 +15,46 @@ def index(request):
     if request.method == 'GET':
         current_user = request.user
         # print(current_user, current_user.id)
-        events = Event.objects.filter().order_by('date')
+        event_query = Event.objects.filter().order_by('date')
         posts = Post.objects.filter(page = 'events')
         parti = Participation.objects.all()
         parti_user = parti.filter(person = current_user.id)
-        choices = PartChoice.objects.all()
-        print(parti)
+        choices_query = PartChoice.objects.all()
+
+
+
+        events = dict()
+        for event in event_query:
+            participation_all = event.participation_set.all()
+            try:
+                participation_user = event.participation_set.get(person = current_user).part.choicetext
+            except:
+                participation_user = None
+
+            choices = dict()
+            for i in choices_query:
+                # if i.choicetext == user_choice:
+                #     activate = "yes"
+                # else:
+                #     activate = "no"
+                choices[i.choice] = {'choicetext': i.choicetext,
+                                     'userchoice': participation_user}
+                              # 'activate' : activate}
+                # print(choice.choicetext, user_choice)
+
+            # print(choices)
+            events[event.id] = {'event': event,
+                                'participation_all': participation_all,
+                                'participation_user': participation_user,
+                                'choices': choices}
+
+        # print(events)
         context = { 'posts':  posts,
+                    # 'events': event_query,
                     'events': events,
-                    'user': current_user,
-                    'parties': parti,
-                    'parties_user':parti_user,
-                    'choices':choices}
+                    'user': current_user}
+
+        print(context)
         return render(request, 'events/index.html', context)
 
     if request.method == 'POST':
@@ -52,6 +80,7 @@ def index(request):
             for u in evlist:
                 for ev in evlist[u]:
                     use = User.objects.get(username=u)
+                    print(use)
                     eve = Event.objects.get(pk=ev)
                     cho = PartChoice.objects.get(choice=evlist[u][ev][0])
                     p = Participation.objects.filter(person=use)
@@ -62,12 +91,12 @@ def index(request):
                             person = use,
                             part = cho
                             )
-                    elif len(p) == 0:
-                        pnew = p.update(part=cho)
+                        pnew.save()
+                    elif len(p) == 1:
+                        p.update(part=cho)
                     else:
                         print("error. Too many events selected.")
                         break
-                    pnew.save()
 
         except (KeyError):
             evlist = dict()

@@ -46,8 +46,10 @@ class PartChoice(models.Model):
 
 
 class Participation(models.Model):
+
     id = models.AutoField(primary_key=True)
     event = models.ForeignKey('Event', on_delete=models.CASCADE,)
     person = models.ForeignKey(settings.AUTH_USER_MODEL,
                                      on_delete=models.PROTECT)
-    part = models.ForeignKey('PartChoice', on_delete=models.PROTECT)
+    part = models.ForeignKey('PartChoice', on_delete=models.PROTECT,
+                             related_name="party")

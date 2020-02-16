@@ -25,21 +25,21 @@
     <div class="row">
       <div class="col-6">
         <div class="list-group" id="eventlist" role="tablist">
-          {% for event in events %}
+          {% for event, content in events.items %}
           <a class="list-group-item justify-content-between d-flex list-group-item-action align-items-center"
-          id= "list-{{event.id}}-list" data-toggle="list" href="#list-{{event.id}}"
-          role="tab" aria-controls="{{event.id}}" name={{event.id}}>
-            {{ event.date }} {{ event.category }}
+          id= "list-{{event}}-list" data-toggle="list" href="#list-{{event}}"
+          role="tab" aria-controls="{{event}}" name={{event}}>
+            {{ content.event.date }} {{ content.event.category }}
             <span class="badge badge-primary badge-pill"> 14 </span>
               <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                {% for choice in choices %}
+                {% for choice_short, choice in content.choices.items %}
                 <label class="btn btn-secondary">
-                  {% if parties_user.part == choice.choice %}
-                  <input type="radio" name="evlist_{{user}}_{{event.id}}"
-                  id="{{choice.choice}}" value="{{choice.choice}}" checked> {{choice.choicetext}}
+                  {% if choice.userchoice == choice.choicetext %}
+                  <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+                  id="{{choice.choice}}" value="{{choice_short}}" checked> {{choice.choicetext}}
                   {% else %}
-                  <input type="radio" name="evlist_{{user}}_{{event.id}}"
-                  id="{{choice.choice}}" value="{{choice.choice}}"> {{choice.choicetext}}
+                  <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+                  id="{{choice.choice}}" value="{{choice_short}}"> {{choice.choicetext}}
                   {% endif %}
                 </label>
                 {% endfor %}
@@ -50,12 +50,12 @@
       </div>
       <div class="col-6">
         <div class="tab-content">
-          {% for event in events %}
-          <div class="tab-pane" id="list-{{event.id}}"
-          role="tabpanel" aria-labelledby="list-{{event.id}}-list">
+          {% for event, content in events.items %}
+          <div class="tab-pane" id="list-{{content.event.id}}"
+          role="tabpanel" aria-labelledby="list-{{content.event.id}}-list">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{event.name}} </h5>
-              <small>{{event.location}} <br> {{event.date}}
+              <h5 class="mb-1">{{content.event.name}} </h5>
+              <small>{{content.event.location}} <br> {{content.event.date}}
               </small>
 
             </div>
