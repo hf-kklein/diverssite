@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event, Location
+from .models import Event, Location, PartChoice
 
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -19,3 +19,5 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 
 admin.site.register(Location)
+
+admin.site.register(PartChoice)

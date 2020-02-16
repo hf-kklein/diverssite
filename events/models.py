@@ -37,13 +37,12 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-part_choices = (
-    ('y','Yes'),
-    ('n','No'),
-    ('m','Maybe')
+class PartChoice(models.Model):
+    choice = models.CharField(max_length = 1)
+    choicetext = models.CharField(max_length=20)
 
-)
-
+    def __str__(self):
+        return self.choicetext
 
 
 class Participation(models.Model):
@@ -51,5 +50,4 @@ class Participation(models.Model):
     event = models.ForeignKey('Event', on_delete=models.CASCADE,)
     person = models.ForeignKey(settings.AUTH_USER_MODEL,
                                      on_delete=models.PROTECT)
-    participation = models.CharField(choices = part_choices , max_length=10,
-                                     default = "n")
+    part = models.ForeignKey('PartChoice', on_delete=models.PROTECT)

@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import json
 
-from .models import Event, Participation
+from .models import Event, Participation, PartChoice
 from public.models import Post
 
 
@@ -14,16 +14,19 @@ from public.models import Post
 def index(request):
     if request.method == 'GET':
         current_user = request.user
-        print(current_user, current_user.id)
+        # print(current_user, current_user.id)
         events = Event.objects.filter().order_by('date')
         posts = Post.objects.filter(page = 'events')
         parti = Participation.objects.all()
         parti_user = parti.filter(person = current_user.id)
-        print(parti, parti_user)
+        choices = PartChoice.objects.all()
+        print(parti)
         context = { 'posts':  posts,
                     'events': events,
-                    'user': current_user}
-
+                    'user': current_user,
+                    'parties': parti,
+                    'parties_user':parti_user,
+                    'choices':choices}
         return render(request, 'events/index.html', context)
 
     if request.method == 'POST':
@@ -48,12 +51,23 @@ def index(request):
             print(evlist)
             for u in evlist:
                 for ev in evlist[u]:
-                    p = Participation(
-                        event = Event.objects.get(pk=ev),
-                        person = User.objects.get(username=u),
-                        participation = evlist[u][ev][0]
-                        )
-                    p.save()
+                    use = User.objects.get(username=u)
+                    eve = Event.objects.get(pk=ev)
+                    cho = PartChoice.objects.get(choice=evlist[u][ev][0])
+                    p = Participation.objects.filter(person=use)
+                    p = p.filter(event=eve)
+                    if len(p) == 0:
+                        pnew = Participation(
+                            event = eve,
+                            person = use,
+                            part = cho
+                            )
+                    elif len(p) == 0:
+                        pnew = p.update(part=cho)
+                    else:
+                        print("error. Too many events selected.")
+                        break
+                    pnew.save()
 
         except (KeyError):
             evlist = dict()
