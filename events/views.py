@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 import json
@@ -11,8 +11,8 @@ from public.models import Post
 
 
 
-def index(request):
-    if request.method == 'GET':
+class IndexView(View):
+    def get(self, request):
         current_user = request.user
         # print(current_user, current_user.id)
         event_query = Event.objects.filter().order_by('date')
@@ -52,7 +52,7 @@ def index(request):
         print(context)
         return render(request, 'events/index.html', context)
 
-    if request.method == 'POST':
+    def post(self, request):
         # print(request.POST)
 
         def nest_dict(flat):

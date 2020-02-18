@@ -6,6 +6,6 @@ app_name = 'events'
 
 urlpatterns = [
     # path('', views.IndexView.as_view(), name='index'),
-    path('', views.index, name = "index"),
+    path('', views.IndexView.as_view(), name = "index"),
     # path('<int:event_id>/', views.detail, name='detail'),
 ]
