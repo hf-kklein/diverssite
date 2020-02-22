@@ -9,7 +9,7 @@ from .models import Post
 
 class IndexView(generic.ListView):
     model = Post
-    template_name = 'public/index.html'
+    template_name = 'public/home.html'
     context_object_name = 'home_public_posts'
 
     def get_context_data(self, **kwargs):

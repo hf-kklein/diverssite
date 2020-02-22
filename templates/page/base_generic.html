@@ -5,12 +5,18 @@
 
     {% include "page/head.html" %}
   </head>
-  <body>
+    <body class="d-flex flex-column h-100">
     <!-- add navigation bar -->
-    {% include "page/nav.html" %}
+    <header>
+      {% include "page/nav.html" %}
 
+    </header>
+    <main role="main" class="flex-shrink-0">
     <!-- dynamic content -->
-    {% include "./index_main.html" %}
+      {% block content %}
+      {% endblock %}
+    </main>
+
 
     <!-- add scripts and footer part of website -->
     {% include "page/footer.html" %}
