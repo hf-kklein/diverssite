@@ -31,7 +31,7 @@
     &nbsp;
     <a href="#" class="nav-item">  logout</a>
     {% else %}
-    <a href="#" class="nav-item"> log in</a>
+    <a href="{% url 'users:login' %}" class="nav-item"> log in</a>
     &nbsp;
     <a href="#" class="nav-item"> register</a>
     {% endif %}
