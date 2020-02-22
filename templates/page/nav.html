@@ -26,10 +26,10 @@
       </li>
     </ul>
     <!-- <li> -->
-    {% if user %}
-    <a href="#" class="nav-item"> {{user}}</a>
+    {% if user.username %}
+    <a href="#" class="nav-item"> {{user.username}}</a>
     &nbsp;
-    <a href="#" class="nav-item">  logout</a>
+    <a href="{% url 'users:logout' %}" class="nav-item">  logout</a>
     {% else %}
     <a href="{% url 'users:login' %}" class="nav-item"> log in</a>
     &nbsp;
