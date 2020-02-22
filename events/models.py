@@ -52,4 +52,7 @@ class Participation(models.Model):
     person = models.ForeignKey(settings.AUTH_USER_MODEL,
                                      on_delete=models.PROTECT)
     part = models.ForeignKey('PartChoice', on_delete=models.PROTECT,
-                             related_name="party")
+                             related_name="party", null = True)
+
+    def __str__(self):
+        return str(self.id)

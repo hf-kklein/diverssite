@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event, Location, PartChoice
+from .models import Event, Location, PartChoice, Participation
 
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -16,8 +16,14 @@ class EventAdmin(admin.ModelAdmin):
 
 
 
+class ParticipationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'event', 'person', 'part')
+    list_filter = ['event', 'person', 'part']
+
 admin.site.register(Event, EventAdmin)
 
 admin.site.register(Location)
 
 admin.site.register(PartChoice)
+
+admin.site.register(Participation, ParticipationAdmin)
