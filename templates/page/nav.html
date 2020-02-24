@@ -26,12 +26,12 @@
       </li>
     </ul>
     <!-- <li> -->
-    {% if user.username %}
+    {% if user.is_authenticated %}
     <a href="#" class="nav-item"> {{user.username}}</a>
     &nbsp;
-    <a href="{% url 'users:logout' %}" class="nav-item">  logout</a>
+    <a href="{% url 'users:logout' %}?next={{request.path}}" class="nav-item">  logout</a>
     {% else %}
-    <a href="{% url 'users:login' %}" class="nav-item"> log in</a>
+    <a href="{% url 'users:login' %}?next={{request.path}}" class="nav-item"> log in</a>
     &nbsp;
     <a href="#" class="nav-item"> register</a>
     {% endif %}

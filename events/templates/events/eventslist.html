@@ -8,10 +8,10 @@
  }
 </style>
 
-<div class="span9">
-  <div cslass="row-fluid">
+<div class="container">
+  <div class="row-fluid">
     {% for post in posts %}
-    <div class="span9">
+    <div class="container">
 
       <h2>{{ post.title }}</h2>
 
@@ -24,7 +24,7 @@
   <form action="{% url 'events:index' %}" method="post" name="participation">
     {% csrf_token %}
     <div class="row">
-      <div class="col-9">
+      <div class="col-6">
         <div class="list-group" id="eventlist" role="tablist">
           {% for event, content in events.items %}
           <a class="list-group-item justify-content-between d-flex list-group-item-action align-items-center"
@@ -49,7 +49,7 @@
           {% endfor %}
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-6">
         <div class="tab-content">
           {% for event, content in events.items %}
           <div class="tab-pane" id="list-{{content.event.id}}"
