@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'public.apps.PublicConfig',
     'events.apps.EventsConfig',
     'users.apps.UsersConfig',
+    'wiki.app.WikiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -22,5 +22,6 @@ urlpatterns = [
     path('events/', include('events.urls')),
     path('admin/', admin.site.urls),
     # path('accounts/',include('django.contrib.auth.urls'), name = "accounts"),
-    path('users/', include('users.urls'))
+    path('users/', include('users.urls')),
+    path('wiki/', include('wiki.urls'))
 ]
