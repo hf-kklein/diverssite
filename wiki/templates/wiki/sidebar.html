@@ -1,0 +1,28 @@
+<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+  <div class="sidebar-sticky">
+
+    <div class="sidebar-header">
+      <h3>Wiki</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      {% for cat, articles in categories.items %}
+      <li class="active">
+        <a href="#{{cat.name}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          <i class="fas fa-home"></i>
+          {{cat}}
+        </a>
+        <ul class="collapse list-unstyled" id="{{cat.name}}">
+          {% for art in articles %}
+          <li>
+            <a href="{%  url 'wiki:detail' art.slug%}">
+              {{art.title}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>
