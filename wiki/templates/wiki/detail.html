@@ -11,6 +11,11 @@
   <div class="col-md-9">
     <h2 >{{article.title}}</h2>
     <p>{{article.text}}</p>
+    {% if user.is_staff %}
+    <a class="btn btn-light" role="button" href="{% url 'admin:wiki_articles_change' article.id %}?next={{request.path}}">
+      edit article
+    </a>
+    {% endif %}
 
 
 

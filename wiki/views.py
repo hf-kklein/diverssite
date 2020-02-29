@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import generic, View
 from .models import Category, Articles
 from public.models import Post
+from django.utils import timezone
 # Create your views here.
 
 class IndexView(View):
@@ -13,13 +14,15 @@ class IndexView(View):
         # self.user_query = request.user
         # post_query = Post.objects.filter(page = 'events')
         category_query = Category.objects.all()
+        articles_query = Articles.objects.filter(pub_date__lte=timezone.now()
+        ).order_by('-pub_date')[:5]
 
         category_system = dict()
         for cat in category_query:
             category_system[cat] = Articles.objects.filter(category=cat)
 
         context = {
-                   # 'posts':  post_query,
+                   'articles':  articles_query,
                    'categories': category_system,
                    # 'user': self.user_query
                    }

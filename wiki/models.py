@@ -12,6 +12,7 @@ class Articles(models.Model):
     category = models.ManyToManyField(Category)
     title = models.CharField(max_length=200)
     text = models.TextField()
+    pub_date = models.DateField(auto_now_add=True)
     slug = models.SlugField(max_length=50)
 
     def __str__(self):

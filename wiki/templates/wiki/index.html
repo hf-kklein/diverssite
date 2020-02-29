@@ -9,6 +9,19 @@
 
 
   <div class="col-md-9">
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        {% for art in articles %}
+        <div class="col-md-4">
+          <h2>{{ art.title }}</h2>
+          <p>{{ art.text }}</p>
+          <p><a class="btn btn-secondary" href="{% url 'wiki:detail' art.slug %}" role="button">View details »</a></p>
+        </div>
+        {% endfor %}
+      </div>
+      <hr>
+    </div> <!-- /container -->
   </div>
 </div>
 {% endblock %}
