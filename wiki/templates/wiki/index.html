@@ -15,7 +15,7 @@
         {% for art in articles %}
         <div class="col-md-4">
           <h2>{{ art.title }}</h2>
-          <p>{{ art.text }}</p>
+          <p>{{ art.formatted_markdown|safe }}</p>
           <p><a class="btn btn-secondary" href="{% url 'wiki:detail' art.slug %}" role="button">View details »</a></p>
         </div>
         {% endfor %}
