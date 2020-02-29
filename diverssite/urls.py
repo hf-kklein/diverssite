@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('accounts/',include('django.contrib.auth.urls'), name = "accounts"),
     path('users/', include('users.urls')),
-    path('wiki/', include('wiki.urls'))
+    path('wiki/', include('wiki.urls')),
+    url(r'^markdownx/', include('markdownx.urls')),
 ]
