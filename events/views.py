@@ -81,7 +81,7 @@ class EventsView(View):
 
 
 class IndexView(EventsView):
-    template_name = 'events/eventslist2.html'
+    template_name = 'events/eventslist.html'
 
     def get(self, request):
         # with self make variable to class attribute, accessible to all methods
