@@ -1,0 +1,76 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+<style>
+.d-flex.w-100.justify-content-between{
+ background-color: inherit;
+ border-bottom: 1px solid gray;
+}
+</style>
+
+
+<div class="row-fluid">
+  {% for post in posts %}
+  <div class="container">
+
+    <h2>{{ post.title }}</h2>
+
+    <p>{{ post.text }}</p>
+  </div><!--/span-->
+  {% endfor %}
+
+</div><!--/row-->
+
+<div class="">
+
+
+<form action="{% url 'events:index' %}" method="post" name="participation">
+  {% csrf_token %}
+  <button class="btn btn-primary w-100 fixed-bottom" type="submit">save</button>
+  <div class="accordion" id="eventslist">
+    {% for event, content in events.items %}
+    <div class="card">
+      <div class="card-header" id="{{event}}_heading">
+        <a class="mb-0 d-flex">
+          <div class="p-1 w-50">
+            {{content.event.name}} <br>
+            <small>
+              {{content.event.date}}
+            </small>
+          </div>
+          <div class="">
+            <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{content.participation_count}} </span>
+          </div>
+          <div class="btn-group btn-group-toggle p-1 ml-auto" data-toggle="buttons">
+            {% for choice_short, choice in content.choices.items %}
+            <label class="btn btn-secondary">
+              {% if choice.userchoice == choice.choicetext %}
+              <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+              id="{{choice.choice}}" value="{{choice_short}}" checked> {{choice.choicetext}}
+              {% else %}
+              <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+              id="{{choice.choice}}" value="{{choice_short}}"> {{choice.choicetext}}
+              {% endif %}
+            </label>
+            {% endfor %}
+          </div>
+          <small class="p-1">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#list-{{event}}" aria-expanded="false" aria-controls="{{event}}">
+              details
+            </button>
+          </small>
+        <a>
+      </div>
+
+      <div class="collapse" id="list-{{event}}" aria-labelledby="{{event}}_heading" data-parent="#eventslist">
+        <div class="card-body d-flex w-100 justify-content-between">
+          <small>{{content.event.location}}
+          </small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</form>
+</div>
+{% endblock %}
