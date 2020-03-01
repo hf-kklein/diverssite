@@ -44,7 +44,13 @@
     }
   }
   body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     padding-top: 3.5rem;
+  }
+  main {
+  flex-grow: 1;
   }
   .jumbotron {
       /* background-color: "black"; */
@@ -57,11 +63,15 @@
       padding-right: 30px;
       padding-top: 10px;
       padding-bottom: 120px;
-
-
   }
+  .containter-fluid{
+    padding-bottom: 10%;
+  }
+
   .footer {
-    position: fixed;
+    flex-grow: 0;
+    display: block;
+
     height: 50px;
     bottom: 0;
     width: 100%;
