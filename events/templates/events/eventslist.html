@@ -18,14 +18,13 @@
 
 <div class="row-fluid">
   {% for post in posts %}
-  <div class="container">
+  <div class="container-fluid">
 
     <h2>{{ post.title }}</h2>
 
     <p>{{ post.text }}</p>
   </div><!--/span-->
   {% endfor %}
-
 </div><!--/row-->
 
 
@@ -33,8 +32,16 @@
 <form action="{% url 'events:index' %}" method="post" name="participation">
   {% csrf_token %}
   <div class="container-fluid">
-    <div class="fixed-bottom">
-      <button class="btn btn-primary w-100" type="submit">save</button>
+    <div class="fixed-bottom d-flex">
+      <button class="btn btn-primary w-50 rounded-0" type="submit">save</button>
+      <a class="btn btn-primary w-50 rounded-0" type="button" name="button" href="{% url 'admin:events_event_add' %}">
+        add an event
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="16"></line>
+          <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+      </a>
     </div>
     <div class="accordion" id="eventslist">
       {% for event, content in events.items %}
