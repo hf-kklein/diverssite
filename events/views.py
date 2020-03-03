@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 import json
 
 from .models import Event, Participation, PartChoice
-from public.models import Post
+from wiki.models import Articles, Display
 
 
 class EventsView(View):
@@ -86,7 +86,10 @@ class IndexView(EventsView):
     def get(self, request):
         # with self make variable to class attribute, accessible to all methods
         self.user_query = request.user
-        post_query = Post.objects.filter(page = 'events')
+        posts = Articles.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
+        public_posts = posts.filter(visibility = 'public')
+        member_posts = posts.filter(visibility = 'member')
+        post_query = public_posts
         events = self.create_events_dict()
 
 

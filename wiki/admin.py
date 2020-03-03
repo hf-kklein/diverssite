@@ -1,12 +1,22 @@
 from django.contrib import admin
+from django.forms.widgets import CheckboxSelectMultiple
+from django.db import models
+
 
 # Register your models here.
-from .models import Category, Articles
+from .models import Category, Articles, Display
 
 class ArticlesAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
+    list_display = ('title','visibility', 'pub_date')
+    list_filter = ['pub_date','visibility', 'show_on_pages']
+    search_fields = ['title']
 
+    formfield_overrides = {
+        models.ManyToManyField: {'widget': CheckboxSelectMultiple},
+    }
 
 
 admin.site.register(Category)
 admin.site.register(Articles, ArticlesAdmin)
+admin.site.register(Display)

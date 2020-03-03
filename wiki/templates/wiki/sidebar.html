@@ -24,7 +24,7 @@
         <a href="#{{cat.name}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
           {{cat}}
         </a>
-        <ul class="collapse list-unstyled" id="{{cat.name}}">
+        <ul class="collapse list-unstyled show" id="{{cat.name}}">
           {% for art in articles %}
           <li class="ml-2">
             <a class="text-muted" href="{%  url 'wiki:detail' art.slug%}">

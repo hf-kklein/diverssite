@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <h1 class="display-3">{{ welcome_title }}</h1>
     <p>{{ welcome_text }}</p>
-    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+    <p><a class="btn btn-primary btn-lg" href="{% url 'wiki:detail' 'saxy-divers' %}" role="button">Learn more »</a></p>
   </div>
 </div>
 
@@ -16,8 +16,8 @@
     {% for i in published_posts %}
     <div class="col-md-4">
       <h2>{{ i.title }}</h2>
-      <p>{{ i.text }}</p>
-      <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+      <p>{{ i.formatted_markdown|safe }}</p>
+      <p><a class="btn btn-secondary" href="{% url 'wiki:detail' i.slug %}" role="button">View details »</a></p>
     </div>
     {% endfor %}
   </div>
