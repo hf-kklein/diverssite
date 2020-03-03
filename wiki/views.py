@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views import generic, View
 from .models import Category, Articles
-from public.models import Post
 from django.utils import timezone
 # Create your views here.
 
