@@ -28,7 +28,9 @@ class EventsView(View):
             out[k] = v
 
     def create_events_dict(self):
-        event_query = Event.objects.filter().order_by('date')
+        print(self.cats)
+        subset_events = Event.objects.filter(category__in = self.cats)
+        event_query = subset_events.filter().order_by('date')
         choice_query = PartChoice.objects.all()
         choice_yes = PartChoice.objects.get(choice = 'y')
 
@@ -83,7 +85,13 @@ class EventsView(View):
 class IndexView(EventsView):
     template_name = 'events/eventslist.html'
 
-    def get(self, request):
+
+
+    def get(self, request, category = None):
+        self.cats = Event.objects.values('category')
+        if category != None:
+            self.cats = [self.cats[category]['category']]
+
         # with self make variable to class attribute, accessible to all methods
         self.user_query = request.user
         posts = Articles.objects.filter(show_on_pages = Display.objects.get(name = 'events'))

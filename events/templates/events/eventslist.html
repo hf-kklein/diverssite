@@ -51,7 +51,7 @@
             <div class="p-1 w-50">
               {{content.event.name}}
               {% if content.event.category == "training" %}
-              <span class="badge badge-warning">{{content.event.category}}</span>
+              <span class="badge badge-warning" href="{% url 'events:category' %}">{{content.event.category}}</span>
               {% elif content.event.category == "tournament" %}
               <span class="badge badge-success">{{content.event.category}}</span>
               {% elif content.event.category == "social" %}
