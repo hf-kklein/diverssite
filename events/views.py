@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 import json
 
-from .models import Event, Participation, PartChoice
+from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Articles, Display
 
 
@@ -28,15 +28,20 @@ class EventsView(View):
             out[k] = v
 
     def create_events_dict(self):
-        print(self.cats)
-        subset_events = Event.objects.filter(category__in = self.cats)
+        # print(self.cats)
+        subset_events = Event.objects.filter(categ__in = self.cats)
         event_query = subset_events.filter().order_by('date')
         choice_query = PartChoice.objects.all()
         choice_yes = PartChoice.objects.get(choice = 'y')
+        choice_no = PartChoice.objects.get(choice = 'n')
+        choice_maybe = PartChoice.objects.get(choice = 'm')
 
         events = dict()
         for event in event_query:
             participation_all = event.participation_set.all()
+            participation_yes = participation_all.filter(part = choice_yes)
+            participation_no = participation_all.filter(part = choice_no)
+            participation_maybe = participation_all.filter(part = choice_maybe)
             part_count = len(participation_all.filter(part = choice_yes))
             try:
                 participation_user = event.participation_set.get(person = self.user_query).part.choicetext
@@ -50,6 +55,9 @@ class EventsView(View):
 
             events[event.id] = {'event': event,
                                 'participation_all': participation_all,
+                                'participation_yes': participation_yes,
+                                'participation_no': participation_no,
+                                'participation_maybe': participation_maybe,
                                 'participation_count': part_count,
                                 'participation_user': participation_user,
                                 'choices': choices}
@@ -87,12 +95,17 @@ class IndexView(EventsView):
 
 
 
-    def get(self, request, category = None):
-        self.cats = Event.objects.values('category')
-        if category != None:
-            self.cats = [self.cats[category]['category']]
-
+    def get(self, request, slug = None):
+        self.allcats = Event.objects.values('categ')
+        # print(self.cats)
+        if slug != None:
+            sel_cat = Categ.objects.get(slug=slug)
+            print(sel_cat)
+            self.cats = self.allcats.filter(categ=sel_cat)
+        else:
+            self.cats = self.allcats
         # with self make variable to class attribute, accessible to all methods
+        # print(self.cats)
         self.user_query = request.user
         posts = Articles.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
         public_posts = posts.filter(visibility = 'public')
@@ -103,8 +116,8 @@ class IndexView(EventsView):
 
         context = { 'posts':  post_query,
                     'events': events,
-                    'user': self.user_query}
-
+                    'user': self.user_query,
+                    'categories': self.allcats}
         return render(request, self.template_name, context)
 
     def post(self, request):

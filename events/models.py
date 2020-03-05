@@ -12,10 +12,18 @@ categories = (
     ('other','Other')
 )
 
+class Categ(models.Model):
+    name = models.CharField(max_length = 50)
+    slug = models.SlugField(max_length=50, null = True)
+    def __str__(self):
+        return self.name
+
 class Location(models.Model):
     name = models.CharField(max_length = 50)
     street = models.CharField(max_length = 100)
     place = models.CharField(max_length = 100)
+    slug = models.SlugField(max_length=50, null = True)
+
     def __str__(self):
         return self.name
 
@@ -24,6 +32,7 @@ class Location(models.Model):
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length = 50)
+    categ = models.ForeignKey(Categ, null = True, on_delete=models.PROTECT)
     category = models.CharField(choices = categories,max_length = 20, default = 'Training')
     date = models.DateTimeField()
     description = models.TextField(null = True)
@@ -33,6 +42,8 @@ class Event(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.PROTECT)
     visibility = models.CharField(max_length=20,default='public')
+    slug = models.SlugField(max_length=50, null = True)
+
 
     def __str__(self):
         return self.name

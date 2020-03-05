@@ -16,18 +16,18 @@
 </style>
 
 
-<div class="row-fluid">
-  {% for post in posts %}
-  <div class="container-fluid">
-
-    <h2>{{ post.title }}</h2>
-
-    <p>{{ post.text }}</p>
-  </div><!--/span-->
-  {% endfor %}
-</div><!--/row-->
-
-
+{% for post in posts %}
+<div class="container-fluid pb-0">
+  <h3>{{ post.title }}</h3>
+  <p>{{ post.text }}</p>
+</div><!--/span-->
+{% endfor %}
+<div class="container-fluid pb-2">
+  <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' 'training' %}';">training</span>
+  <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' 'tournament' %}';">tournaments</span>
+  <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:category' 'social' %}';">social</span>
+  <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:category' 'other' %}';">other</span>
+</div>
 
 <form action="{% url 'events:index' %}" method="post" name="participation">
   {% csrf_token %}
@@ -51,13 +51,13 @@
             <div class="p-1 w-50">
               {{content.event.name}}
               {% if content.event.category == "training" %}
-              <span class="badge badge-warning" href="{% url 'events:category' %}">{{content.event.category}}</span>
+              <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
               {% elif content.event.category == "tournament" %}
-              <span class="badge badge-success">{{content.event.category}}</span>
+              <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
               {% elif content.event.category == "social" %}
-              <span class="badge badge-primary">{{content.event.category}}</span>
+              <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
               {% else %}
-              <span class="badge badge-secondary">{{content.event.category}}</span>
+              <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
               {% endif %}
               <br>
               <small>
@@ -89,21 +89,47 @@
         </div>
 
         <div class="collapse" id="list-{{event}}" aria-labelledby="{{event}}_heading" data-parent="#eventslist">
-          <div class="card-body d-flex w-100 justify-content-between">
-            <small>
-              {{content.event.location.name}},
-              {{content.event.location.street}},
-              {{content.event.location.place}}
-            </small>
-            <p class="mt-2">
-              {{content.event.description}}
-            </p>
-            {% if user.is_staff %}
-            <a class="btn btn-light" role="button" href="{% url 'admin:events_event_change' content.event.id %}?next={{request.path}}">
-              edit event
-            </a>
-            {% endif %}
+          <div class="card-body">
+            <div class="d-flex w-100 justify-content-between">
+              <small>
+                {{content.event.location.name}},
+                {{content.event.location.street}},
+                {{content.event.location.place}}
+              </small>
+              <p class="mt-2">
+                {{content.event.description}}
+              </p>
+              {% if user.is_staff %}
+              <a class="btn btn-light" role="button" href="{% url 'admin:events_event_change' content.event.id %}?next={{request.path}}">
+                edit event
+              </a>
+              {% endif %}
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="">
+              <p>
+              Yes:
+              {% for participant in content.participation_yes %}
+              {{participant.person}}
+              {% endfor %}
+              </p>
+              <p>
+              No:
+              {% for participant in content.participation_no %}
+              {{participant.person}}
+              {% endfor %}
+              </p>
+              <p>
+              Maybe:
+              {% for participant in content.participation_maybe %}
+              {{participant.person}}
+              {% endfor %}
+              </p>
+
+            </div>
           </div>
+          {% endif %}
 
 
         </div>
