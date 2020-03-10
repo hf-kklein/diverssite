@@ -2,26 +2,39 @@
 {% block content %}
 
 
-<div class="jumbotron">
-  <div class="container-fluid">
+<section class="jumbotron">
+  <div class="container">
     <h1 class="display-3">{{ welcome_title }}</h1>
     <p>{{ welcome_text }}</p>
     <p><a class="btn btn-primary btn-lg" href="{% url 'wiki:detail' 'saxy-divers' %}" role="button">Learn more »</a></p>
   </div>
-</div>
+</section>
 
-<div class="container-fluid">
+<div class="album py-5 bg-light">
+  <div class="container">
   <!-- Example row of columns -->
-  <div class="row">
-    {% for i in published_posts %}
-    <div class="col-md-4">
-      <h2>{{ i.title }}</h2>
-      <p>{{ i.formatted_markdown|safe }}</p>
-      <p><a class="btn btn-secondary" href="{% url 'wiki:detail' i.slug %}" role="button">View details »</a></p>
+    <div class="row">
+      <div class="col-md-4">
+        {% for i in published_posts %}
+        <div class="card mb-4 shadow-sm">
+          <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+          <div class="card-body">
+            <a  href="{% url 'wiki:detail' i.slug %}">{{ i.title }}</a>
+            <p>{{ i.formatted_markdown|safe }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+              </div>
+              <small class="text-muted">9 mins</small>
+            </div>
+          </div>
+
+        </div>
+        {% endfor %}
+      </div>
     </div>
-    {% endfor %}
   </div>
-  <hr>
 </div> <!-- /container -->
 
 {% endblock %}
