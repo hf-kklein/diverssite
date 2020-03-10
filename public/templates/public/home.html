@@ -1,12 +1,11 @@
 {% extends "page/base_generic.html" %}
 {% block content %}
 
-
-<section class="jumbotron">
+<section class="jumbotron p-4 mb-0 p-md-5 rounded bg-dark text-white">
   <div class="container">
-    <h1 class="display-3">{{ welcome_title }}</h1>
+    <h1 class="display-5">{{ welcome_title }}</h1>
     <p>{{ welcome_text }}</p>
-    <p><a class="btn btn-primary btn-lg" href="{% url 'wiki:detail' 'saxy-divers' %}" role="button">Learn more »</a></p>
+    <!-- <p><a class="btn btn-primary btn-lg" href="{% url 'wiki:detail' 'saxy-divers' %}" role="button">Learn more »</a></p> -->
   </div>
 </section>
 
@@ -14,10 +13,16 @@
   <div class="container">
   <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-4">
-        {% for i in published_posts %}
-        <div class="card mb-4 shadow-sm">
-          <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+      {% for i in published_posts %}
+      <div class="col-md-4 mb-4">
+        <div class="card mb-4 shadow-sm h-100">
+          {% if i.title_image %}
+            <img class="card-img-top" src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+          {% else %}
+            {% load static %}
+            <a href="{% url 'wiki:detail' i.slug %}"><img class="card-img-top" src="{% static '/images/background.png' %}" alt="Card image cap"></a>
+
+          {% endif %}
           <div class="card-body">
             <a  href="{% url 'wiki:detail' i.slug %}">{{ i.title }}</a>
             <p>{{ i.formatted_markdown|safe }}</p>
@@ -31,8 +36,8 @@
           </div>
 
         </div>
-        {% endfor %}
       </div>
+      {% endfor %}
     </div>
   </div>
 </div> <!-- /container -->

@@ -1,26 +1,26 @@
 {% extends "page/base_generic.html" %}
 {% block content %}
 
-<style>
+<!-- <style>
 .d-flex.w-100.justify-content-between{
  background-color: inherit;
  border-bottom: 1px solid gray;
 }
 
-
+/*
 .container-fluid{
   padding-bottom: 50px;
-}
-</style>
+} */
+</style> -->
 
 
 {% for post in posts %}
-<div class="container-fluid pb-0">
+<div class="container pb-0">
   <h3>{{ post.title }}</h3>
   <p>{{ post.text }}</p>
 </div><!--/span-->
 {% endfor %}
-<div class="container-fluid pb-2">
+<div class="container pb-2 pt-0">
   <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' 'training' %}';">training</span>
   <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' 'tournament' %}';">tournaments</span>
   <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:category' 'social' %}';">social</span>
@@ -29,8 +29,8 @@
 
 <form action="{% url 'events:index' %}" method="post" name="participation">
   {% csrf_token %}
-  <div class="container-fluid" style="height: calc(75vh - 100px); overflow-y: scroll;">
-    <div class="fixed-bottom d-flex">
+  <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
+    <div class="container fixed-bottom d-flex">
       <button class="btn btn-primary w-50 rounded-0" type="submit">save</button>
       <a class="btn btn-primary w-50 rounded-0" type="button" name="button" href="{% url 'admin:events_event_add' %}">
         add an event

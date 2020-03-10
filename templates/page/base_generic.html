@@ -7,11 +7,19 @@
   </head>
     <body class="d-flex flex-column h-100">
     <!-- add navigation bar -->
-    <header>
-      {% include "page/nav.html" %}
+    <div class="container pb-0">
 
-    </header>
-    <main role="main" class="">
+      <header class="py-3">
+        {% include "page/page_head.html" %}
+
+      </header>
+      <hr class="m-0">
+      <div class="nav-scroller py-1 mb-2">
+
+        {% include "page/nav.html" %}
+      </div>
+    </div>
+    <main role="main" class="container pt-0 bg-light">
     <!-- dynamic content -->
       {% block content %}
       {% endblock %}
