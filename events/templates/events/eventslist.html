@@ -6,9 +6,7 @@
  background-color: inherit;
  border-bottom: 1px solid gray;
 }
-.fixed-bottom{
-  margin-bottom: 50px;
-}
+
 
 .container-fluid{
   padding-bottom: 50px;
@@ -31,7 +29,7 @@
 
 <form action="{% url 'events:index' %}" method="post" name="participation">
   {% csrf_token %}
-  <div class="container-fluid">
+  <div class="container-fluid" style="height: calc(75vh - 100px); overflow-y: scroll;">
     <div class="fixed-bottom d-flex">
       <button class="btn btn-primary w-50 rounded-0" type="submit">save</button>
       <a class="btn btn-primary w-50 rounded-0" type="button" name="button" href="{% url 'admin:events_event_add' %}">
