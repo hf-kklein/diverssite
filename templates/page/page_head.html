@@ -24,7 +24,7 @@
     <a href="{% url 'users:login' %}?next={{request.path}}" class="btn btn-sm btn-outline-secondary"> log in</a>
     &nbsp;
     &nbsp;
-    <a href="#" class="btn btn-sm btn-outline-secondary"> sign up</a>
+    <a href="{% url 'users:signup' %}?next={{request.path}}" class="btn btn-sm btn-outline-secondary"> sign up</a>
     {% endif %}
 
 
