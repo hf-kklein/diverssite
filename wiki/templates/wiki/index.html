@@ -4,31 +4,34 @@
 
 
 <div class="container pt-3">
+  <div class="row">
 
-</div>
-<div class="wrapper">
-  {% include "wiki/sidebar.html" %}
+    <aside class="col-md-4 mt-0 bg-light">
+
+      {% include "wiki/sidebar.html" %}
+    </aside>
 
 
-  <div class="col bg-light">
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <h3 class="ml-3 mb-4">Latest wiki entries</h3>
-        {% for art in articles %}
-        <div class="container">
-          <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-              <a href="{% url 'wiki:detail' art.slug %}">{{ art.title }}</a>
-              <p>{{ art.formatted_markdown|safe }}</p>
+    <div class="col-md-8 bg-light">
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+          <h3 class="ml-3 mb-4">Latest wiki entries</h3>
+          {% for art in articles %}
+          <div class="container">
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                <a href="{% url 'wiki:detail' art.slug %}">{{ art.title }}</a>
+                <p>{{ art.formatted_markdown|safe }}</p>
+
+              </div>
 
             </div>
-
           </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-    </div> <!-- /container -->
+      </div> <!-- /container -->
+    </div>
   </div>
 </div>
 {% endblock %}
