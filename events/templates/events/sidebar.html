@@ -4,6 +4,7 @@
   <p>{{ post.text }}</p>
 </div><!--/span-->
 {% endfor %}
+<hr>
 <div class="container pb-2">
   <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' 'training' %}';">training</span>
   <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' 'tournament' %}';">tournaments</span>
@@ -11,6 +12,7 @@
   <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:category' 'other' %}';">other</span>
 </div>
 
+{% if user.is_authenticated %}
 <div class="container mb-3">
   <button class="btn btn-primary rounded mb-1" type="submit">save</button>
   <a class="btn btn-primary rounded mb-1" type="button" name="button" href="{% url 'admin:events_event_add' %}">
@@ -22,3 +24,4 @@
     </svg>
   </a>
 </div>
+{% endif %}

@@ -13,7 +13,8 @@
 } */
 </style> -->
 <div class="container p-0 pt-3">
-  <form action="{% url 'events:index' %}" method="post" name="participation">
+  <form action="{% url 'events:index' %}" href="?next={{request.path}}" method="post" name="participation">
+    {% csrf_token %}
   <div class="row pt-3 pb-3">
     <aside class="col-md-3 mt-0 bg-light">
 
@@ -21,16 +22,14 @@
     </aside>
 
     <div class="col-md-9">
-        {% csrf_token %}
         <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
 
           <div class="accordion" id="eventslist">
             {% for event, content in events.items %}
             <div class="card">
-              <div class="card-header" id="{{event}}_heading">
+              <div class="card-header p-1" id="{{event}}_heading">
                 <a class="mb-0 d-flex">
                   <div class="p-1 w-50">
-                    {{content.event.name}}
                     {% if content.event.category == "training" %}
                     <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
                     {% elif content.event.category == "tournament" %}
@@ -48,6 +47,7 @@
                   <div class="">
                     <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{content.participation_count}} </span>
                   </div>
+                  {% if user.is_authenticated %}
                   <div class="btn-group btn-group-toggle p-1 ml-auto" data-toggle="buttons">
                     {% for choice_short, choice in content.choices.items %}
                     <label class="btn btn-secondary">
@@ -61,6 +61,7 @@
                     </label>
                     {% endfor %}
                   </div>
+                  {% endif %}
                   <small class="p-1">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#list-{{event}}" aria-expanded="false" aria-controls="{{event}}">
                       details
@@ -70,7 +71,9 @@
                   </div>
 
                   <div class="collapse" id="list-{{event}}" aria-labelledby="{{event}}_heading" data-parent="#eventslist">
-                    <div class="card-body">
+                    <div class="card-body p-2">
+                      {{content.event.name}}
+
                       <div class="d-flex w-100 justify-content-between">
                         <small>
                           {{content.event.location.name}},
@@ -109,8 +112,12 @@
                         </p>
 
                       </div>
+                    {% else %}
+                    <div class="">
+                      <p>es kommen leute zum Training</p>
                     </div>
                     {% endif %}
+                    </div>
 
 
                   </div>
