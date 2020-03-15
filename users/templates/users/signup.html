@@ -3,9 +3,23 @@
 {% block content %}
 <div class="containter p-3">
   <h2>Sign up</h2>
+
+  <!-- <form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+  </form> -->
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <table>
+      {{ form_signup.as_table }}
+    </table>
+
+    <h3>weitere Angaben:</h3>
+
+    <table>
+      {{ form_profile.as_table }}
+    </table>
     <button class="btn btn-primary" type="submit">Sign up</button>
   </form>
 </div>

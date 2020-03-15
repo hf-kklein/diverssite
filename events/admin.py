@@ -27,6 +27,8 @@ class LocationAdmin(admin.ModelAdmin):
 class ParticipationAdmin(admin.ModelAdmin):
     list_display = ('id', 'event', 'person', 'part')
     list_filter = ['event', 'person', 'part']
+    verbose_name_plural = 'participation'
+
 
 admin.site.register(Event, EventAdmin)
 
