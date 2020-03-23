@@ -6,13 +6,14 @@ from django.views import generic
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from .forms import SignupForm, ProfileForm
+from .forms import SignupForm, ProfileForm, UpdateUserForm, AddressForm
+from .models import Profile
 
 class Login(LoginView):
     template_name = "users/login.html"
 
 
-class SignUp(generic.View):
+class SignUpView(generic.View):
     template_name = "users/signup.html"
     def post(self, request):
         signup_form = SignupForm(request.POST, request.FILES)
@@ -43,7 +44,7 @@ class RegComplete(generic.View):
 
 
 
-class Profile(LoginRequiredMixin,generic.DetailView):
+class ProfileView(LoginRequiredMixin,generic.DetailView):
 
     # print(selrequest)
     model = User
@@ -56,12 +57,44 @@ class Profile(LoginRequiredMixin,generic.DetailView):
     def test_func(self, request, username):
         return self.request.user.username == username
 
+    def setup_forms(self, username):
+        self.user = User.objects.get(username = username)
+        try:
+            self.profile = Profile.objects.get(user = self.user)
+            print("profile for user X exists")
+        except:
+            self.profile = Profile.objects.create(user = self.user)
+            print("profile for user X created")
+
+        self.updateuser_form = UpdateUserForm(instance=self.user, prefix="user")
+        self.updateprofile_form = ProfileForm(instance=self.profile, prefix="profile")
+        self.updateaddress_form = AddressForm(instance=self.profile, prefix="address")
 
     def get(self, request, username):
-        print(self.request.user.username, username)
-        context = {}
+        self.setup_forms(username)
+        context = {
+                   'updateuser_form':self.updateuser_form,
+                   'updateprofile_form':self.updateprofile_form,
+                   'updateaddress_form':self.updateaddress_form,
+        }
         return render(request,self.template_name, context)
 
+    def post(self, request, username):
+        self.setup_forms(username)
+        userform = UpdateUserForm(request.POST, request.FILES, instance=self.user, prefix="user")
+        profileform = ProfileForm(request.POST, request.FILES, instance=self.profile, prefix="profile")
+        addressform = AddressForm(request.POST, request.FILES, instance=self.profile, prefix="address")
+
+
+        print(userform, profileform)
+        if userform.is_valid() and profileform.is_valid() and addressform.is_valid():
+            user = userform.save(commit=False)
+            user.save()
+            profile = profileform.save(commit=False)
+            profile.save()
+            address = addressform.save(commit=False)
+            address.save()
+        return HttpResponseRedirect(reverse('users:profile', args=[username]))
 
 
     # SignupFormSet = formset_factory(SignupForm)

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import generic, View
 from .models import Category, Articles
 from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+
 # Create your views here.
 
 class IndexView(View):
@@ -13,12 +15,16 @@ class IndexView(View):
         # self.user_query = request.user
         # post_query = Post.objects.filter(page = 'events')
         category_query = Category.objects.all()
-        articles_query = Articles.objects.filter(pub_date__lte=timezone.now()
+        if request.user.is_active:
+            articles = Articles.objects.all()
+        else:
+            articles = Articles.objects.filter(visibility = "public")
+        articles_query = articles.filter(pub_date__lte=timezone.now()
         ).order_by('-pub_date')[:5]
 
         category_system = dict()
         for cat in category_query:
-            category_system[cat] = Articles.objects.filter(category=cat)
+            category_system[cat] = articles.filter(category=cat)
 
         context = {
                    'articles':  articles_query,
@@ -30,9 +36,20 @@ class IndexView(View):
 
 
 
-class DetailView(generic.DetailView):
+class DetailView(UserPassesTestMixin,generic.DetailView):
     model = Articles
+    login_url = '/users/login/'
     template_name = 'wiki/detail.html'
+
+    def test_func(self):
+        u = self.request.user
+        a = Articles.objects.get(slug=self.kwargs['slug'])
+        if u.is_active:
+            return True
+        elif a.visibility == 'public':
+            return True
+        else:
+            return False
 
     def get(self, request, slug):
         # with self make variable to class attribute, accessible to all methods
