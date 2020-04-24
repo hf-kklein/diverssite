@@ -51,3 +51,10 @@ class AddressForm(forms.ModelForm):
             'place',
             'zip',
         ]
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = [
+          'picture',
+        ]
