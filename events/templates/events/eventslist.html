@@ -1,0 +1,136 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+<!-- <style>
+.d-flex.w-100.justify-content-between{
+ background-color: inherit;
+ border-bottom: 1px solid gray;
+}
+
+/*
+.container-fluid{
+  padding-bottom: 50px;
+} */
+</style> -->
+<div class="container p-0 pt-3">
+  <form action="{% url 'events:index' %}" href="?next={{request.path}}" method="post" name="participation">
+    {% csrf_token %}
+  <div class="row pt-3 pb-3">
+    <aside class="col-md-3 mt-0 bg-light">
+
+      {% include "events/sidebar.html" %}
+    </aside>
+
+    <div class="col-md-9">
+        <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
+
+          <div class="accordion" id="eventslist">
+            {% for event, content in events.items %}
+            <div class="card">
+              <div class="card-header p-1" id="{{event}}_heading">
+                <a class="mb-0 d-flex">
+                  <div class="p-1 w-50">
+                    {% if content.event.category == "training" %}
+                    <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
+                    {% elif content.event.category == "tournament" %}
+                    <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
+                    {% elif content.event.category == "social" %}
+                    <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
+                    {% else %}
+                    <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:category' content.event.categ.slug %}';">{{content.event.category}}</span>
+                    {% endif %}
+                    <br>
+                    <small>
+                      {{content.event.date}}
+                    </small>
+                  </div>
+                  <div class="">
+                    <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{content.participation_count}} </span>
+                  </div>
+                  {% if user.is_authenticated %}
+                  <div class="btn-group btn-group-toggle p-1 ml-auto" data-toggle="buttons">
+                    {% for choice_short, choice in content.choices.items %}
+                    <label class="btn btn-secondary">
+                      {% if choice.userchoice == choice.choicetext %}
+                      <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+                      id="{{choice.choice}}" value="{{choice_short}}" checked> {{choice.choicetext}}
+                      {% else %}
+                      <input type="radio" name="evlist_{{user}}_{{content.event.id}}"
+                      id="{{choice.choice}}" value="{{choice_short}}"> {{choice.choicetext}}
+                      {% endif %}
+                    </label>
+                    {% endfor %}
+                  </div>
+                  {% endif %}
+                  <small class="p-1">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#list-{{event}}" aria-expanded="false" aria-controls="{{event}}">
+                      details
+                    </button>
+                  </small>
+                  <a>
+                  </div>
+
+                  <div class="collapse" id="list-{{event}}" aria-labelledby="{{event}}_heading" data-parent="#eventslist">
+                    <div class="card-body p-2">
+                      {{content.event.name}}
+
+                      <div class="d-flex w-100 justify-content-between">
+                        <small>
+                          {{content.event.location.name}},
+                          {{content.event.location.street}},
+                          {{content.event.location.place}}
+                        </small>
+                        <p class="mt-2">
+                          {{content.event.description}}
+                        </p>
+                        {% if user.is_staff %}
+                        <a class="btn btn-light" role="button" href="{% url 'admin:events_event_change' content.event.id %}?next={{request.path}}">
+                          edit event
+                        </a>
+                        {% endif %}
+                      </div>
+
+                      {% if user.is_authenticated %}
+                      <div class="">
+                        <p>
+                          Yes:
+                          {% for participant in content.participation_yes %}
+                          {{participant.person}}
+                          {% endfor %}
+                        </p>
+                        <p>
+                          No:
+                          {% for participant in content.participation_no %}
+                          {{participant.person}}
+                          {% endfor %}
+                        </p>
+                        <p>
+                          Maybe:
+                          {% for participant in content.participation_maybe %}
+                          {{participant.person}}
+                          {% endfor %}
+                        </p>
+
+                      </div>
+                    {% else %}
+                    <div class="">
+                      <p>es kommen leute zum Training</p>
+                    </div>
+                    {% endif %}
+                    </div>
+
+
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+    </form>
+  </div>
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<nav>
+  <div class="sidebar-sticky">
+    <div class="accordion" id="wikisidebar">
+      <div class="card">
+        {% for cat, articles in categories.items %}
+        <div class="card-header" id="{{cat.name}}_heading">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#{{cat.name}}" aria-expanded="true" aria-controls="{{cat.name}}">
+              {{cat}}
+            </button>
+          </h2>
+        </div>
+
+        <div id="{{cat.name}}" class="collapse show" aria-labelledby="headingOne" data-parent="#wikisidebar">
+          {% for art in articles %}
+          <div class="card-body" href="{%  url 'wiki:detail' article.id%}">
+              {{art.title}}
+          </div>
+          {% endfor %}
+        </div>
+
+            <div class="collapse" aria-labelledby="{{cat.name}}_dropdown">
+              <a class="dropdown-item" href="#">{{art.title}}</a>
+            </div>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,29 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+
+
+
+<div class="container pt-3">
+  <div class="row">
+
+    <aside class="col-md-4 mt-0 bg-light">
+
+      {% include "wiki/sidebar.html" %}
+    </aside>
+
+    <div class="col-md-8">
+      <h2 >{{article.title}}</h2>
+      <p>{{article.formatted_markdown|safe}}</p>
+      {% if user.is_staff %}
+      <a class="btn btn-light" role="button" href="{% url 'admin:wiki_articles_change' article.id %}?next={{request.path}}">
+        edit article
+      </a>
+      {% endif %}
+
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

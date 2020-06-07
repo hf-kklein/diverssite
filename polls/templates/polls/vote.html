@@ -1,0 +1,6 @@
+<h1>Voting for: {{ question.question_text }}</h1>
+<ul>
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }} vote</li>
+{% endfor %}
+</ul>

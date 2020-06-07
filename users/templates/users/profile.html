@@ -1,0 +1,68 @@
+{% extends "page/base_generic.html" %}
+
+{% block content %}
+<div class="containter p-3">
+  <h2>{{user.username}}</h2>
+  <hr>
+  <div class="row">
+
+    <div class="col-md-3 pl-0">
+      <form method="post">
+        {% csrf_token %}
+      <div class="card shadow-sm p-2">
+        <p class="card-title p-1">
+          <strong>account information</strong>
+        </p>
+
+        <div class="card-body p-1">
+          {{ updateuser_form.as_table }}
+          <input class="btn btn-secondary mt-2 p-1" type="submit" value="change">
+        </div>
+      </div>
+    </div>
+<!-- 
+    <div class="col-md-3 pl-0">
+      <div class="card shadow-sm p-2">
+        <p class="card-title p-1">
+          <strong>Profile Picture</strong>
+        </p>
+
+        <div class="card-body p-1">
+          {{ profilepicture_form }}
+          <input class="btn btn-secondary mt-2 p-1" type="submit" value="change">
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-md-3 pl-0">
+      <div class="card shadow-sm p-2">
+        <p class="card-title p-1">
+          <strong>Divers information</strong>
+        </p>
+
+        <div class="card-body p-1">
+          {{ updateprofile_form.as_table }}
+          <input class="btn btn-secondary mt-2 p-1" type="submit" value="change">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3 pl-0">
+      <div class="card shadow-sm p-2">
+        <p class="card-title p-1">
+          <strong>Address</strong>
+        </p>
+
+        <div class="card-body p-1">
+          {{ updateaddress_form.as_table }}
+          <input class="btn btn-secondary mt-2 p-1" type="submit" value="change">
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+
+
+</div>
+
+{% endblock %}

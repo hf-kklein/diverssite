@@ -31,13 +31,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'polls.apps.PollsConfig',
+    'public.apps.PublicConfig',
+    'events.apps.EventsConfig',
+    'users.apps.UsersConfig',
+    'wiki.apps.WikiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'markdownx',
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +63,7 @@ ROOT_URLCONF = 'diverssite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,16 +83,17 @@ WSGI_APPLICATION = 'diverssite.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'tplb': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fschunck_tplb_db',
         'USER': 'fschunck_tplb_u',
         'PASSWORD': 'tr@ining20!',
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
+        'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
 
@@ -112,6 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LOGIN_REDIRECT_URL = '/'
+
 TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
@@ -123,5 +135,15 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
+
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'static'),
+)
