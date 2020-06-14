@@ -4,14 +4,6 @@ from django.conf import settings
 import itertools as it
 from django.contrib.auth.models import User
 
-categories = (
-    ('training','Training'),
-    ('tournament','Tournament'),
-    ('social','Social Event'),
-    ('orga','Organization Event'),
-    ('other','Other')
-)
-
 class Categ(models.Model):
     name = models.CharField(max_length = 50)
     slug = models.SlugField(max_length=50, null = True)
@@ -33,7 +25,6 @@ class Event(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length = 50)
     categ = models.ForeignKey(Categ, null = True, on_delete=models.PROTECT)
-    category = models.CharField(choices = categories,max_length = 20, default = 'Training')
     date = models.DateTimeField()
     description = models.TextField(null = True)
     # date_end = models.DateTimeField(default = date + timedelta(hours = 2))
