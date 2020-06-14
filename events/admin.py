@@ -5,13 +5,13 @@ from .models import Event, Location, PartChoice, Participation, Categ
 
 class EventAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,    {'fields': ['name','category','categ','date','location','description']}),
+        (None,    {'fields': ['name','categ','date','location','description']}),
         ('info',  {'fields': ['author','visibility','slug'],
                    'classes': ['collapse']}),
     ]
 
-    list_display = ('name', 'category', 'date', 'location')
-    list_filter = ['date','category','location']
+    list_display = ('name', 'date', 'location')
+    list_filter = ['date','location']
     search_fields = ['name']
     prepopulated_fields = {"slug": ("name","date")}
 
