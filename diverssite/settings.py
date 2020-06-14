@@ -96,7 +96,7 @@ DATABASES = {
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
-
+dump(DATABASES)
 # print(DATABASES["tplb"])
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
