@@ -6,10 +6,10 @@
 {% endfor %}
 <hr>
 <div class="container pb-2">
-  <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:category' 'training' %}';">training</span>
-  <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:category' 'tournament' %}';">tournaments</span>
-  <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:category' 'social' %}';">social</span>
-  <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:category' 'other' %}';">other</span>
+  <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' 'training' %}';">training</span>
+  <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' 'tournament' %}';">tournaments</span>
+  <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' 'social' %}';">social</span>
+  <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' 'other' %}';">other</span>
 </div>
 
 {% if user.is_authenticated %}
