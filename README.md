@@ -24,8 +24,10 @@ echo "export mysql_pwd=INSERT_REAL_PASSWORD_HERE" >> .env
 echo "export SECRET_KEY=INSERT_REAL_KEY_HERE" >> .env
 ```
 using an other database than `saxydivers$default` results in an error during login when running the migrations.
+#### WSGI
 
-### Our WSGI file looks like this:
+Our WSGI file in `/var/www/saxydivers_pythonanywhere_com_wsgi.py` looks like this:
+
 ```python
 # +++++++++++ DJANGO +++++++++++
 # To use your own django app use code like this:
