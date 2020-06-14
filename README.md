@@ -52,3 +52,11 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 ```
+
+## Todos
++ create superuser
+python manage.py createsuperuser
+
++ create categories and 'show on pages' entries
+++ home (show on pages)
+++ Verein (category)
