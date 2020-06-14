@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+from pprint import pprint
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -96,7 +96,7 @@ DATABASES = {
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
-dump(DATABASES)
+pprint(DATABASES)
 # print(DATABASES["tplb"])
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
