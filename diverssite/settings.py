@@ -21,9 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-pprint(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['saxydivers.pythonanywhere.com']
 
@@ -89,14 +88,13 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('mysql_db'),#'fschunck_tplb_db',
-        'USER': os.getenv('mysql_usr'),#'fschunck_tplb_u',
-        'PASSWORD': os.getenv('mysql_pwd'),#'tr@ining20!',
-        'HOST':     os.getenv('mysql_host'),#'127.0.0.1',
+        'NAME': os.getenv('mysql_db'),
+        'USER': os.getenv('mysql_usr'),
+        'PASSWORD': os.getenv('mysql_pwd'),
+        'HOST':     os.getenv('mysql_host'),
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
-pprint(DATABASES)
 # print(DATABASES["tplb"])
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
