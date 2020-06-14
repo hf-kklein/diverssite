@@ -88,7 +88,7 @@ class ProfileView(LoginRequiredMixin,generic.DetailView):
         # print(profilepictureform)
 
 
-        if userform.is_valid() and profileform.is_valid() and addressform.is_valid() and profilepictureform.is_valid():
+        if userform.is_valid() and profileform.is_valid() and addressform.is_valid():
             user = userform.save(commit=False)
             user.save()
             profile = profileform.save(commit=False)
