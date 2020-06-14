@@ -30,14 +30,14 @@
               <div class="card-header p-1" id="{{event}}_heading">
                 <a class="mb-0 d-flex">
                   <div class="p-1 w-50">
-                    {% if content.event.categ == "training" %}
-                    <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ}}</span>
-                    {% elif content.event.categ == "tournament" %}
-                    <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ}}</span>
-                    {% elif content.event.categ == "social" %}
-                    <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ}}</span>
+                    {% if content.event.categ.name == "training" %}
+                    <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ.name}}</span>
+                    {% elif content.event.categ.name == "tournament" %}
+                    <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ.name}}</span>
+                    {% elif content.event.categ.name == "social" %}
+                    <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ.name}}</span>
                     {% else %}
-                    <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ}}</span>
+                    <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' content.event.categ.slug %}';">{{content.event.categ.name}}</span>
                     {% endif %}
                     <br>
                     <small>
