@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'users.apps.UsersConfig',
     'wiki.apps.WikiConfig',
+    'mail.apps.MailConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -145,3 +146,5 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASE_DIR, 'static'),
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
