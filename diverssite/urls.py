@@ -25,4 +25,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('wiki/', include('wiki.urls')),
     path('markdownx/', include('markdownx.urls')),
+    path('mail/', include('mail.urls'))
 ]
