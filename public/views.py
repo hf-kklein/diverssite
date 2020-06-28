@@ -1,10 +1,9 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+from datetime import date
 
 from wiki.models import Articles, Display
+from events.models import Event, Categ, Participation, PartChoice
 
 
 class IndexView(generic.ListView):
@@ -19,10 +18,21 @@ class IndexView(generic.ListView):
         posts = Articles.objects.filter(show_on_pages = home)
         public_posts = posts.filter(visibility = 'public')
         published_posts = public_posts.filter(pub_date__lte=timezone.now())
-        published_posts
+        today = date.today()
+        training = Categ.objects.get(name='training')
+        yes = PartChoice.objects.filter(choicetext='yes')[0]
+        next_training = Event.objects.filter(categ=training).order_by('-date').filter(date__gte=today)[0]
+        participants = next_training.participation_set.all()
+
+        partn = sum([1 for p in participants if p.part == yes])
 
         context = { 'welcome_title': welcome_title,
                     'welcome_text': welcome_text,
-                    'published_posts': published_posts
+                    'published_posts': published_posts,
+                    'next_training': next_training,
+                    'participants': participants,
+                    'partn':partn
                     }
         return context
+
+
