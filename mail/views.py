@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.views import View, generic
 from .models import Message
 from .forms import ComposeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
+    login_url = '/users/login/'
     template_name = 'mail/index.html'
     context_object_name = 'sent_mails'
 
@@ -19,8 +21,9 @@ class IndexView(generic.ListView):
             # .order_by('-time')
 
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Message
+    login_url = '/users/login/'
     template_name = 'mail/detail.html'
     def get_queryset(self):
         """
@@ -30,7 +33,16 @@ class DetailView(generic.DetailView):
 
 
 
-class ComposeView(generic.FormView):
+class ComposeView(LoginRequiredMixin, generic.FormView):
     template_name = 'mail/compose.html'
+    login_url = '/users/login/'
     form_class = ComposeForm
-    success_url = '/thanks/'
+    success_url = '/mail'
+
+    def form_valid(self, form):
+        # This method is called when valid form data has been POSTed.
+        # It should return an HttpResponse.
+        form.instance.sender = self.request.user
+        model_instance = form.save(commit=True)
+        model_instance.send()
+        return super().form_valid(form)
