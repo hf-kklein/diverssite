@@ -1,0 +1,47 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+
+
+<div class="container pt-3">
+  <div class="row">
+
+    <aside class="col-md-3 mt-0 bg-light">
+
+      {% include "mail/sidebar.html" %}
+    </aside>
+
+
+    <div class="col-md-9 bg-light">
+      <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+
+          <div class="container">
+
+            <div class="d-flex justify-content-between">
+              <div class="p-2"><b>Subject</b></div>
+              <div class="p-2 ml-auto"><b>Date</b></div>
+              <div class="p-2"><b>Sender</b></div>
+            </div>
+          </div>
+          {% for m in sent_mails %}
+
+          <div class="container">
+            <div class="card mb-2 shadow-sm">
+              <div class="d-flex justify-content-between">
+                <a class="p-2" href="{% url 'mail:detail' m.pk %}">{{ m.subject }}</a>
+                <div class="p-2 ml-auto">{{m.timestamp}}</div>
+                <div class="p-2">{{ m.sender }}</div>
+
+              </div>
+
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div> <!-- /container -->
+    </div>
+  </div>
+</div>
+{% endblock %}

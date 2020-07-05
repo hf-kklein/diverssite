@@ -1,0 +1,25 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+
+
+
+<div class="container pt-3">
+  <div class="row">
+
+    <aside class="col-md-4 mt-0 bg-light">
+
+      {% include "mail/sidebar.html" %}
+    </aside>
+
+    <div class="col-md-8">
+        <form method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input class="btn" type="submit" value="Send message">
+        </form>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
