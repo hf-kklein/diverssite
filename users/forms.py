@@ -7,12 +7,12 @@ from .models import Profile
 class SignupForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False,
                                  help_text='Optional',
-                                 label = 'First Name')
+                                 label='First Name')
     last_name = forms.CharField(max_length=30, required=False,
                                 help_text='Optional',
-                                label = 'Last Name')
+                                label='Last Name')
     email = forms.EmailField(max_length=254,
-                             label = 'E-Mail',
+                             label='E-Mail',
                              help_text='Enter a valid email address')
 
     class Meta:
