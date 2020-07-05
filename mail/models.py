@@ -2,13 +2,15 @@ from django.db import models
 from django.conf import settings
 from django.core.mail import send_mail
 
+
 # Create your models here.
 
 
 class Message(models.Model):
-    sender = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                  on_delete=models.PROTECT,
-                                  related_name="message_sender_set")
+    id = models.AutoField(primary_key=True)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 on_delete=models.PROTECT,
+                                 related_name="message_sender_set")
     recipients = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name="message_recipients_set")
     subject = models.CharField(max_length=100)
