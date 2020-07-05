@@ -3,3 +3,11 @@
     <span class="text-muted">© Florian Schunck 2020</span>
   </div>
 </footer> -->
+<script language="JavaScript">
+    function toggle(source) {
+        checkboxes = document.getElementsByName('recipients');
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
