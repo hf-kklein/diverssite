@@ -21,18 +21,29 @@ class IndexView(generic.ListView):
         today = date.today()
         training = Categ.objects.get(name='training')
         yes = PartChoice.objects.filter(choicetext='yes')[0]
-        next_training = Event.objects.filter(categ=training).order_by('-date').filter(date__gte=today)[0]
-        participants = next_training.participation_set.all()
+        next_trainings = Event.objects.filter(categ=training).order_by('-date').filter(date__gte=today)
+        if len(next_trainings) > 0:
+            next_training = next_trainings[0]
+            participants = next_training.participation_set.all()
+            partn = sum([1 for p in participants if p.part == yes])
+        else:
+            next_training = {'date': "Sommer: Di/Do, 18 Uhr ATV; "
+                                     "Winter: Mo/Do, 22 Uhr HTWK"}
+            participants = None
+            partn = 0
 
-        partn = sum([1 for p in participants if p.part == yes])
 
-        context = { 'welcome_title': welcome_title,
-                    'welcome_text': welcome_text,
-                    'published_posts': published_posts,
-                    'next_training': next_training,
-                    'participants': participants,
-                    'partn':partn
-                    }
+
+        context = {'welcome_title': welcome_title,
+                   'welcome_text': welcome_text,
+                   'published_posts': published_posts,
+                   'next_training': next_training,
+                   'participants': participants,
+                   'partn':partn
+                   }
         return context
+
+
+
 
 
