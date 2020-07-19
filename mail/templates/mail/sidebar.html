@@ -1,0 +1,37 @@
+
+    <div class="">
+      <h3 class="sidebar-heading mt-0">
+        Mailbox
+      </h3>
+      {% load admin_urls %}
+      {% if user.is_staff %}
+
+      <h6 class="sidebar-heading d-flex justify-content-between text-muted mt-4">
+        write a new mail
+        <a class="d-flex align-items-center text-muted" href="{% url 'mail:compose' %}?next={{request.path}}" aria-label="write a new mail">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+        </a>
+      </h6>
+      {% endif %}
+
+    </div>
+
+    <ul class="list-unstyled components mt-4">
+      {% for cat, articles in categories.items %}
+      <li class="active">
+        <a href="#{{cat.name}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+          {{cat}}
+        </a>
+        <ul class="collapse list-unstyled show" id="{{cat.name}}">
+          {% for art in articles %}
+          <li class="ml-2">
+            <a class="text-muted" href="{%  url 'wiki:detail' art.slug%}">
+              {{art.title}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ul>
+</aside>

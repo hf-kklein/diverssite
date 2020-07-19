@@ -1,0 +1,24 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+
+
+
+<div class="container pt-3">
+  <div class="row">
+
+    <aside class="col-md-4 mt-0 bg-light">
+
+      {% include "mail/sidebar.html" %}
+    </aside>
+
+    <div class="col-md-8">
+      <h2 >{{message.subject}}</h2>
+      <p>{{message.body}}</p>
+
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
