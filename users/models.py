@@ -11,11 +11,12 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # additional information not contained in base user
-    gender = models.CharField(choices=(("d","divers"),
-                                       ("f","female"),
-                                       ("m","male")), max_length= 10, null = True)
-    trikotnummer = models.CharField(max_length=3, null=True, unique = True)
-    street = models.CharField(max_length=50, null=True)
-    place = models.CharField(max_length=50, null=True)
-    zip = models.CharField(max_length=50, null=True)
-    picture = models.ImageField(upload_to=user_profile_directory_path, null=True)
+    gender = models.CharField(choices=(("d", "divers"),
+                                       ("f", "female"),
+                                       ("m", "male")), max_length=10, null=True,
+                              blank=True)
+    trikotnummer = models.CharField(max_length=3, null=True, unique=True, blank=True)
+    street = models.CharField(max_length=50, null=True, blank=True)
+    place = models.CharField(max_length=50, null=True, blank=True)
+    zip = models.CharField(max_length=50, null=True, blank=True)
+    picture = models.ImageField(upload_to=user_profile_directory_path, null=True, blank=True)
