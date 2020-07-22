@@ -17,6 +17,7 @@ class Profile(models.Model):
                                        ("m", "male")), max_length=10, null=True,
                               blank=True)
     trikotnummer = models.CharField(max_length=3, null=True, unique=True, blank=True)
+    mobile = models.CharField(max_length=20, null=True, blank=True)
     street = models.CharField(max_length=50, null=True, blank=True)
     place = models.CharField(max_length=50, null=True, blank=True)
     zip = models.CharField(max_length=50, null=True, blank=True)
@@ -30,7 +31,6 @@ class Profile(models.Model):
         :returns: str -- the image url
 
         """
-        print("i work until here")
         if self.picture and hasattr(self.picture, 'url'):
             return self.picture.url
         else:

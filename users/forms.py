@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, Div
 
 #Sign Up Form
 class SignupForm(UserCreationForm):
@@ -28,12 +29,27 @@ class SignupForm(UserCreationForm):
             ]
 
 class UpdateUserForm(forms.ModelForm):
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.label_class = 'col-lg-2'
-        self.helper.field_class = 'col-lg-8'
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(
+            Fieldset(
+                'Personal Info:',
+                Div(
+                    Div('first_name', css_class="col-sm"),
+                    Div('last_name', css_class="col-sm"),
+                    css_class='row'
+                ),
+                Div(
+                    Div('email', css_class="col-sm"),
+                    css_class='row'
+                )
+            )
+        )
 
     class Meta:
         model = User
@@ -46,23 +62,56 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
+
+    trikotnummer = forms.CharField(
+        required=True,
+        error_messages={'unique': 'Occupied :-( Check the wiki to see which numbers are still free'}
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.error_text_inline = False
+        self.helper.layout = Layout(
+            Fieldset(
+                'Divers Info:',
+                Div(
+                    Div('gender', css_class="col-sm"),
+                    Div('trikotnummer', css_class="col-sm"),
+                    css_class='row')
+            )
+        )
 
     class Meta:
         model = Profile
         fields = [
             'gender',
-            'trikotnummer',
+            'trikotnummer'
         ]
 
+
 class AddressForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.error_text_inline = False
+        self.helper.layout = Layout(
+            Fieldset(
+                'Connect:',
+                Div(
+                    Div('street', css_class="col-sm"),
+                    Div('place', css_class="col-sm"),
+                    Div('zip', css_class="col-sm"),
+                    Div('mobile', css_class="col-sm"),
+                    css_class='row'
+                )
+            )
+        )
 
     class Meta:
         model = Profile
@@ -70,13 +119,16 @@ class AddressForm(forms.ModelForm):
             'street',
             'place',
             'zip',
+            'mobile',
         ]
+
 
 class ProfilePictureForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.helper.disable_csrf = True
 
     class Meta:
         model = Profile

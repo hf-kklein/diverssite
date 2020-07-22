@@ -101,4 +101,13 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
             address.save()
             picture = profilepictureform.save(commit=False)
             picture.save()
-        return HttpResponseRedirect(reverse('users:profile', args=[username]))
+            return HttpResponseRedirect(reverse('users:profile', args=[username]))
+        else:
+            context = {
+                'updateuser_form': userform,
+                'updateprofile_form': profileform,
+                'profilepicture_form': profilepictureform,
+                'updateaddress_form': addressform,
+                'profile': self.profile,
+            }
+            return render(request, self.template_name, context)
