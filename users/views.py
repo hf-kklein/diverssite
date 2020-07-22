@@ -57,11 +57,10 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     redirect_field_name = 'next'
 
 
-    def test_func(self, request, username):
-        return self.request.user.username == username
+    # def test_func(self, request, username):
+    #     return self.request.user.username == username
 
-    def setup_forms(self, username):
-        self.user = User.objects.get(username=username)
+    def setup_forms(self):
         try:
             self.profile = Profile.objects.get(user=self.user)
         except:
@@ -72,8 +71,9 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
         self.updateaddress_form = AddressForm(instance=self.profile, prefix="address")
         self.profilepicture_form = ProfilePictureForm(instance=self.profile, prefix="pic")
 
-    def get(self, request, username):
-        self.setup_forms(username)
+    def get(self, request):
+        self.user = request.user
+        self.setup_forms()
 
         context = {
             'updateuser_form'   : self.updateuser_form,
