@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
+from crispy_forms.helper import FormHelper
 
 #Sign Up Form
 class SignupForm(UserCreationForm):
@@ -27,6 +28,13 @@ class SignupForm(UserCreationForm):
             ]
 
 class UpdateUserForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.label_class = 'col-lg-2'
+        self.helper.field_class = 'col-lg-8'
+
     class Meta:
         model = User
         fields = [
@@ -35,7 +43,14 @@ class UpdateUserForm(forms.ModelForm):
             'email',
             ]
 
+
+
 class ProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
     class Meta:
         model = Profile
         fields = [
@@ -44,6 +59,11 @@ class ProfileForm(forms.ModelForm):
         ]
 
 class AddressForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
     class Meta:
         model = Profile
         fields = [
@@ -53,6 +73,11 @@ class AddressForm(forms.ModelForm):
         ]
 
 class ProfilePictureForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
     class Meta:
         model = Profile
         fields = [
