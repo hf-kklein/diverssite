@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'markdownx',
+    'crispy_forms',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
