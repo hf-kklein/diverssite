@@ -5,6 +5,7 @@ from django.views import generic, View
 from django.utils import timezone
 from django.contrib.auth.models import User
 import json
+import datetime
 
 from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Articles, Display
@@ -29,8 +30,8 @@ class EventsView(View):
 
     def create_events_dict(self):
         # print(self.cats)
-        subset_events = Event.objects.filter(categ__in = self.cats)
-        event_query = subset_events.filter().order_by('date')
+        subset_events = Event.objects.filter(categ__in=self.cats)
+        event_query = subset_events.filter(date__gte=datetime.date.today()).order_by('date')
         choice_query = PartChoice.objects.all()
         choice_yes = PartChoice.objects.get(choice = 'y')
         choice_no = PartChoice.objects.get(choice = 'n')
