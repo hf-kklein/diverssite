@@ -8,7 +8,7 @@ import json
 import datetime
 
 from .models import Event, Participation, PartChoice, Categ
-from wiki.models import Articles, Display
+from wiki.models import Article, Display
 
 
 class EventsView(View):
@@ -108,7 +108,7 @@ class IndexView(EventsView):
         # with self make variable to class attribute, accessible to all methods
         # print(self.cats)
         self.user_query = request.user
-        posts = Articles.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
+        posts = Article.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
         public_posts = posts.filter(visibility = 'public')
         member_posts = posts.filter(visibility = 'member')
         post_query = public_posts
