@@ -1,0 +1,27 @@
+{% extends "page/base_generic.html" %}
+{% block content %}
+
+<div class="container pt-3">
+  <div class="row">
+
+    <aside class="col-md-3 mt-0 bg-light">
+      {% include "mail/sidebar.html" %}
+    </aside>
+
+    <div class="col-md-9">
+        <form method="post">{% csrf_token %}
+            <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/>
+            {% for r in form.recipients %}
+            <div>{{r}}</div>
+            {%endfor%}
+            <p>{{ form.subject }}</p>
+            <p>{{ form.body }}</p>
+            <input class="btn" type="submit" value="Send message">
+        </form>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('',include('public.urls')),
@@ -25,4 +27,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('wiki/', include('wiki.urls')),
     path('markdownx/', include('markdownx.urls')),
-]
+    path('mail/', include('mail.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
