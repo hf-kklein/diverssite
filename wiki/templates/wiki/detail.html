@@ -16,7 +16,7 @@
       <h2 >{{article.title}}</h2>
       <p>{{article.formatted_markdown|safe}}</p>
       {% if user.is_staff %}
-      <a class="btn btn-light" role="button" href="{% url 'admin:wiki_articles_change' article.id %}?next={{request.path}}">
+      <a class="btn btn-light" role="button" href="{% url 'admin:wiki_article_change' article.id %}?next={{request.path}}">
         edit article
       </a>
       {% endif %}

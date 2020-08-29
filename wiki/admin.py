@@ -4,9 +4,9 @@ from django.db import models
 
 
 # Register your models here.
-from .models import Category, Articles, Display
+from .models import Category, Article, Display
 
-class ArticlesAdmin(admin.ModelAdmin):
+class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     list_display = ('title','visibility', 'pub_date')
     list_filter = ['pub_date','visibility', 'show_on_pages']
@@ -18,5 +18,5 @@ class ArticlesAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category)
-admin.site.register(Articles, ArticlesAdmin)
+admin.site.register(Article, ArticleAdmin)
 admin.site.register(Display)

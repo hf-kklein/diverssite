@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import generic, View
-from .models import Category, Articles
+from .models import Category, Article
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
@@ -16,9 +16,9 @@ class IndexView(View):
         # post_query = Post.objects.filter(page = 'events')
         category_query = Category.objects.all()
         if request.user.is_active:
-            articles = Articles.objects.all()
+            articles = Article.objects.all()
         else:
-            articles = Articles.objects.filter(visibility = "public")
+            articles = Article.objects.filter(visibility = "public")
         articles_query = articles.filter(pub_date__lte=timezone.now()
         ).order_by('-pub_date')[:5]
 
@@ -37,13 +37,13 @@ class IndexView(View):
 
 
 class DetailView(UserPassesTestMixin,generic.DetailView):
-    model = Articles
+    model = Article
     login_url = '/users/login/'
     template_name = 'wiki/detail.html'
 
     def test_func(self):
         u = self.request.user
-        a = Articles.objects.get(slug=self.kwargs['slug'])
+        a = Article.objects.get(slug=self.kwargs['slug'])
         if u.is_active:
             return True
         elif a.visibility == 'public':
@@ -59,9 +59,9 @@ class DetailView(UserPassesTestMixin,generic.DetailView):
 
         category_system = dict()
         for cat in category_query:
-            category_system[cat] = Articles.objects.filter(category=cat)
+            category_system[cat] = Article.objects.filter(category=cat)
 
-        article = Articles.objects.get(slug=slug)
+        article = Article.objects.get(slug=slug)
 
         context = {
                    # 'posts':  post_query,
