@@ -1,0 +1,75 @@
+[
+    {
+        "model": "diverssite.events.categ",
+        "pk": 1,
+        "fields": {
+            "name": "training"
+      }
+    },
+    {
+        "model": "diverssite.events.categ",
+        "pk": 2,
+        "fields": {
+            "name": "tournament"
+        }
+    },
+    {
+        "model": "diverssite.events.categ",
+        "pk": 3,
+        "fields": {
+            "name": "social"
+        }
+    },
+    {
+        "model": "diverssite.events.categ",
+        "pk": 4,
+        "fields": {
+            "name": "other"
+        }
+    },
+    {
+        "model": "diverssite.events.partchoice",
+        "pk": 1,
+        "fields": {
+            "choice": "y",
+            "choicetext": "yes"
+        }
+    },
+    {
+        "model": "diverssite.events.partchoice",
+        "pk": 2,
+        "fields": {
+            "choice": "n",
+            "choicetext": "no"
+        }
+    },
+    {
+        "model": "diverssite.events.partchoice",
+        "pk": 3,
+        "fields": {
+            "choice": "m",
+            "choicetext": "maybe"
+        }
+    },
+    {
+        "model": "diverssite.wiki.category",
+        "pk": 1,
+        "fields": {
+            "name": "Verein"
+        }
+    },
+    {
+        "model": "diverssite.events.display",
+        "pk": 1,
+        "fields": {
+            "name": "public"
+        }
+    },
+    {
+        "model": "diverssite.events.display",
+        "pk": 1,
+        "fields": {
+            "name": "members"
+        }
+    }
+]
