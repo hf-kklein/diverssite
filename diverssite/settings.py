@@ -26,9 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['saxydivers.pythonanywhere.com', '127.0.0.1']
-ALLOWED_HOSTS.extend(os.environ.get('server_ip',''))
-
+ALLOWED_HOSTS = ['saxydivers.pythonanywhere.com', '127.0.0.1', os.environ.get('server_ip')]
 # Application definition
 
 INSTALLED_APPS = [
@@ -94,7 +92,7 @@ DATABASES = {
         'ENGINE': os.environ.get('engine','django.db.backends.mysql'),
         'NAME': os.environ.get('db','fschunck_tplb_db'),
         'USER': os.environ.get('usr','fschunck_tplb_u'),
-        'PASSWORD': os.environ.get('pwd'),
+        'PASSWORD': os.environ.get('pwd', 'tr@ining20!'),
         'HOST':     os.environ.get('host','127.0.0.1'),
         'sql_mode': 'STRICT_ALL_TABLES'
     }
