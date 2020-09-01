@@ -1,4 +1,4 @@
 django-markdownx==3.0.1
 python-dotenv
-mysqlclient==1.4.6
+#mysqlclient==1.4.6
 django-crispy-forms==1.9.2
