@@ -62,14 +62,21 @@
         "model": "wiki.display",
         "pk": 1,
         "fields": {
-            "name": "public"
+            "name": "home"
         }
     },
     {
         "model": "wiki.display",
         "pk": 2,
         "fields": {
-            "name": "members"
+            "name": "events"
+        }
+    },
+    {
+        "model": "wiki.display",
+        "pk": 3,
+        "fields": {
+            "name": "wiki"
         }
     }
 ]
