@@ -20,9 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+
+# SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['saxydivers.pythonanywhere.com', '127.0.0.1']
 
@@ -88,11 +90,11 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # },
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('mysql_db'),
-        'USER': os.getenv('mysql_usr'),
-        'PASSWORD': os.getenv('mysql_pwd'),
-        'HOST':     os.getenv('mysql_host'),
+        'ENGINE': os.environ.get('engine','django.db.backends.mysql'),
+        'NAME': os.environ.get('db','fschunck_tplb_db'),
+        'USER': os.environ.get('usr','fschunck_tplb_u'),
+        'PASSWORD': os.environ.get('pwd'),
+        'HOST':     os.environ.get('host','127.0.0.1'),
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
