@@ -1,34 +1,34 @@
 [
     {
-        "model": "diverssite.events.categ",
+        "model": "events.categ",
         "pk": 1,
         "fields": {
             "name": "training"
       }
     },
     {
-        "model": "diverssite.events.categ",
+        "model": "events.categ",
         "pk": 2,
         "fields": {
             "name": "tournament"
         }
     },
     {
-        "model": "diverssite.events.categ",
+        "model": "events.categ",
         "pk": 3,
         "fields": {
             "name": "social"
         }
     },
     {
-        "model": "diverssite.events.categ",
+        "model": "events.categ",
         "pk": 4,
         "fields": {
             "name": "other"
         }
     },
     {
-        "model": "diverssite.events.partchoice",
+        "model": "events.partchoice",
         "pk": 1,
         "fields": {
             "choice": "y",
@@ -36,7 +36,7 @@
         }
     },
     {
-        "model": "diverssite.events.partchoice",
+        "model": "events.partchoice",
         "pk": 2,
         "fields": {
             "choice": "n",
@@ -44,7 +44,7 @@
         }
     },
     {
-        "model": "diverssite.events.partchoice",
+        "model": "events.partchoice",
         "pk": 3,
         "fields": {
             "choice": "m",
@@ -52,22 +52,22 @@
         }
     },
     {
-        "model": "diverssite.wiki.category",
+        "model": "wiki.category",
         "pk": 1,
         "fields": {
             "name": "Verein"
         }
     },
     {
-        "model": "diverssite.events.display",
+        "model": "wiki.display",
         "pk": 1,
         "fields": {
             "name": "public"
         }
     },
     {
-        "model": "diverssite.events.display",
-        "pk": 1,
+        "model": "wiki.display",
+        "pk": 2,
         "fields": {
             "name": "members"
         }
