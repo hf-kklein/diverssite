@@ -1,4 +1,7 @@
 django-markdownx==3.0.1
-python-dotenv
+python-dotenv==0.14.0
 #mysqlclient==1.4.6
 django-crispy-forms==1.9.2
+Django==3.0.7
+psycopg2-binary==2.8.5
+gunicorn==20.0.4

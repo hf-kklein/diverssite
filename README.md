@@ -149,10 +149,10 @@ paste these variables:
 
 export server_ip=REAL_SERVER_IP
 export engine=django.db.backends.postgresql_psycopg  # this turns on postgresql engine
-export mysql_host=localhost
-export mysql_db=REAL_DATABASE
-export mysql_usr=REAL_DATABASE_USER
-export mysql_pwd=REAL_PASSWORD
+export  host=localhost
+export db=REAL_DATABASE
+export usr=REAL_DATABASE_USER
+export pwd=REAL_PASSWORD
 export SECRET_KEY=REAL_SECRET_KEY
 
 ```bash
