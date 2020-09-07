@@ -178,3 +178,5 @@ at this point the website should be running without obvious errors
 sudo ufw allow 8000  # adds port 8000 to firewall
 python manage.py runserver 0.0.0.0:8000  # test if server runs site
 ```
+
+7. follow instructions on how to set up gunicorn and nginx.
