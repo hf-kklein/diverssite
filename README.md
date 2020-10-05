@@ -154,6 +154,7 @@ export db=REAL_DATABASE
 export usr=REAL_DATABASE_USER
 export pwd=REAL_PASSWORD
 export SECRET_KEY=REAL_SECRET_KEY
+export DJANGO_DEBUG=False
 
 ```bash
 echo 'set -a; source ~/sites/diverssite/.env; set +a' >> ~/sites/diverssite/divers_venv/bin/postactivate
@@ -180,3 +181,12 @@ python manage.py runserver 0.0.0.0:8000  # test if server runs site
 ```
 
 7. follow instructions on how to set up gunicorn and nginx.
+
+to reset the server after changes:
+
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemctl restart nginx
+```
+
+
+8. set up SSL certificate
