@@ -1,13 +1,20 @@
 # Divers Web Site
+
 Website of Saxy Divers Ultimate Leipzig.
+
 ## Deployment Instructions for Python Anywhere
+
 ### Create a MySQL Database
+
 Therefore open the database tab and create a new database. Remember the name and credentials for later.
+
 ### Follow the official Python Anyhwere Docs
- + [Running an existing Django Project](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject)
- + [Setting Environment Variables](https://help.pythonanywhere.com/pages/environment-variables-for-web-apps)
+
++ [Running an existing Django Project](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject)
++ [Setting Environment Variables](https://help.pythonanywhere.com/pages/environment-variables-for-web-apps)
 
 The mandatory environment variables are:
+
 + `SECRET_KEY` (this is the django secret key)
 + `mysql_host`
 + `mysql_db`
