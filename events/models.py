@@ -14,8 +14,8 @@ class Categ(models.Model):
 
 class Location(models.Model):
     name = models.CharField(max_length=50)
-    street = models.CharField(max_length=100)
-    place = models.CharField(max_length=100)
+    street = models.CharField(max_length=100, null=True, blank=True)
+    place = models.CharField(max_length=100, null=True, blank=True)
     slug = models.SlugField(max_length=50, null=True)
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Event(models.Model):
     categ = models.ForeignKey(Categ, null=True, on_delete=models.PROTECT)
     date = models.DateTimeField()
     description = MarkdownxField(null=True, blank=True)
-    location = models.ForeignKey('Location', on_delete=models.PROTECT, null=True)
+    location = models.ForeignKey('Location', on_delete=models.PROTECT, null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
     visibility = models.CharField(max_length=20, default='public')
     slug = models.SlugField(max_length=50, null=True, editable=False)

@@ -41,15 +41,14 @@
               <a href="{% url 'wiki:detail' i.slug %}"><img class="card-img-top" src="{% static '/images/background.png' %}" alt="Card image cap"></a>
 
               {% endif %}
-              <div class="card-body">
-                <a  href="{% url 'wiki:detail' i.slug %}">{{ i.title }}</a>
+              <div class="card-body pb-0">
+                <a class="font-weight-bold text-body" href="{% url 'wiki:detail' i.slug %}">{{ i.title }}</a>
                 <p>{{ i.formatted_markdown|safe }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{% url 'wiki:detail' i.slug %}';">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location.href='{% url 'admin:wiki_article_change' i.id %}?next={{request.path}}';">Edit</button>
                   </div>
-                  <small class="text-muted">9 mins</small>
                 </div>
               </div>
 

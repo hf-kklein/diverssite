@@ -23,6 +23,7 @@ The mandatory environment variables are:
 + `mysql_port`
 
 Here's a template to set them:
+
 ```bash
 echo "export mysql_host=saxydivers.mysql.pythonanywhere-services.com" >> .env
 echo "export mysql_db=saxydivers\$default" >> .env
@@ -30,7 +31,42 @@ echo "export mysql_usr=saxydivers" >> .env
 echo "export mysql_pwd=INSERT_REAL_PASSWORD_HERE" >> .env
 echo "export SECRET_KEY=INSERT_REAL_KEY_HERE" >> .env
 ```
+
 using an other database than `saxydivers$default` results in an error during login when running the migrations.
+
+#### apply migrations  
+
+updating master branch to a new version most of the time also requires updating of database structure (i.e. python manage.py migrate). To do so, carry out the following steps
+
+1. open a bash console on your server (This should be available somewhere after login to the server via your browser)
+2. activate the virtual environment in the parent directory of .virtualenv directory
+
+  ```bash
+  source .virtualenvs/diverssite-virtualenv/bin/activate
+  ```
+  
+3. change database to `saxydivers$default`
+
+  ```bash
+  ~/diverssite (master)$ nano .env
+  ```
+
+change in there to saxydivers$default and exit and safe file (ctrl+x, then y for saving changes)
+
+4. manually loading environmental vairables is done like this
+
+```bash
+set -a; source ~/diverssite/.env; set +a
+```
+
+5. apply migrations
+
+```bash
+python3 manage.py migrate
+```
+
+6. change database in .env back to `saxydivers\$default`
+
 #### WSGI
 
 Our WSGI file in `/var/www/saxydivers_pythonanywhere_com_wsgi.py` looks like this:
