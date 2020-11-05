@@ -188,5 +188,17 @@ to reset the server after changes:
 sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemctl restart nginx
 ```
 
-
 8. set up SSL certificate
+
+## Maintenance
+
+after changes to the django app have been made:
+
++ don't push settings from the develop branch
++ navigate into repository via ssh
++ pull changes from git repository.
++ activate environmental variables with: set -a; source ~/sites/diverssite/.env; set +a  
++ migrate changes if necessary
++ restart gunicorn:  sudo systemctl restart gunicorn
++ check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This 
+  can be directly tackled in the admin view --> https://mysite.de/admin
