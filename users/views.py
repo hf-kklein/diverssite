@@ -7,7 +7,7 @@ from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
 from .forms import SignupForm, ProfileForm, UpdateUserForm, AddressForm, ProfilePictureForm
-from .models import Profile
+from .models import Profile, Settings
 
 
 class Login(LoginView):
@@ -19,12 +19,14 @@ class SignUpView(generic.View):
 
     def post(self, request):
         signup_form = SignupForm(request.POST, request.FILES)
-        if signup_form.is_valid():
+
+        if signup_form.is_valid() and signup_form.cleaned_data['validator'] == Settings.objects.values('registration_password')[0]['registration_password']:
             user = signup_form.save(commit=False)
             user.save()
             return HttpResponseRedirect(reverse('users:thanks'))
 
         else:
+            print(signup_form.cleaned_data['validator'], Settings.objects.values('registration_password')[0]['registration_password'])
             error = "please make sure your information are correct."
             context = {
                 'signup_form': signup_form,

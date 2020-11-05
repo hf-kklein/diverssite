@@ -4,6 +4,7 @@ from datetime import date
 
 from wiki.models import Article, Display
 from events.models import Event, Categ, Participation, PartChoice
+from public.models import Info
 
 
 class IndexView(generic.ListView):
@@ -12,8 +13,7 @@ class IndexView(generic.ListView):
     context_object_name = 'home_public_posts'
 
     def get_context_data(self, **kwargs):
-        welcome_title = "Saxy Divers Ultimate Frisbee"
-        welcome_text = "Saxy Divers spielen seit 1990 Ultimate Frisbee in Leipzig"
+        welcome = Info.objects.get(id = 1)
         home = Display.objects.get(name = 'home')
         posts = Article.objects.filter(show_on_pages = home)
         public_posts = posts.filter(visibility = 'public')
@@ -34,15 +34,13 @@ class IndexView(generic.ListView):
 
 
 
-        context = {'welcome_title': welcome_title,
-                   'welcome_text': welcome_text,
+        context = {'welcome': welcome,
                    'published_posts': published_posts,
                    'next_training': next_training,
                    'participants': participants,
                    'partn':partn
                    }
         return context
-
 
 
 
