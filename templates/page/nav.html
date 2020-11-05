@@ -1,19 +1,11 @@
 {% load static %}
-<nav class="nav d-flex justify-content-between " >
+<nav class="nav sticky-top justify-content-between">
 
   <a class="nav-link text-muted" href="{% url 'public:index'%}">Home</a>
   <a class="nav-link text-muted" href="{% url 'events:index' %}">Events</a>
   <a class="nav-link text-muted" href="{% url 'wiki:index' %}">Wiki</a>
+  {% comment %} <a class="nav-link text-muted" href="#">Fotos</a>
+  <a class="nav-link text-muted" href="#">Novembernebel</a> {% endcomment %}
   <a class="nav-link text-muted" href="#">Fotos</a>
   <a class="nav-link text-muted" href="#">Novembernebel</a>
-    <!-- <li> -->
-  <a class="text-muted" href="#" aria-label="Search">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
-  </a>
-
-    <!-- <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form> -->
-  </div>
 </nav>

@@ -20,5 +20,6 @@ app_name = 'public'
 urlpatterns = [
     # path('', views.index, name='index'),
     path('', views.IndexView.as_view(), name = 'index')
+
     # path('', views.HomePublicNews.as_view(), name='news')
 ]
