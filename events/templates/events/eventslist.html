@@ -80,15 +80,15 @@
                           {{content.event.location.street}},
                           {{content.event.location.place}}
                         </small>
-                        <p class="mt-2">
-                          {{content.event.formatted_markdown|safe}}
-                        </p>
-                        {% if user.is_staff %}
-                        <a class="btn btn-light" role="button" href="{% url 'admin:events_event_change' content.event.id %}?next={{request.path}}">
-                          edit event
-                        </a>
-                        {% endif %}
+                      {% if user.is_staff %}
+                      <a class="btn btn-light" role="button" href="{% url 'admin:events_event_change' content.event.id %}?next={{request.path}}">
+                        edit event
+                      </a>
+                      {% endif %}
                       </div>
+                      <p class="mt-2">
+                        {{content.event.formatted_markdown|safe}}
+                      </p>
 
                       {% if user.is_authenticated %}
                       <div class="">
