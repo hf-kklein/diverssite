@@ -231,7 +231,9 @@ sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemct
 after changes to the django app have been made:
 
 + don't push settings from the develop branch
-+ navigate into repository via ssh
++ ssh onto server
++ navigate into repository
++ activate virtual environment: source divers_venv/bin/activate
 + pull changes from git repository.
 + activate environmental variables with: set -a; source ~/sites/diverssite/.env; set +a  
 + migrate changes if necessary

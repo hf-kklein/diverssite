@@ -7,7 +7,7 @@ import markdownx.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0010_auto_20200806_2359'),
+        ('events', '0011_auto_20201104_2231'),
     ]
 
     operations = [
