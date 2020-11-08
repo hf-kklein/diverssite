@@ -232,6 +232,17 @@ follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-ngi
 9. Set up Postfix 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-18-04
 
+when configuring postfix, enter domains
++ saxy-divers.de
++ mail.saxy-divers.de (should be configured at webhoster)
++ sudo apt install policykit-1
++ sudo service postfix reload (after changing main.cf)
++ edit postfix config file if needed:  nano /etc/postfix/main.cf
++ systemctl status postfix.service  # to check status
+
+This should work if all the steps have been carried out correctly
+
+
 
 ## Maintenance
 
