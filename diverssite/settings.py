@@ -153,5 +153,5 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = os.environ.get('email_usr','')
 EMAIL_HOST_PASSWORD = os.environ.get('email_pw','')
-EMAIL_USE_TLS = os.environ.get('email_tls',)
+EMAIL_USE_TLS = os.environ.get('email_tls', '') != 'False'
 DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)
