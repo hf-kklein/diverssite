@@ -149,7 +149,7 @@ STATICFILES_DIRS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'localhost'
+EMAIL_HOST = os.environ.get('email_host','localhost')
 EMAIL_PORT = 25
 EMAIL_HOST_USER = os.environ.get('email_usr','')
 EMAIL_HOST_PASSWORD = os.environ.get('email_pw','')
