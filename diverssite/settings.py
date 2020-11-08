@@ -148,4 +148,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = os.environ.get('email_usr',)
+EMAIL_HOST_PASSWORD = os.environ.get('email_pw',)
+EMAIL_USE_TLS = os.environ.get('email_tls',)
+DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)

@@ -226,6 +226,13 @@ sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemct
 
 8. set up SSL certificate
 
+follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
+(set up for Ubuntu 18.04 and Nginx)
+
+9. Set up Postfix 
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-18-04
+
+
 ## Maintenance
 
 after changes to the django app have been made:
