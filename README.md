@@ -233,10 +233,10 @@ after changes to the django app have been made:
 + don't push settings from the develop branch
 + ssh onto server
 + navigate into repository
-+ activate virtual environment: source divers_venv/bin/activate
++ activate virtual environment:   source divers_venv/bin/activate
 + pull changes from git repository.
-+ activate environmental variables with: set -a; source ~/sites/diverssite/.env; set +a  
-+ migrate changes if necessary
++ activate environmental variables with:   set -a; source ~/sites/diverssite/.env; set +a  
++ migrate changes if necessary:   python3 manage.py migrate
 + restart gunicorn:  sudo systemctl restart gunicorn
 + check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This 
   can be directly tackled in the admin view --> https://mysite.de/admin
