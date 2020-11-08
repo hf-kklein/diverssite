@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['saxydivers.pythonanywhere.com', '127.0.0.1', os.environ.get('server_ip')]
+ALLOWED_HOSTS = ['saxy-divers.de', '127.0.0.1', os.environ.get('server_ip')]
 # Application definition
 
 INSTALLED_APPS = [
