@@ -24,7 +24,7 @@ class Message(models.Model):
         recipient_mails = [r.email for r in self.recipients.all()]
 
         send_mail(subject=self.subject, message=self.body,
-                  from_email=self.sender.email,
+                  from_email='ultimail@saxy-divers.de',
                   recipient_list=recipient_mails)
 
         self.sent = True
