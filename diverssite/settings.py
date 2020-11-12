@@ -155,3 +155,8 @@ EMAIL_HOST_USER = os.environ.get('email_usr','')
 EMAIL_HOST_PASSWORD = os.environ.get('email_pw','')
 EMAIL_USE_TLS = os.environ.get('email_tls', '') != 'False'
 DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)
+
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
