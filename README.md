@@ -231,6 +231,7 @@ follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-ngi
 
 9. Set up Postfix 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-18-04
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-18-04
 
 when configuring postfix, enter domains
 + saxy-divers.de
@@ -243,6 +244,26 @@ when configuring postfix, enter domains
 This should work if all the steps have been carried out correctly
 
 
+# new approach:
+
+This is are two brilliant tutorials building upon one another! A when there are choices in the tutorial you can find them here:
+https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
+https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
+
++ set hostname:  
+```sudo hostnamectl set-hostname mail.saxy-divers.de```
++ follow the rest of the tutorial
+
++ check mailbox:
+```nano /var/mail/florian```
++ check log:
+```nano /var/log/mail.log```
+Dieses tutorial hat wunderbar funktioniert. Einen MX record zu kreieren beim Provider war vermutlich wichtig
+
++ updating certificate to email instead of creating a new one:
+```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+
++ dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
 
 ## Maintenance
 

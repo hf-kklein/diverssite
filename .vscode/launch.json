@@ -54,6 +54,40 @@
                 "runserver",
             ],
             "django": true
+        },
+        {
+            "name": "shell",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\manage.py",
+            "env": {
+                "mysql_db": "fschunck_tplb_db",
+                "mysql_usr": "fschunck_tplb_u",
+                "mysql_pwd": "tr@ining20!",
+                "mysql_host": "127.0.0.1",
+                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b"
+            },
+            "args": [
+                "shell",
+            ],
+            "django": true
+        },
+        {
+            "name": "run tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}\\manage.py",
+            "env": {
+                "mysql_db": "fschunck_tplb_db",
+                "mysql_usr": "fschunck_tplb_u",
+                "mysql_pwd": "tr@ining20!",
+                "mysql_host": "127.0.0.1",
+                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b"
+            },
+            "args": [
+                "test",
+            ],
+            "django": true
         }
     ]
 }
