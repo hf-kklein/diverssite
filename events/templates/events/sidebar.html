@@ -1,13 +1,13 @@
 <div class="container">
   {% for post in posts %}
   <h3>{{ post.title }}</h3>
-  <p>{{ post.text }}</p>
+  <p>{{ post.formatted_markdown|safe }}</p>
   {% endfor %}
 
   {% if user.is_authenticated %}
   {% for mpo in memberposts %}
   <h3>{{ mpo.title }}</h3>
-  <p>{{ mpo.text }}</p>
+  <p>{{ mpo.formatted_markdown|safe }}</p>
   {% endfor %}
   {% endif %}
 </div><!--/span-->
