@@ -183,14 +183,17 @@ nano .env
 
 paste these variables:
 
+```bash
 export server_ip=REAL_SERVER_IP
 export engine=django.db.backends.postgresql_psycopg  # this turns on postgresql engine
-export  host=localhost
+export host=localhost
 export db=REAL_DATABASE
 export usr=REAL_DATABASE_USER
 export pwd=REAL_PASSWORD
 export SECRET_KEY=REAL_SECRET_KEY
 export DJANGO_DEBUG=False
+export SSL_REDIRECT=True
+```
 
 ```bash
 echo 'set -a; source ~/sites/diverssite/.env; set +a' >> ~/sites/diverssite/divers_venv/bin/postactivate
@@ -229,53 +232,55 @@ sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemct
 follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
 (set up for Ubuntu 18.04 and Nginx)
 
-9. Set up Postfix 
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-on-ubuntu-18-04
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postfix-as-a-send-only-smtp-server-on-ubuntu-18-04
+9. Set up the SMTP Server with Postfix and Dovecot
 
-when configuring postfix, enter domains
-+ saxy-divers.de
-+ mail.saxy-divers.de (should be configured at webhoster)
-+ sudo apt install policykit-1
-+ sudo service postfix reload (after changing main.cf)
-+ edit postfix config file if needed:  nano /etc/postfix/main.cf
-+ systemctl status postfix.service  # to check status
-
-This should work if all the steps have been carried out correctly
-
-
-# new approach:
-
-This is are two brilliant tutorials building upon one another! A when there are choices in the tutorial you can find them here:
+What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
+I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
 https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
 https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
 
-+ set hostname:  
++ set hostname: This may actually be not required because later on we fix the hostname in postfix config
 ```sudo hostnamectl set-hostname mail.saxy-divers.de```
 + follow the rest of the tutorial
-
-+ check mailbox:
-```nano /var/mail/florian```
-+ check log:
-```nano /var/log/mail.log```
-Dieses tutorial hat wunderbar funktioniert. Einen MX record zu kreieren beim Provider war vermutlich wichtig
 
 + updating certificate to email instead of creating a new one:
 ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
 
 + dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
++ enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
+
+To check problems of postifx and dovecot inspect the log
+
++ check mailbox:
+```nano /var/mail/florian```
++ check log:
+```nano /var/log/mail.log```
+
++ then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
+
+```bash
+export email_tls=True
+export email_default_from=ultimail@saxy-divers.de
+export email_host=mail.saxy-divers.de
+export email_usr=XXXXXX
+export email_pw=XXXXXX
+export email_port=587
+```
 
 ## Maintenance
 
 after changes to the django app have been made:
 
-+ don't push settings from the develop branch
-+ ssh onto server
-+ navigate into repository
-+ activate virtual environment:   source divers_venv/bin/activate
++ NEVER push settings from the develop branch
++ push if needed changes from main branch
++ ssh onto server  ```ssh username@server```
++ navigate into repository  ```cd xyz```
++ activate virtual environment:   ```source divers_venv/bin/activate```
 + pull changes from git repository.
-+ activate environmental variables with:   set -a; source ~/sites/diverssite/.env; set +a  
-+ migrate changes if necessary:   python3 manage.py migrate
-+ restart gunicorn:  sudo systemctl restart gunicorn
-+ check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This 
-  can be directly tackled in the admin view --> https://mysite.de/admin
++ activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  
++ migrate changes if necessary:   ```python3 manage.py migrate```
++ restart gunicorn:  ```sudo systemctl restart gunicorn```
++ check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This can be directly tackled in the admin view --> https://mysite.de/admin
++ restart postfix:  ```sudo systemctl restart postfix```
++ restart dovecot:  ```sudo systemctl restart dovecot```
++ to monitor the status of gunicorn, nginx, dovecot, postfix replace ```restart``` with ```status```
