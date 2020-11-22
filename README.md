@@ -243,6 +243,12 @@ https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
 ```sudo hostnamectl set-hostname mail.saxy-divers.de```
 + follow the rest of the tutorial
 
++ open the aliases file
+```sudo nano /etc/aliases```
+
++ add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
+```root:          your@mail.de```
+
 + updating certificate to email instead of creating a new one:
 ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
 
