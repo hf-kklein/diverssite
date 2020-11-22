@@ -1,9 +1,16 @@
-{% for post in posts %}
 <div class="container">
+  {% for post in posts %}
   <h3>{{ post.title }}</h3>
   <p>{{ post.text }}</p>
+  {% endfor %}
+
+  {% if user.is_authenticated %}
+  {% for mpo in memberposts %}
+  <h3>{{ mpo.title }}</h3>
+  <p>{{ mpo.text }}</p>
+  {% endfor %}
+  {% endif %}
 </div><!--/span-->
-{% endfor %}
 <hr>
 <div class="container pb-2">
   <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' 'training' %}';">training</span>

@@ -110,12 +110,13 @@ class IndexView(EventsView):
         self.user_query = request.user
         posts = Article.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
         public_posts = posts.filter(visibility = 'public')
-        member_posts = posts.filter(visibility = 'member')
+        member_posts = posts.filter(visibility = 'members')
         post_query = public_posts
         events = self.create_events_dict()
 
 
         context = { 'posts':  post_query,
+                    'memberposts': member_posts,
                     'events': events,
                     'user': self.user_query,
                     'categories': self.allcats}
