@@ -13,7 +13,10 @@
     </aside>
 
     <div class="col-md-8">
-      <h2 >{{message.subject}}</h2>
+      <h4>Betreff: {{message.subject}}</h4>
+      <p>{{message.timestamp}}</p>
+      <p>An: {{message.recipients.name}}</p>
+      <hr>
       <p>{{message.body}}</p>
 
 

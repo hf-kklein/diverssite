@@ -37,5 +37,6 @@ class Message(models.Model):
                   from_email=settings.EMAIL_HOST_USER,
                   recipient_list=['fluncki@protonmail.com'])
 
+
     def __str__(self):
         return self.subject

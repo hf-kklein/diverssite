@@ -159,4 +159,4 @@ DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = os.environ.get('SSL_REDIRECT', '') != 'False'

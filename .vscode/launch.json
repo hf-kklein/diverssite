@@ -48,7 +48,8 @@
                 "mysql_usr": "fschunck_tplb_u",
                 "mysql_pwd": "tr@ining20!",
                 "mysql_host": "127.0.0.1",
-                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b"
+                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b",
+                "SSL_REDIRECT": "False"
             },
             "args": [
                 "runserver",
@@ -65,7 +66,8 @@
                 "mysql_usr": "fschunck_tplb_u",
                 "mysql_pwd": "tr@ining20!",
                 "mysql_host": "127.0.0.1",
-                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b"
+                "SECRET_KEY":"byw6o%go0wqtz0endj$b$141_u5nb61744jg)e2yqvq5#!9i$b",
+                "SSL_REDIRECT": "False"
             },
             "args": [
                 "shell",
