@@ -32,6 +32,6 @@ class ComposeForm(forms.ModelForm):
         # }
 
     recipients = CustomMMCF(
-        queryset=User.objects.all(),
+        queryset=User.objects.exclude(username='admin'),
         widget=forms.CheckboxSelectMultiple
     )
