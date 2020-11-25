@@ -15,9 +15,7 @@ from django.contrib.auth.models import User
 
 class CustomMMCF(forms.ModelMultipleChoiceField):    
     def label_from_instance(self, user):
-        print(user.first_name == "" and user.last_name == "")
         if user.first_name == "" and user.last_name == "":
-            print("test")
             return user.email
         return " ".join([user.first_name, user.last_name])
 
