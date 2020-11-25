@@ -19,7 +19,7 @@
   <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' 'other' %}';">other</span>
 </div>
 
-{% if user.is_authenticated %}
+{% if user.is_staff %}
 <div class="container mb-3">
   <button class="btn btn-primary rounded mb-1" type="submit">save</button>
   <a class="btn btn-primary rounded mb-1" type="button" name="button" href="{% url 'admin:events_event_add' %}">
