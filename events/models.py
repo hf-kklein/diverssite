@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 class Categ(models.Model):
     name = models.CharField(max_length=50)
@@ -26,11 +28,15 @@ class Event(models.Model):
     name = models.CharField(max_length=50)
     categ = models.ForeignKey(Categ, null=True, on_delete=models.PROTECT)
     date = models.DateTimeField()
-    description = models.TextField(null=True, blank=True)
+    description = MarkdownxField(null=True, blank=True)
     location = models.ForeignKey('Location', on_delete=models.PROTECT, null=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
     visibility = models.CharField(max_length=20, default='public')
     slug = models.SlugField(max_length=50, null=True, editable=False)
+
+    @property
+    def formatted_markdown(self):
+        return markdownify(self.description)
 
     def __str__(self):
         return self.name

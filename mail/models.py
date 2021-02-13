@@ -24,12 +24,19 @@ class Message(models.Model):
         recipient_mails = [r.email for r in self.recipients.all()]
 
         send_mail(subject=self.subject, message=self.body,
-                  from_email=self.sender.email,
+                  from_email=settings.EMAIL_HOST_USER,
                   recipient_list=recipient_mails)
 
         self.sent = True
 
         self.save()
+
+    @staticmethod
+    def send_test_mail():
+        send_mail(subject="This is a test mail", message="Testing...",
+                  from_email=settings.EMAIL_HOST_USER,
+                  recipient_list=['fluncki@protonmail.com'])
+
 
     def __str__(self):
         return self.subject

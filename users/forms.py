@@ -17,7 +17,8 @@ class SignupForm(UserCreationForm):
                              label='E-Mail',
                              help_text='Enter a valid email address')
 
-    validator = forms.CharField(required=True, help_text="Dieses Passwort kannst du dir im Training oder bei anderen Mitgliedern erfragen")
+    validator = forms.CharField(required=True, help_text="Dieses Passwort kannst du dir im Training oder bei anderen Mitgliedern erfragen",
+                                label='Secret Code')
 
     class Meta:
         model = User

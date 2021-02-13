@@ -62,20 +62,20 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     # def test_func(self, request, username):
     #     return self.request.user.username == username
 
-    def setup_forms(self):
+    def setup_forms(self, u):
         try:
-            self.profile = Profile.objects.get(user=self.user)
+            self.profile = Profile.objects.get(user=u)
         except:
-            self.profile = Profile.objects.create(user=self.user)
+            self.profile = Profile.objects.create(user=u)
 
-        self.updateuser_form = UpdateUserForm(instance=self.user, prefix="user")
+        self.updateuser_form = UpdateUserForm(instance=u, prefix="user")
         self.updateprofile_form = ProfileForm(instance=self.profile, prefix="profile")
         self.updateaddress_form = AddressForm(instance=self.profile, prefix="address")
         self.profilepicture_form = ProfilePictureForm(instance=self.profile, prefix="pic")
 
     def get(self, request):
-        self.user = request.user
-        self.setup_forms()
+        
+        self.setup_forms(request.user)
 
         context = {
             'updateuser_form'   : self.updateuser_form,
@@ -86,9 +86,9 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
         }
         return render(request, self.template_name, context)
 
-    def post(self, request, username):
-        self.setup_forms(username)
-        userform = UpdateUserForm(request.POST, request.FILES, instance=self.user, prefix="user")
+    def post(self, request):
+        self.setup_forms(request.user)
+        userform = UpdateUserForm(request.POST, request.FILES, instance=request.user, prefix="user")
         profileform = ProfileForm(request.POST, request.FILES, instance=self.profile, prefix="profile")
         addressform = AddressForm(request.POST, request.FILES, instance=self.profile, prefix="address")
         profilepictureform = ProfilePictureForm(request.POST, request.FILES, instance=self.profile, prefix="pic")
@@ -103,7 +103,7 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
             address.save()
             picture = profilepictureform.save(commit=False)
             picture.save()
-            return HttpResponseRedirect(reverse('users:profile', args=[username]))
+            return HttpResponseRedirect(reverse('users:profile'))
         else:
             context = {
                 'updateuser_form': userform,
