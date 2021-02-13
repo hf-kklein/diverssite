@@ -155,6 +155,9 @@ sudo apt-get install git  # install version control
 chsh -s /bin/bash  # to change from dash to bash, in case this is not enabled by default somehow
 ```
 
+2.1 register a user on the server which is responsible for ONLY the project
+see: https://djangodeployment.readthedocs.io/en/latest/03-users-and-directories.html
+
 3. set up django app on server
 follow instructions on https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04 until activating the virtual environment
 
@@ -165,7 +168,6 @@ you should now have an activated environment shown by (myvenv) $ before the code
 ```bash
 pip install gunicorn psycopg2-binary
 ```
-
 
 4. clone git repository
 
@@ -219,13 +221,78 @@ sudo ufw allow 8000  # adds port 8000 to firewall
 python manage.py runserver 0.0.0.0:8000  # test if server runs site
 ```
 
-7. follow instructions on how to set up gunicorn and nginx.
+7. follow instructions on how to set up gunicorn and nginx. 
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04
 
 to reset the server after changes:
 
 ```bash
 sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemctl restart nginx
 ```
+
+7. 2 when everythin has been installed, me move all installation files into 
+a system directory as root user and create a systemuser to execute the files:
+
++ first log into root by typing :  ```su```
+
++ copy files ($USER) is the name of the user under which everything was done so far
+
+```bash
+cp -r /home/$USER/sites/diverssite/ /opt/diverssite
+```
+
++ reinstall virtualenv
+
+```bash
+rm -r /opt/diverssite/divers_venv
+virtualenv --system-site-packages --python=/usr/bin/python3 /opt/diverssite/venv
+/opt/diverssite/venv/bin/pip install -r /opt/diverssite/requirements.txt
+```
+
++ pre compile python files because they cannot be accessed by systemuser
+
+```bash
+/opt/diverssite/venv/bin/python -m compileall -x /opt/divessite/venv/ /opt/diverssite
+```
+
++ create a system user
+
+```bash
+adduser --system --home=/var/opt/diverssite \
+    --no-create-home --disabled-password --group \
+    --shell=/bin/bash saxydivers
+```
+
++ create data directory for files which is different from the program directory
+
+```bash
+mkdir -p /var/opt/diverssite
+chown saxydivers /var/opt/diverssite
+
+mkdir -p /var/log/diverssite
+chown saxydivers /var/log/diverssite
+```
+
++ make contents of production settings (/etc/opt/diverssite) unreadable to others
+
+```bash
+chgrp saxydivers /etc/opt/diverssite
+chmod u=rwx,g=rx,o= /etc/opt/diverssite
+```
+
++ test django server
+
+```bash
+su saxydivers
+source /opt/diverssite/venv/bin/activate
+set -a; source /opt/diverssite/.env; set +a
+python /opt/diverssite/manage.py runserver 0.0.0.0:8000
+```
+
+development server can now be accessed via http://saxy-divers.de:8000
+
++ todo: 
+++ give florian permission on opt/diverssite and var/opt/diverssite
 
 8. set up SSL certificate
 
