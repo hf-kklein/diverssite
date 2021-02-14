@@ -165,6 +165,8 @@ Framework.
 
    follow the instructions on <https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx>
    (set up for Ubuntu 18.04 and Nginx)
+   You can ignore mails sent to you that say certificates will expire. They
+   are automatically extended, if certbot was installed correctly
 
 ### Installation of the Mailserver
 

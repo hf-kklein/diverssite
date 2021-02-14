@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdownx',
     'crispy_forms',
+    'dbbackup',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -100,6 +101,11 @@ DATABASES = {
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
+
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.environ.get('BACKUP_LOCATION', '.')}
+
 # print(DATABASES["tplb"])
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
