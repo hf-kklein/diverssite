@@ -78,5 +78,13 @@
         "fields": {
             "name": "wiki"
         }
+    },
+    {
+        "model": "public.info",
+        "pk": 1,
+        "fields": {
+            "welcome_title": "Ultimate Frisbee",
+            "welcome_text": "Hallo"
+        }
     }
 ]

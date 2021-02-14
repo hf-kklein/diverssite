@@ -1,245 +1,240 @@
 # Divers Web Site
 
-Website of Saxy Divers Ultimate Leipzig.
+Website of Saxy Divers Ultimate Leipzig. Created with Django Web Development
+Framework.
 
-## Deployment Instructions for Python Anywhere
+## install locally for development
 
-### Create a MySQL Database
+0. Prerequisites:
+   - install Python
+     use python 3.6.9 (this is works for sure) https://www.python.org/downloads/release/python-369/
+     Make sure to __tick the box "Add to Path"__ or similar. This is important for
+     your OS to find the python executable!!!
+   - [install git if necessary](https://git-scm.com/downloads))
+   - Text editor of your choice (Visual Studio Code, Pycharm, Notepad, Vim, ...) (https://code.visualstudio.com/).
 
-Therefore open the database tab and create a new database. Remember the name and credentials for later.
+1. clone repository into new directory
+   ```git clone git@github.com:flo-schu/diverssite.git```
 
-### Follow the official Python Anyhwere Docs
+2. ideally with use of command line (cmd, terminal, etc.) navigate inside
+   the directory.
 
-+ [Running an existing Django Project](https://help.pythonanywhere.com/pages/DeployExistingDjangoProject)
-+ [Setting Environment Variables](https://help.pythonanywhere.com/pages/environment-variables-for-web-apps)
+3. create a virtual environment (https://docs.python.org/3/library/venv.html#creating-virtual-environments)
+   inside the project folder (diverssite), in your console type:
+   ```python -m venv venv```
+   (The specific command may vary depending on your OS (Windows, Linux, Mac))
+   this will create a virtual environment called 'venv', which can be understood
+   as putting a blank table in your office where you will add all the equipment that
+   you need for the project
 
-The mandatory environment variables are:
+4. activate the environment (instructions on the same page as above):
+   Windows: ```venv\Scripts\activate```
+   Linux/Mac: ```venv\bin\activate```
+   To extend the previous analogy. This is like seating yourself at your newly
+   placed desk.
 
-+ `SECRET_KEY` (this is the django secret key)
-+ `mysql_host`
-+ `mysql_db`
-+ `mysql_usr`
-+ `mysql_pwd`
-+ `mysql_port`
+5. install requirements (get all the tools for the project, luckily there is a list).
+   Pip is the store where you can get all the tools
+   update pip: ```python -m pip install --upgrade pip```
+   ```pip install -r requirements.txt```
 
-Here's a template to set them:
+6. create a '.env' file. This files contains all custom settings, which are
+   imported when the app is launched. A different version of this is used in
+   production (when the site is online), which then contains only absolutely
+   secret information. The info in he file used locally are not sensitive and
+   therefore can be used without problems. This is why an example file is already
+   included:
+   __rename the file '.env.example' to '.env'__ (this can be done normally in the
+   explorer or with the command line)
+   ```mv .env.example .env```
 
-```bash
-echo "export mysql_host=saxydivers.mysql.pythonanywhere-services.com" >> .env
-echo "export mysql_db=saxydivers\$default" >> .env
-echo "export mysql_usr=saxydivers" >> .env
-echo "export mysql_pwd=INSERT_REAL_PASSWORD_HERE" >> .env
-echo "export SECRET_KEY=INSERT_REAL_KEY_HERE" >> .env
-```
+7. The website is now set up. We need to apply some modifications and
+   provide fixed datasets to the database for the website to be up and running.
+   ````python manage.py migrate``` or ```python3 manage.py migrate```
+   Migrations are important for existing databases. The use of __'python3'__ or
+   __'python'__ depends on the OS you are using. Use the command that is working
+   for the following commands as well.
 
-using an other database than `saxydivers$default` results in an error during login when running the migrations.
+8. And install fixed data in the database, which the site requires to run:
+   ```python manage.py loaddata fixtures.json```
 
-#### apply migrations  
+9. That's it. We can test our server. Execute the following and then open your
+   browser and go to site: __127.0.0.1:8000__
+   ```python manage.py runserver```
 
-updating master branch to a new version most of the time also requires updating of database structure (i.e. python manage.py migrate). To do so, carry out the following steps
+10. Create an admin user:
+   ```python manage.py createsuperuser```
 
-1. open a bash console on your server (This should be available somewhere after login to the server via your browser)
-2. activate the virtual environment in the parent directory of .virtualenv directory
+11. For further infor refer to: https://docs.djangoproject.com/en/3.1/ and
+    https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website
 
-  ```bash
-  source .virtualenvs/diverssite-virtualenv/bin/activate
-  ```
-  
-3. change database to `saxydivers$default`
+## Hosting the website on a server  
 
-  ```bash
-  ~/diverssite (master)$ nano .env
-  ```
-
-change in there to saxydivers$default and exit and safe file (ctrl+x, then y for saving changes)
-
-4. manually loading environmental vairables is done like this
-
-```bash
-set -a; source ~/diverssite/.env; set +a
-```
-
-5. apply migrations
-
-```bash
-python3 manage.py migrate
-```
-
-6. change database in .env back to `saxydivers\$default`
-
-#### WSGI
-
-Our WSGI file in `/var/www/saxydivers_pythonanywhere_com_wsgi.py` looks like this:
-
-```python
-# +++++++++++ DJANGO +++++++++++
-# To use your own django app use code like this:
-import os
-import sys
-
-## assuming your django settings file is at '/home/saxydivers/mysite/mysite/settings.py'
-## and your manage.py is is at '/home/saxydivers/mysite/manage.py'
-path = '/home/saxydivers/diverssite'
-if path not in sys.path:
-    sys.path.append(path)
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'diverssite.settings'
-
-# load environmental variables
-from dotenv import load_dotenv
-project_folder = os.path.expanduser('/home/saxydivers/diverssite')
-load_dotenv(os.path.join(project_folder, '.env'))
-
-## then:
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
-```
-
-## Todos
-[ ] create superuser: `python manage.py createsuperuser`
-
-[ ] create categs, 'show on pages', and partchoices in admin menu. These are customizeable but some entries are mandatory
-because they are referenced in some apps
-
-  + categs (events) `training` `tournament` `social` `other`
-  + partchoices (choicetext - choice) `yes - y` `no - n` `maybe - m`
-  + show on pages `public` `member`
-  + category (wiki) e.g. `Verein`
-
-## Deployment instructions on remote webhosting service
-
-### WSGI webhosting
-
-Our WSGI file in `/var/www/saxydivers_pythonanywhere_com_wsgi.py` looks like this:
-
-```python
-# +++++++++++ DJANGO +++++++++++
-# To use your own django app use code like this:
-import os
-import sys
-
-## assuming your django settings file is at '/home/saxydivers/mysite/mysite/settings.py'
-## and your manage.py is is at '/home/saxydivers/mysite/manage.py'
-path = '/var/www/files/diverssite'
-if path not in sys.path:
-    sys.path.append(path)
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'diverssite.settings'
-
-# load environmental variables
-from dotenv import load_dotenv
-project_folder = os.path.expanduser(path)
-load_dotenv(os.path.join(project_folder, '.env'))
-
-## then:
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-```
-
-## Readme for hosting the website on a server  
+### installation of the basic website
 
 1. obtain a server and install OS
-ideally rent a server from an IaaS platform (e.g. https://www.strato.de/server/linux-vserver/)
-If necessary install a current OS on the server (instructions should be available on the hosting website)
+   ideally rent a server from an IaaS platform (e.g. https://www.strato.de/server/linux-vserver/)
+   If necessary install a current OS on the server (instructions should be available on the hosting website)
 
 2. set up server
-follow the instructions on https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
-If you are using a newer OS, there should be a more recent version, but most concepts should be the same
+   follow the instructions on https://www.digitalocean.com/community/tutorials/ initial-server-setup-with-ubuntu-18-04
+   If you are using a newer OS, there should be a more recent version, but most concepts should be the same
 
-there are possibly some other apps which should be installed.
+   there are possibly some other apps which should be installed.
 
-```bash
-sudo apt-get nano  # install text editor for terminal
-sudo apt-get install git  # install version control
-chsh -s /bin/bash  # to change from dash to bash, in case this is not enabled by default somehow
-```
-
-2.1 register a user on the server which is responsible for ONLY the project
-see: https://djangodeployment.readthedocs.io/en/latest/03-users-and-directories.html
+   ```bash
+   sudo apt-get nano  # install text editor for terminal
+   sudo apt-get install git  # install version control
+   chsh -s /bin/bash  # to change from dash to bash, in case this is not enabled by default somehow
+   ```
+  
+   register a user on the server which is responsible for ONLY the project
+   see: https://djangodeployment.readthedocs.io/en/latest/03-users-and-directories.html
 
 3. set up django app on server
-follow instructions on https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04 until activating the virtual environment
+   follow instructions on https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04 until activating the virtual environment
 
-if ```source myvenv/bin/activate``` command does not work use ```. myvenv/bin/activate```
+   if ```source myvenv/bin/activate``` command does not work use ```. myvenv/bin/activate```
 
-you should now have an activated environment shown by (myvenv) $ before the code prompt. Install some packages now
+   you should now have an activated environment shown by (myvenv) $ before the code prompt. Install some packages now
 
-```bash
-pip install gunicorn psycopg2-binary
-```
+   ```bash
+   pip install gunicorn psycopg2-binary
+   ```
 
 4. clone git repository
 
-```bash
-git clone https://github.com/flo-schu/diverssite.git
-pip install -r requirements.txt
-```
+   ```bash
+   git clone https://github.com/flo-schu/diverssite.git
+   pip install -r requirements.txt
+   ```
 
 5. set up environmental variables
 
-```bash
-touch .env
-nano .env
-```
+   ```bash
+   touch .env
+   nano .env
+   ```
 
-paste these variables:
+   paste these variables:
 
-```bash
-export server_ip=REAL_SERVER_IP
-export engine=django.db.backends.postgresql_psycopg  # this turns on postgresql engine
-export host=localhost
-export db=REAL_DATABASE
-export usr=REAL_DATABASE_USER
-export pwd=REAL_PASSWORD
-export SECRET_KEY=REAL_SECRET_KEY
-export DJANGO_DEBUG=False
-export SSL_REDIRECT=True
-```
-
-```bash
-echo 'set -a; source ~/sites/diverssite/.env; set +a' >> ~/sites/diverssite/divers_venv/bin/postactivate
-set -a; source ~/sites/diverssite/.env; set +a  # try out if .env works
-echo $SECRET_KEY
-```
+   ```bash
+   export server_ip=REAL_SERVER_IP
+   export engine=django.db.backends.postgresql_psycopg  # this turns on postgresql engine
+   export host=localhost
+   export db=REAL_DATABASE
+   export usr=REAL_DATABASE_USER
+   export pwd=REAL_PASSWORD
+   export SECRET_KEY=REAL_SECRET_KEY
+   export DJANGO_DEBUG=False
+   export SSL_REDIRECT=True
+   export CSRF_COOKIE_SECURE="False"
+   export SESSION_COOKIE_SECURE="False"
+   ```
 
 6. set up Django app on server
 
-test whether server is running and apply migrations, install fixtures
+   test whether server is running and apply migrations, install fixtures
 
-```bash
-python manage.py runserver  # only temporary to debug error messages, break afterwards
-python manage.py migrate
-python manage.py loaddata fixtures.json  # install fixtures of necessary hardcoded model objects
-python manage.py createsuperuser
-```
+   ```bash
+   python manage.py runserver  # only temporary to debug error messages, break afterwards
+   python manage.py migrate
+   python manage.py loaddata fixtures.json  # install fixtures of necessary hardcoded model objects
+   python manage.py createsuperuser
+   ```
 
-at this point the website should be running without obvious errors
+   at this point the website should be running without obvious errors
 
-```bash
-sudo ufw allow 8000  # adds port 8000 to firewall
-python manage.py runserver 0.0.0.0:8000  # test if server runs site
-```
+   ```bash
+   sudo ufw allow 8000  # adds port 8000 to firewall
+   python manage.py runserver 0.0.0.0:8000  # test if server runs site
+   ```
 
 7. follow instructions on how to set up gunicorn and nginx. 
-https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04
+   https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04
 
-to reset the server after changes:
+   to reset the server after changes:
 
-```bash
-sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemctl restart nginx
-```
+   ```bash
+   sudo systemctl daemon-reload && sudo systemctl restart gunicorn && sudo systemctl restart nginx
+   ```
 
-7. 2 when everythin has been installed, me move all installation files into 
-a system directory as root user and create a systemuser to execute the files:
+8. set up SSL certificate
 
-+ first log into root by typing :  ```su```
+   follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
+   (set up for Ubuntu 18.04 and Nginx)
 
-+ copy files ($USER) is the name of the user under which everything was done so far
+### Installation of the Mailserver
 
-```bash
-cp -r /home/$USER/sites/diverssite/ /opt/diverssite
-```
+1. Set up the SMTP Server with Postfix and Dovecot
+
+   What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
+   I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
+   https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
+   https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
+   - set hostname: This may actually be not required because later on we fix the hostname in postfix config
+     ```sudo hostnamectl set-hostname mail.saxy-divers.de```
+   - follow the rest of the tutorial
+   - open the aliases file
+     ```sudo nano /etc/aliases```
+   - add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
+      ```root:          your@mail.de```
+   - updating certificate to email instead of creating a new one:
+   ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+   - dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
+   - enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
+   - To check problems of postifx and dovecot inspect the log
+     - check mailbox:
+     ```nano /var/mail/florian```
+     - check log:
+     ```nano /var/log/mail.log```
+   - then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
+
+   ```bash
+   export email_tls=True
+   export email_default_from=ultimail@saxy-divers.de
+   export email_host=mail.saxy-divers.de
+   export email_usr=XXXXXX
+   export email_pw=XXXXXX
+   export email_port=587
+   ```
+
+### Maintenance
+
+after changes to the django app have been made:
+
+- NEVER push settings from the develop branch
+- push if needed changes from main branch
+- ssh onto server  ```ssh username@server```
+- navigate into repository  ```cd xyz```
+- activate virtual environment:   ```source divers_venv/bin/activate```
+- pull changes from git repository.
+- migrate changes if necessary:   ```python3 manage.py migrate```
+- restart gunicorn:  ```sudo systemctl restart gunicorn```
+- check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This can be directly tackled in the admin view --> https://mysite.de/admin
+- restart postfix:  ```sudo systemctl restart postfix```
+- restart dovecot:  ```sudo systemctl restart dovecot```
+- to monitor the status of gunicorn, nginx, dovecot, postfix replace ```restart``` with ```status```
+
+## Roadmap
+
+- [ ] enable email login --> https://django-allauth.readthedocs.io/en/latest/installation.html
+- [ ] import old email addresses with fixtures
+- [ ] password reset
+
+
+## Future: 
+
+Set up the server with proper access rights
+
+8. when everythin has been installed, me move all installation files into 
+   a system directory as root user and create a systemuser to execute the files:
+   - first log into root by typing :  ```su```
+   - copy files ($USER) is the name of the user under which everything was done so far
+
+   ```bash
+   cp -r /home/$USER/sites/diverssite/ /opt/diverssite
+   ```
 
 + reinstall virtualenv
 
@@ -290,76 +285,3 @@ python /opt/diverssite/manage.py runserver 0.0.0.0:8000
 ```
 
 development server can now be accessed via http://saxy-divers.de:8000
-
-+ todo: 
-++ give florian permission on opt/diverssite and var/opt/diverssite
-
-8. set up SSL certificate
-
-follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
-(set up for Ubuntu 18.04 and Nginx)
-
-9. Set up the SMTP Server with Postfix and Dovecot
-
-What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
-I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
-https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
-https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
-
-+ set hostname: This may actually be not required because later on we fix the hostname in postfix config
-```sudo hostnamectl set-hostname mail.saxy-divers.de```
-+ follow the rest of the tutorial
-
-+ open the aliases file
-```sudo nano /etc/aliases```
-
-+ add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
-```root:          your@mail.de```
-
-+ updating certificate to email instead of creating a new one:
-```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
-
-+ dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
-+ enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
-
-To check problems of postifx and dovecot inspect the log
-
-+ check mailbox:
-```nano /var/mail/florian```
-+ check log:
-```nano /var/log/mail.log```
-
-+ then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
-
-```bash
-export email_tls=True
-export email_default_from=ultimail@saxy-divers.de
-export email_host=mail.saxy-divers.de
-export email_usr=XXXXXX
-export email_pw=XXXXXX
-export email_port=587
-```
-
-## Maintenance
-
-after changes to the django app have been made:
-
-+ NEVER push settings from the develop branch
-+ push if needed changes from main branch
-+ ssh onto server  ```ssh username@server```
-+ navigate into repository  ```cd xyz```
-+ activate virtual environment:   ```source divers_venv/bin/activate```
-+ pull changes from git repository.
-+ activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  
-+ migrate changes if necessary:   ```python3 manage.py migrate```
-+ restart gunicorn:  ```sudo systemctl restart gunicorn```
-+ check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This can be directly tackled in the admin view --> https://mysite.de/admin
-+ restart postfix:  ```sudo systemctl restart postfix```
-+ restart dovecot:  ```sudo systemctl restart dovecot```
-+ to monitor the status of gunicorn, nginx, dovecot, postfix replace ```restart``` with ```status```
-
-## Roadmap
-
-+ [ ] enable email login --> https://django-allauth.readthedocs.io/en/latest/installation.html
-+ [ ] import old email addresses with fixtures
-+ [ ] password reset
