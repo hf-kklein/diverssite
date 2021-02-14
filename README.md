@@ -357,3 +357,9 @@ after changes to the django app have been made:
 + restart postfix:  ```sudo systemctl restart postfix```
 + restart dovecot:  ```sudo systemctl restart dovecot```
 + to monitor the status of gunicorn, nginx, dovecot, postfix replace ```restart``` with ```status```
+
+## Roadmap
+
++ [ ] enable email login --> https://django-allauth.readthedocs.io/en/latest/installation.html
++ [ ] import old email addresses with fixtures
++ [ ] password reset
