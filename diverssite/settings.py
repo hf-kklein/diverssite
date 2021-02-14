@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from pprint import pprint
+from dotenv import load_dotenv
+
+load_dotenv()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,13 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ['saxy-divers.de', '127.0.0.1', os.environ.get('server_ip')]
+ALLOWED_HOSTS = ['saxy-divers.de', os.environ.get('server_ip')]
 # Application definition
 
 INSTALLED_APPS = [
@@ -89,11 +92,11 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # },
     'default': {
-        'ENGINE': os.environ.get('engine','django.db.backends.mysql'),
-        'NAME': os.environ.get('db','fschunck_tplb_db'),
-        'USER': os.environ.get('usr','fschunck_tplb_u'),
-        'PASSWORD': os.environ.get('pwd', 'tr@ining20!'),
-        'HOST':     os.environ.get('host','127.0.0.1'),
+        'ENGINE': os.environ.get('engine'),
+        'NAME': os.environ.get('db'),
+        'USER': os.environ.get('usr'),
+        'PASSWORD': os.environ.get('pwd'),
+        'HOST':     os.environ.get('host'),
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
@@ -148,7 +151,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = os.environ.get('email_backend', 'django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = os.environ.get('email_host','localhost')
 EMAIL_PORT = os.environ.get('email_port',25)
 EMAIL_HOST_USER = os.environ.get('email_usr','')
@@ -157,6 +160,6 @@ EMAIL_USE_TLS = os.environ.get('email_tls', '') != 'False'
 DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)
 
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '') != 'False'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '') != 'False'
 SECURE_SSL_REDIRECT = os.environ.get('SSL_REDIRECT', '') != 'False'
