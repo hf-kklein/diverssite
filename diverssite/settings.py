@@ -102,6 +102,13 @@ DATABASES = {
     }
 }
 
+DBBACKUP_CONNECTORS = {
+    'default': {
+        'USER': os.environ.get('usr'),
+        'PASSWORD': os.environ.get('pwd'),
+        'HOST':     os.environ.get('host'),
+    }
+}
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.environ.get('BACKUP_LOCATION', '.')}
