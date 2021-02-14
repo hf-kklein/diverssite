@@ -6,3 +6,4 @@ media
 /.vscode/
 env.ps1
 db.sqlite3
+env.*

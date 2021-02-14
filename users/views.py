@@ -14,6 +14,9 @@ class Login(LoginView):
     template_name = "users/login.html"
 
 
+class PasswordReset(PasswordResetView):
+    pass
+
 class SignUpView(generic.View):
     template_name = "users/signup.html"
 
@@ -113,3 +116,4 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
                 'profile': self.profile,
             }
             return render(request, self.template_name, context)
+
