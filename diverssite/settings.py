@@ -47,8 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdownx',
     'crispy_forms',
-    'dbbackup',
+    # 'dbbackup',
 ]
+
+AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
