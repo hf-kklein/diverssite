@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdownx',
     'crispy_forms',
+    'csvimport.app.CSVImportConf',
     # 'dbbackup',
 ]
 
