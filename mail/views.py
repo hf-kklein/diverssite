@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views import View, generic
 from .models import Message
 from .forms import ComposeForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import user_passes_test
 # Create your views here.
 
 
@@ -32,8 +32,11 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         return Message.objects.all()
 
 
+class GroupMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.groups.filter(name='divers').exists()
 
-class ComposeView(LoginRequiredMixin, generic.FormView):
+class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
     template_name = 'mail/compose.html'
     login_url = '/users/login/'
     form_class = ComposeForm

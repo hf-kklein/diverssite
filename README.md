@@ -3,6 +3,15 @@
 Website of Saxy Divers Ultimate Leipzig. Created with Django Web Development
 Framework.
 
+## Features
+
++ add database entries with CSV Files (Events like recurrent trainings, birthdays,
+  whatever, user lists, articles, ...), very easy.
++ history of articles and public infos are automatically created and can be
+  reverted if mistakes happen. Also abuse can thus be tracked
++ send emails
++ event manager
+
 ## install locally for development
 
 0. Prerequisites:
@@ -223,9 +232,9 @@ after changes to the django app have been made:
 ## Roadmap
 
 - [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
-- [ ] import old email addresses with fixtures
+- [X] add history and revert possibilities
+- [X] import old email addresses with django-csvimport
 - [ ] password reset
 - [ ] update certifcates. Works for mail as well as site, but servers must be restarted 
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics https://certbot.eff.org/docs/using.html
-- [ ] add history and revert possibilities
