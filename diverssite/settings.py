@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'csvimport.app.CSVImportConf',
     'simple_history',
-    # 'dbbackup',
 ]
 
 AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
@@ -106,19 +105,6 @@ DATABASES = {
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
-
-DBBACKUP_CONNECTORS = {
-    'default': {
-        'USER': os.environ.get('usr'),
-        'PASSWORD': os.environ.get('pwd'),
-        'HOST':     os.environ.get('host'),
-    }
-}
-
-PASSWORD = os.environ.get('pwd')
-
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.environ.get('BACKUP_LOCATION', '.')}
 
 # print(DATABASES["tplb"])
 # Password validation

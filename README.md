@@ -127,7 +127,8 @@ Framework.
    nano .env
    ```
 
-   paste these variables:
+   paste these variables and replace the values with real stuff. Make sure
+   PGPASSWORD and PGUSER contain the same values as 'usr' and 'pwd'
 
    ```bash
    export server_ip=REAL_SERVER_IP
@@ -141,7 +142,11 @@ Framework.
    export SSL_REDIRECT=True
    export CSRF_COOKIE_SECURE="False"
    export SESSION_COOKIE_SECURE="False"
+   export PGPASSWORD=SAME_PASSWORD_AS_pwd
+   export PGUSER=SAME_USER_AS_usr
    ```
+
+   ```set -a; source ~/sites/diverssite/.env; set +a```  # try out if .env works
 
 6. set up Django app on server
 
@@ -177,6 +182,13 @@ Framework.
    You can ignore mails sent to you that say certificates will expire. They
    are automatically extended, if certbot was installed correctly
 
+9. Backup
+
+   it is recommended to backup the database in regular intervals
+   create a backup dir in sites:
+   ```mkdir ~/sites/backup```
+   ```pg_dump -h localhost diverssite > ~/sites/backup/backupfile.dump```
+
 ### Installation of the Mailserver
 
 1. Set up the SMTP Server with Postfix and Dovecot
@@ -211,6 +223,8 @@ Framework.
    export email_pw=XXXXXX
    export email_port=587
    ```
+
+
 
 ### Maintenance
 
