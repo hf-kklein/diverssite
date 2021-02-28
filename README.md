@@ -214,27 +214,41 @@ Framework.
 
 ### Maintenance
 
+## user Management
+
++ Users who are not logged in, can only see public content of the site
++ Logged in users can see more content but can only make limited changes to the site
++ Logged in Users who belong to the group divers can write mail
++ Logged in Users who have Staff status can log into the admin view but cannot make changes
++ Logged in users who have staff status and belong to divers can create content
++ Further restrictions or rights can be extended with more groups easily
+
+## Server Management
+
 after changes to the django app have been made:
 
-- NEVER push settings from the develop branch
-- push if needed changes from main branch
-- ssh onto server  ```ssh username@server```
-- navigate into repository  ```cd xyz```
-- activate virtual environment:   ```source divers_venv/bin/activate```
-- pull changes from git repository.
-- migrate changes if necessary:   ```python3 manage.py migrate```
-- restart gunicorn:  ```sudo systemctl restart gunicorn```
-- check if site works. If server error occurs, it could be because changes rely on model values which have not been set. This can be directly tackled in the admin view --> <https://mysite.de/admin>
-- restart postfix:  ```sudo systemctl restart postfix```
-- restart dovecot:  ```sudo systemctl restart dovecot```
-- to monitor the status of gunicorn, nginx, dovecot, postfix replace ```restart``` with ```status```
++ NEVER push settings from the develop branch
++ push if needed changes from main branch
++ ssh onto server  ```ssh username@server```
++ navigate into repository  ```cd xyz```
++ activate virtual environment:   ```source divers_venv/bin/activate```
++ pull changes from git repository.
++ migrate changes if necessary:   ```python3 manage.py migrate```
++ restart gunicorn:  ```sudo systemctl restart gunicorn```
++ check if site works. If server error occurs, it could be because changes rely
+  on model values which have not been +et. This can be directly tackled in the
+  admin view --> <https://mysite.de/admin>
++ restart postfix:  ```sudo systemctl restart postfix```
++ restart dovecot:  ```sudo systemctl restart dovecot```
++ to monitor the status of gunicorn, nginx, dovecot, postfix replace
+  ```restart``` with ```status```
 
 ## Roadmap
 
-- [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
-- [X] add history and revert possibilities
-- [X] import old email addresses with django-csvimport
-- [ ] password reset
-- [ ] update certifcates. Works for mail as well as site, but servers must be restarted 
++ [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
++ [X] add history and revert possibilities
++ [X] import old email addresses with django-csvimport
++ [ ] password reset
++ [ ] update certifcates. Works for mail as well as site, but servers must be restarted 
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics https://certbot.eff.org/docs/using.html
