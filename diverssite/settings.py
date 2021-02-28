@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'markdownx',
     'crispy_forms',
     'csvimport.app.CSVImportConf',
+    'simple_history',
     # 'dbbackup',
 ]
 
@@ -64,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'diverssite.urls'

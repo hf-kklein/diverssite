@@ -2,6 +2,8 @@ from django.db import models
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 from django.utils.text import slugify
+from django.conf import settings
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 
@@ -40,6 +42,9 @@ class Article(models.Model):
     visibility = models.CharField(max_length=20, default="public",
                                   choices=vis_choice)
     show_on_pages = models.ManyToManyField(Display)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
+    history = HistoricalRecords()
+
 
     # Create your models here.
 
@@ -58,9 +63,11 @@ class Images(models.Model):
     article = models.ManyToManyField(Article, default=None)
     image = models.ImageField(upload_to=file_directory_path,
                               verbose_name='Image')
+    # history = HistoricalRecords()
 
 
 class Files(models.Model):
     article = models.ManyToManyField(Article, default=None)
     file = models.FileField(upload_to=file_directory_path,
                             verbose_name='File')
+    # history = HistoricalRecords()

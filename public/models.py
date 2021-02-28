@@ -1,9 +1,14 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from simple_history.models import HistoricalRecords
+from django.conf import settings
 
 class Info(models.Model):
     welcome_title = models.TextField(blank=True, null=True)
     welcome_text = models.TextField(blank=True, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
+    time = models.DateTimeField(auto_now_add=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.welcome_title

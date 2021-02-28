@@ -222,6 +222,10 @@ after changes to the django app have been made:
 
 ## Roadmap
 
-- [ ] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
+- [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 - [ ] import old email addresses with fixtures
 - [ ] password reset
+- [ ] update certifcates. Works for mail as well as site, but servers must be restarted 
+      after the renewal process. This can be automated with certbot.
+      Check --deploy-hook for specifics https://certbot.eff.org/docs/using.html
+- [ ] add history and revert possibilities
