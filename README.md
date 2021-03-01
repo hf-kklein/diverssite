@@ -276,3 +276,5 @@ after changes to the django app have been made:
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics <https://certbot.eff.org/docs/using.html>
 + [X] receive and forward mails (for contact etc.)
++ [ ] Make Email Recipients searchable with fuzzy search from 
+      Lists user firstname, lastname, emailadress
