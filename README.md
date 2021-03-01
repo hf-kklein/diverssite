@@ -275,4 +275,4 @@ after changes to the django app have been made:
 + [ ] update certifcates. Works for mail as well as site, but servers must be restarted
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics <https://certbot.eff.org/docs/using.html>
-+ [ ] receive and forward mails (for contact etc.)
++ [X] receive and forward mails (for contact etc.)
