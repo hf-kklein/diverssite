@@ -1,11 +1,16 @@
 {% extends "page/base_generic.html" %}
+{% load static %}
 
 {% block content %}
 
-<h2>Sorry, no permission :( </h2>
-<p>
+<div class="d-flex align-items-start flex-column" style="height: 250px;">
+    <h2 class="mb-3">Sorry, no permission </h2>
     It seems that you have no permission to view this site. This is possible, 
-    if you have just registered. 
-</p>
-<!-- <a href = "mailto: contact@saxy-divers.de">contact@saxy-divers.de</a> -->
+    if you have just registered. If the problem persists, write a message to:
+    <a href = "mailto: contact@saxy-divers.de">contact@saxy-divers.de</a>
+</div>
+<div class="d-flex align-items-end flex-column" style="height: 250px;">
+    <img class="d-block w-100" src="{% static '/images/background.png' %}">
+</div>
+
 {% endblock %}

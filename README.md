@@ -15,13 +15,13 @@ Framework.
 ## install locally for development
 
 0. Prerequisites:
-   - install Python
+   + install Python
      use python 3.6.9 (this is works for sure) <https://www.python.org/downloads/release/python-369/>
      Make sure to __tick the box "Add to Path"__ or similar. This is important for
      your OS to find the python executable!!!
-   - On linux you may need to install pip ```sudo apt install python3-pip```
-   - [install git if necessary](https://git-scm.com/downloads))
-   - Text editor of your choice (Visual Studio Code, Pycharm, Notepad, Vim, ...) (<https://code.visualstudio.com/>).
+   + On linux you may need to install pip ```sudo apt install python3-pip```
+   + [install git if necessary](https://git-scm.com/downloads))
+   + Text editor of your choice (Visual Studio Code, Pycharm, Notepad, Vim, ...) (<https://code.visualstudio.com/>).
 
 1. clone repository into new directory
    ```git clone git@github.com:flo-schu/diverssite.git```
@@ -197,23 +197,31 @@ Framework.
    I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
    <https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu>
    <https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot>
-   - set hostname: This may actually be not required because later on we fix the hostname in postfix config
+   + set hostname: This may actually be not required because later on we fix the hostname in postfix config
      ```sudo hostnamectl set-hostname mail.saxy-divers.de```
-   - follow the rest of the tutorial
-   - open the aliases file
+   + follow the rest of the tutorial
+   + open the aliases file
      ```sudo nano /etc/aliases```
-   - add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
+   + add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
       ```root:          your@mail.de```
-   - updating certificate to email instead of creating a new one:
+   + if you have updated the aliases file ```sudo newaliases```
+   + updating certificate to email instead of creating a new one:
    ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
-   - dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
-   - enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
-   - To check problems of postifx and dovecot inspect the log
-     - check mailbox:
+   + dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
+   + enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
+   + To check problems of postifx and dovecot inspect the log
+     + check mailbox:
      ```nano /var/mail/florian```
-     - check log:
+     + check log:
      ```nano /var/log/mail.log```
-   - then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
+   + then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
+   + skip the last part of Tutorial Part II (Using Dovecot to Deliver Email to Message Store)
+     The problem was that mails were delivered to /var/mail instead of ~/Maildir
+     It was fixed by adding the following lines to ```/etc/postfix/main.cf```
+     ```home_mailbox = Maildir/```
+     ```mailbox_command =``` mailbox command may have been falsely set before when
+     reconfiguring postfix
+
 
    ```bash
    export email_tls=True
@@ -223,8 +231,6 @@ Framework.
    export email_pw=XXXXXX
    export email_port=587
    ```
-
-
 
 ### Maintenance
 
@@ -256,6 +262,9 @@ after changes to the django app have been made:
 + restart dovecot:  ```sudo systemctl restart dovecot```
 + to monitor the status of gunicorn, nginx, dovecot, postfix replace
   ```restart``` with ```status```
++ to create a new mailaccount:
+  ```sudo useradd -m username```
+  ```sudo passwd username```
 
 ## Roadmap
 
@@ -263,7 +272,7 @@ after changes to the django app have been made:
 + [X] add history and revert possibilities
 + [X] import old email addresses with django-csvimport
 + [ ] password reset
-+ [ ] update certifcates. Works for mail as well as site, but servers must be restarted 
++ [ ] update certifcates. Works for mail as well as site, but servers must be restarted
       after the renewal process. This can be automated with certbot.
-      Check --deploy-hook for specifics https://certbot.eff.org/docs/using.html
+      Check --deploy-hook for specifics <https://certbot.eff.org/docs/using.html>
 + [ ] receive and forward mails (for contact etc.)
