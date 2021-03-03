@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 
 # Create your models here.
@@ -36,6 +38,8 @@ class Profile(models.Model):
     place = models.CharField(max_length=50, null=True, blank=True)
     zip = models.CharField(max_length=50, null=True, blank=True)
     picture = models.ImageField(upload_to=user_profile_directory_path, null=True, blank=True)
+    email_confirmed = models.BooleanField(default=False)
+    reset_password = models.BooleanField(default=False)
 
     def image_url(self):
         """
@@ -53,3 +57,10 @@ class Profile(models.Model):
     #
     # def __str__(self):
     #     return self.user.name
+
+
+@receiver(post_save, sender=User)
+def update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+    instance.profile.save()

@@ -222,7 +222,6 @@ Framework.
      ```mailbox_command =``` mailbox command may have been falsely set before when
      reconfiguring postfix
 
-
    ```bash
    export email_tls=True
    export email_default_from=ultimail@saxy-divers.de
@@ -271,10 +270,14 @@ after changes to the django app have been made:
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 + [X] add history and revert possibilities
 + [X] import old email addresses with django-csvimport
-+ [ ] password reset
++ [ ] password reset, Email activation
 + [ ] update certifcates. Works for mail as well as site, but servers must be restarted
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics <https://certbot.eff.org/docs/using.html>
 + [X] receive and forward mails (for contact etc.)
-+ [ ] Make Email Recipients searchable with fuzzy search from 
++ [ ] Make Email Recipients searchable with fuzzy search from
       Lists user firstname, lastname, emailadress
+      Groups would be nice (M, F, People registered for event XYZ)
++ [ ] Events aufhübschen
++ [ ] Feature, mit Email Zustimmung zu xyz abfragen und das zu dokumentieren
++ [ ] Zugang zu contact@saxy-divers.de und ultimail@saxy-divers.de auf webseite

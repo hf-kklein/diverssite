@@ -17,6 +17,9 @@ class Login(LoginView):
 class PasswordReset(PasswordResetView):
     pass
 
+class AccountActivateView():
+    pass
+
 class SignUpView(generic.View):
     template_name = "users/signup.html"
 
