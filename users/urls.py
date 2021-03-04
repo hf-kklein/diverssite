@@ -2,7 +2,7 @@ from django.urls import path
 from django.urls import reverse_lazy
 from django.contrib.auth import views
 
-from users.views import Login, SignUpView, RegComplete, ProfileView, AccountActivateView, PasswordResetView
+from users.views import Login, SignUpView, RegComplete, ProfileView, AccountActivateView
 
 app_name = 'users'
 

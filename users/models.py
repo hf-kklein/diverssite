@@ -38,8 +38,6 @@ class Profile(models.Model):
     place = models.CharField(max_length=50, null=True, blank=True)
     zip = models.CharField(max_length=50, null=True, blank=True)
     picture = models.ImageField(upload_to=user_profile_directory_path, null=True, blank=True)
-    email_confirmed = models.BooleanField(default=False)
-    reset_password = models.BooleanField(default=False)
 
     def image_url(self):
         """
@@ -58,9 +56,3 @@ class Profile(models.Model):
     # def __str__(self):
     #     return self.user.name
 
-
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-    instance.profile.save()
