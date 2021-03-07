@@ -20,7 +20,9 @@
 
         $("#tag_keys").tagit({
             availableTags: search_data,
-            removeConfirmation: true
+            removeConfirmation: true,
+            allowSpaces: true,
+            fieldName: 'recipients'
         });
     });
 </script>
