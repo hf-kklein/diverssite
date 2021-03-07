@@ -11,12 +11,13 @@
     <div class="col-md-9">
         <form method="post">{% csrf_token %}
             <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/>
-            {% for r in form.recipients %}
+            {% comment %} {% for r in form.recipients %}
             <div>{{r}}</div>
-            {%endfor%}
-            <label for="recipient">To:</label>
-            <input type="text" name="recipient" id="search_keys_multiple">
-            <p>{{ form.subject }}</p>
+            {%endfor%} {% endcomment %}
+            
+            To: <ul id="tag_keys"></ul>
+
+            Subject: <p>{{ form.subject }}</p>
             <p>{{ form.body }}</p>
             <input class="btn" type="submit" value="Send message">
         </form>
