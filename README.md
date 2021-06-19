@@ -281,3 +281,9 @@ after changes to the django app have been made:
 + [ ] Events aufhübschen
 + [ ] Feature, mit Email Zustimmung zu xyz abfragen und das zu dokumentieren
 + [ ] Zugang zu contact@saxy-divers.de und ultimail@saxy-divers.de auf webseite
++ [x] fix emails
+
+Wünsche
+
++ Mailbenachrichtigung bei neuem turnier
++ kategorien anlegen
