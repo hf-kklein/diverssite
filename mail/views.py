@@ -4,8 +4,8 @@ from .models import Message
 from .forms import ComposeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
-# Create your views here.
-
+from django.contrib.auth.models import User
+from json import dumps
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -39,7 +39,7 @@ class GroupMixin(UserPassesTestMixin):
 class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
     template_name = 'mail/compose.html'
     login_url = '/users/login/'
-    form_class = ComposeForm
+    # form_class = ComposeForm
     success_url = '/mail'
 
     def form_valid(self, form):
@@ -49,3 +49,13 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
         model_instance = form.save(commit=True)
         model_instance.send()
         return super().form_valid(form)
+
+    def get(self, request):
+        form = ComposeForm()
+        recipients = User.objects.exclude(username='admin').values_list('first_name', flat=True)
+        print(recipients)
+        context = {
+            'form': form,
+            'search_data': dumps(list(recipients))
+        }
+        return render(request, self.template_name, context)
