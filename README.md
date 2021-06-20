@@ -270,14 +270,16 @@ after changes to the django app have been made:
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 + [X] add history and revert possibilities
 + [X] import old email addresses with django-csvimport
-+ [ ] password reset, Email activation
++ [X] password reset,
++ [ ] Email activation
 + [ ] update certifcates. Works for mail as well as site, but servers must be restarted
       after the renewal process. This can be automated with certbot.
       Check --deploy-hook for specifics <https://certbot.eff.org/docs/using.html>
 + [X] receive and forward mails (for contact etc.)
-+ [ ] Make Email Recipients searchable with fuzzy search from
++ [X] Make Email Recipients searchable with from
       Lists user firstname, lastname, emailadress
       Groups would be nice (M, F, People registered for event XYZ)
++ [ ] fuzzy search in email search bar (nicht so wichtig)
 + [ ] Events aufhübschen
 + [ ] Feature, mit Email Zustimmung zu xyz abfragen und das zu dokumentieren
 + [ ] Zugang zu contact@saxy-divers.de und ultimail@saxy-divers.de auf webseite

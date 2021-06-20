@@ -72,8 +72,9 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
 
     def get(self, request):
         form = ComposeForm()
-        recipients = User.objects.exclude(username='admin').values_list('first_name', flat=True)
-        # print(recipients)
+        recipients = User.objects.exclude(username='admin').values_list('first_name', 'last_name')
+        recipients = [" ".join(r) for r in recipients]
+        print(recipients)
         context = {
             'form': form,
             'search_data': dumps(list(recipients))
