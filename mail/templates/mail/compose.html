@@ -10,12 +10,13 @@
 
     <div class="col-md-9">
         <form method="post">{% csrf_token %}
-            <input type="checkbox" onClick="toggle(this)" /> Toggle All<br/>
+            <input type="checkbox"  name="send_to_active" /> an alle Aktiven<br/>
+            <input type="checkbox" name="send_to_all" /> auch an Ehemalige<br/>
             {% comment %} {% for r in form.recipients %}
             <div>{{r}}</div>
             {%endfor%} {% endcomment %}
             
-            To: <ul id="tag_keys"></ul>
+            To: <ul name="recipients" id="tag_keys"></ul>
 
             Subject: <p>{{ form.subject }}</p>
             <p>{{ form.body }}</p>

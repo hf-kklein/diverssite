@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from django.views import View, generic
 from .models import Message
@@ -39,21 +40,40 @@ class GroupMixin(UserPassesTestMixin):
 class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
     template_name = 'mail/compose.html'
     login_url = '/users/login/'
-    # form_class = ComposeForm
+    form_class = ComposeForm
     success_url = '/mail'
 
     def form_valid(self, form):
         # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
+        qd = self.request.POST  # obtain the querydict of the POST request
         form.instance.sender = self.request.user
+
+        model_instance = form.save(commit=True)
+
+        recipients = User.objects.filter(username__in=qd.getlist("recipients"))
+        
+        if qd.get("send_to_active", default="off") == "on":
+            newrecip = User.objects.filter(is_active=True)
+            recipients = recipients.union(newrecip)
+
+        if qd.get("send_to_all", default="off") == "on":
+            newrecip = User.objects.all()
+            recipients = recipients.union(newrecip)
+
+        form.instance.recipients.set(recipients)
         model_instance = form.save(commit=True)
         model_instance.send()
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        # print(form)
+        return response
+
     def get(self, request):
         form = ComposeForm()
         recipients = User.objects.exclude(username='admin').values_list('first_name', flat=True)
-        print(recipients)
+        # print(recipients)
         context = {
             'form': form,
             'search_data': dumps(list(recipients))
