@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import User
 from json import dumps
+from email.utils import parseaddr
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -50,7 +51,7 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
 
         model_instance = form.save(commit=True)
         recip_input = qd.getlist("recipients")
-        recip_email = [r.split("<")[1].replace(">","") for r in recip_input]
+        recip_email = [parseaddr(r)[1] for r in recip_input]
         recipients = User.objects.filter(email__in=recip_email)
         
         if qd.get("send_to_active", default="off") == "on":
