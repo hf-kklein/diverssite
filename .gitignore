@@ -1,6 +1,7 @@
 __pycache__
 .env
 venv
+testvenv
 .idea
 media
 /.vscode/
@@ -11,3 +12,4 @@ testdb
 *.dump
 data
 stats
+*.code-workspace
