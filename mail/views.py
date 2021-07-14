@@ -50,7 +50,7 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
 
         model_instance = form.save(commit=True)
         recip_input = qd.getlist("recipients")
-        recip_email = [recip_input[0].split("<")[1].replace(">","") for r in recip_input]
+        recip_email = [r.split("<")[1].replace(">","") for r in recip_input]
         recipients = User.objects.filter(email__in=recip_email)
         
         if qd.get("send_to_active", default="off") == "on":
