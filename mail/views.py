@@ -49,8 +49,9 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
         form.instance.sender = self.request.user
 
         model_instance = form.save(commit=True)
-
-        recipients = User.objects.filter(username__in=qd.getlist("recipients"))
+        recip_input = qd.getlist("recipients")
+        recip_email = [recip_input[0].split("<")[1].replace(">","") for r in recip_input]
+        recipients = User.objects.filter(email__in=recip_email)
         
         if qd.get("send_to_active", default="off") == "on":
             newrecip = User.objects.filter(is_active=True)
@@ -62,6 +63,7 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
 
         form.instance.recipients.set(recipients)
         model_instance = form.save(commit=True)
+        print("so far all went well")
         model_instance.send()
         return super().form_valid(form)
 
@@ -72,8 +74,8 @@ class ComposeView(LoginRequiredMixin, GroupMixin, generic.FormView):
 
     def get(self, request):
         form = ComposeForm()
-        recipients = User.objects.exclude(username='admin').values_list('first_name', 'last_name')
-        recipients = [" ".join(r) for r in recipients]
+        recipients = User.objects.exclude(username='admin').values_list('first_name', 'last_name', 'email')
+        recipients = ["{} {} <{}>".format(r[0], r[1], r[2]) for r in recipients]
         print(recipients)
         context = {
             'form': form,
