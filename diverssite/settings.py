@@ -47,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdownx',
     'crispy_forms',
+    'csvimport.app.CSVImportConf',
+    'simple_history',
 ]
+
+AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -60,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'diverssite.urls'
@@ -100,6 +105,7 @@ DATABASES = {
         'sql_mode': 'STRICT_ALL_TABLES'
     }
 }
+
 # print(DATABASES["tplb"])
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

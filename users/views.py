@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView, PasswordResetView
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -14,7 +14,7 @@ class Login(LoginView):
     template_name = "users/login.html"
 
 
-class PasswordReset(PasswordResetView):
+class AccountActivateView():
     pass
 
 class SignUpView(generic.View):

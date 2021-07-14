@@ -1,6 +1,6 @@
 from django.views import generic
 from django.utils import timezone
-from datetime import date
+import datetime
 
 from wiki.models import Article, Display
 from events.models import Event, Categ, Participation, PartChoice
@@ -18,10 +18,14 @@ class IndexView(generic.ListView):
         posts = Article.objects.filter(show_on_pages = home)
         public_posts = posts.filter(visibility = 'public')
         published_posts = public_posts.filter(pub_date__lte=timezone.now())
-        today = date.today()
+        start_today = datetime.datetime.combine(datetime.datetime.today(), datetime.time(0, 0, 0))
         training = Categ.objects.get(name='training')
         yes = PartChoice.objects.filter(choicetext='yes')[0]
-        next_trainings = Event.objects.filter(categ=training).order_by('-date').filter(date__gte=today)
+        next_trainings = (
+            Event.objects.filter(categ=training)
+                         .order_by('-date')
+                         .filter(date__gte=timezone.make_aware(start_today))
+        )
         if len(next_trainings) > 0:
             next_training = next_trainings[0]
             participants = next_training.participation_set.all()

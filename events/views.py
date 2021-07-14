@@ -10,7 +10,6 @@ import datetime
 from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Article, Display
 
-
 class EventsView(View):
     """
     add some standard methods to all views related to events.
@@ -30,8 +29,9 @@ class EventsView(View):
 
     def create_events_dict(self):
         # print(self.cats)
+        start_today = datetime.datetime.combine(datetime.datetime.today(), datetime.time(0, 0, 0))
         subset_events = Event.objects.filter(categ__in=self.cats)
-        event_query = subset_events.filter(date__gte=datetime.date.today()).order_by('date')
+        event_query = subset_events.filter(date__gte=timezone.make_aware(start_today)).order_by('date')
         choice_query = PartChoice.objects.all()
         choice_yes = PartChoice.objects.get(choice = 'y')
         choice_no = PartChoice.objects.get(choice = 'n')

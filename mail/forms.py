@@ -26,12 +26,12 @@ class ComposeForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = ['recipients', 'subject', 'body']
+        fields = ['subject', 'body']
         # widgets = {
         #     'recipients': forms.CheckboxSelectMultiple()
         # }
 
-    recipients = CustomMMCF(
-        queryset=User.objects.exclude(username='admin'),
-        widget=forms.CheckboxSelectMultiple
-    )
+    # recipients = CustomMMCF(
+    #     queryset=User.objects.exclude(username='admin'),
+    #     widget=forms.CheckboxSelectMultiple
+    # )
