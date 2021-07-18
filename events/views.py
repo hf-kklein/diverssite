@@ -3,14 +3,16 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic, View
 from django.utils import timezone
+from django.forms import formset_factory
 from django.contrib.auth.models import User
 import json
-import datetime
+import datetime as dt
 
+from .forms import EventForm
 from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Article, Display
 
-class EventsView(View):
+class EventsViewOld(View):
     """
     add some standard methods to all views related to events.
     """
@@ -90,45 +92,56 @@ class EventsView(View):
                     print("error. Too many events selected.")
                     break
 
+def get_categ(slug):
+    if slug != None:
+        return Categ.objects.get(slug=slug)
+        # print(cat)
+        # self.cats = self.allcats.filter(categ=sel_cat)
+    else:
+        return Categ.objects.all()
 
-class IndexView(EventsView):
+def query_events(slug):
+    t0 = dt.datetime.combine(dt.datetime.today(), dt.time(0, 0, 0))
+    return Event.objects.filter(categ__in=get_categ(slug)) \
+        .filter(date__gte=timezone.make_aware(t0)) \
+        .order_by('date')
+
+def query_participation(user, events):
+    # create participation objects if they do not exist for user-event combis
+    for e in events:
+        try:
+            part = Participation.objects.get(event=e, person=user)
+        except Participation.DoesNotExist:
+            Participation(event=e, person=user).save()
+
+    return Participation.objects.filter(event__in=events) \
+        .filter(person=user)
+    
+
+class IndexView(View):
     template_name = 'events/eventslist.html'
 
 
+    def get(self, request, slug=None):
+        events = query_events(slug)
+        participation = query_participation(request.user, events)
+        
+        # create form instances
+        EventFormSet = formset_factory(EventForm, extra=0)
+        forms = EventFormSet(initial=participation.values())
+    
+        # get posts (filtered on site)
+        posts = Article.objects\
+            .filter(show_on_pages=Display.objects.get(name='events'))
 
-    def get(self, request, slug = None):
-        self.allcats = Event.objects.values('categ')
-        # print(self.cats)
-        if slug != None:
-            sel_cat = Categ.objects.get(slug=slug)
-            print(sel_cat)
-            self.cats = self.allcats.filter(categ=sel_cat)
-        else:
-            self.cats = self.allcats
-        # with self make variable to class attribute, accessible to all methods
-        # print(self.cats)
-        self.user_query = request.user
-        posts = Article.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
-        public_posts = posts.filter(visibility = 'public')
-        member_posts = posts.filter(visibility = 'members')
-        post_query = public_posts
-        events = self.create_events_dict()
+        context = { 'posts':  posts,
+                    'eventforms': zip(events, forms, participation),
+                    'user': request.user,
+                    'categories': get_categ(None)}
 
-
-        context = { 'posts':  post_query,
-                    'memberposts': member_posts,
-                    'events': events,
-                    'user': self.user_query,
-                    'categories': self.allcats}
         return render(request, self.template_name, context)
 
     def post(self, request):
-        data = self.nest_dict(request.POST.dict())
-        try:
-            self.process_participation(data)
-
-        except (KeyError):
-            evlist = dict()
-            print("no choices were updated")
-
+        EventFormSet = formset_factory(EventForm, extra=0)
+        form = EventFormSet(request.POST)
         return HttpResponseRedirect(reverse('events:index'))
