@@ -108,24 +108,26 @@ def query_events(slug):
 
 def query_participation(user, events):
     # create participation objects if they do not exist for user-event combis
+    participants = []
     for e in events:
         # can be done with get_or_create()
         try:
+            participants.append(Participation.objects.filter(event=e))
             part = Participation.objects.get(event=e, person=user)
         except Participation.DoesNotExist:
             Participation(event=e, person=user).save()
 
     return Participation.objects.filter(event__in=events) \
-        .filter(person=user)
+        .filter(person=user), participants
     
-
 class IndexView(View):
     template_name = 'events/eventslist.html'
     info = {}
 
     def get(self, request, slug=None):
         events = query_events(slug)
-        participation = query_participation(request.user, events)
+        participation, participants = query_participation(request.user, events)
+        particount = [len(p) for p in participants]
         self.info.update({"particip": [{
             "id":p.id,
             "event":p.event_id, 
@@ -145,7 +147,7 @@ class IndexView(View):
 
         context = { 'posts':  posts,
                     'formset': forms,
-                    'eventforms': zip(events, forms),
+                    'eventforms': zip(events, forms, participants, particount),
                     'user': request.user,
                     'categories': get_categ(None)}
 

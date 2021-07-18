@@ -24,7 +24,7 @@
                     
                     <div class="accordion" id="eventslist">
                         {{ formset.management_form}}
-                        {% for event, form in eventforms %}
+                        {% for event, form, participants, particount in eventforms %}
 
                         <div class="card">
                             <div class="card-header p-1" id="{{event.id}}_heading">
@@ -45,7 +45,7 @@
                                         </small>
                                     </div>
                                     <div class="">
-                                        <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{content.participation_count}} </span>
+                                        <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{particount}} </span>
                                     </div>
                                     {% if user.is_authenticated %}
                                     <div class="btn-group btn-group-toggle p-1 ml-auto" data-toggle="buttons">
