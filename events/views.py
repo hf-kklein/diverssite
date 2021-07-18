@@ -109,6 +109,7 @@ def query_events(slug):
 def query_participation(user, events):
     # create participation objects if they do not exist for user-event combis
     for e in events:
+        # can be done with get_or_create()
         try:
             part = Participation.objects.get(event=e, person=user)
         except Participation.DoesNotExist:
@@ -120,22 +121,31 @@ def query_participation(user, events):
 
 class IndexView(View):
     template_name = 'events/eventslist.html'
-
+    info = {}
 
     def get(self, request, slug=None):
         events = query_events(slug)
         participation = query_participation(request.user, events)
-        
+        self.info.update({"particip": [{
+            "id":p.id,
+            "event":p.event_id, 
+            "person":p.person_id, 
+            "part":p.part} for p in participation
+        ]})
         # create form instances
         EventFormSet = formset_factory(EventForm, extra=0)
-        forms = EventFormSet(initial=participation.values())
+
+        # TODO: Problem. initial values are somehow not used. If I can manage
+        # to get this to work, I should have fixed everything, including 
+        forms = EventFormSet(initial=self.info["particip"])
     
         # get posts (filtered on site)
         posts = Article.objects\
             .filter(show_on_pages=Display.objects.get(name='events'))
 
         context = { 'posts':  posts,
-                    'eventforms': zip(events, forms, participation),
+                    'formset': forms,
+                    'eventforms': zip(events, forms),
                     'user': request.user,
                     'categories': get_categ(None)}
 
@@ -143,5 +153,15 @@ class IndexView(View):
 
     def post(self, request):
         EventFormSet = formset_factory(EventForm, extra=0)
-        form = EventFormSet(request.POST)
+        participation = self.info["particip"]
+        formset = EventFormSet(request.POST, initial=participation)
+        if formset.is_valid():
+            for form, p in zip(formset, participation):
+                if form.is_valid():
+                    if form.has_changed():
+                        # TODO: problem because ID of participation is not added to the fucking participation
+                        new_p = form.save(commit=False) 
+                        new_p.pk = p["id"]
+                        new_p.save()
+                        
         return HttpResponseRedirect(reverse('events:index'))

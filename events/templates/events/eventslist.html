@@ -23,7 +23,8 @@
                 <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
                     
                     <div class="accordion" id="eventslist">
-                        {% for event, form, participation in eventforms %}
+                        {{ formset.management_form}}
+                        {% for event, form in eventforms %}
 
                         <div class="card">
                             <div class="card-header p-1" id="{{event.id}}_heading">
@@ -53,6 +54,10 @@
                                             {{choice}}
                                         </label>
                                         {% endfor %}
+                                    {{form.id}}
+                                    {{form.event}}
+                                    {{form.person}}
+
                                     </div>
                                     {% endif %}
                                     <small class="p-1">
