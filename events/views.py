@@ -94,7 +94,7 @@ class EventsViewOld(View):
 
 def get_categ(slug):
     if slug != None:
-        return Categ.objects.get(slug=slug)
+        return Categ.objects.filter(slug=slug)
         # print(cat)
         # self.cats = self.allcats.filter(categ=sel_cat)
     else:
