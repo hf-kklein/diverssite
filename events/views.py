@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import  View
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms import formset_factory
 from django.contrib.auth.models import User
 import datetime as dt
@@ -10,6 +11,7 @@ import datetime as dt
 from .forms import EventForm
 from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Article, Display
+from users.models import Profile
 
 def get_categ(slug):
     if slug != None:
@@ -23,6 +25,24 @@ def query_events(slug):
         .filter(date__gte=timezone.make_aware(t0)) \
         .order_by('date')
 
+def get_profile(party, gender):
+    gender_list = []
+    for p in party:
+        try:
+            profile = p.person.profile
+        except ObjectDoesNotExist:
+            profile = Profile(
+                user=p.person,
+                trikotnummer="000",
+                gender="d"
+            )
+            profile.save()
+
+        if profile.gender == gender:
+            gender_list.append(p)
+
+    return gender_list
+
 def query_participation(user, events):
     # create participation objects if they do not exist for user-event combis
     participants = []
@@ -34,9 +54,9 @@ def query_participation(user, events):
         try:
             party = Participation.objects.filter(event=e)
             # party = sorted(party, key=lambda p: p.part.pk)
-            girls.append([p for p in party if p.person.profile.gender == "f"])
-            boys.append([p for p in party if p.person.profile.gender == "m"])
-            divers.append([p for p in party if p.person.profile.gender == "d"])
+            girls.append(get_profile(party, "f"))
+            boys.append(get_profile(party, "m"))
+            divers.append(get_profile(party, "d"))
             participants.append(party)
             part = Participation.objects.get(event=e, person=user)
         except Participation.DoesNotExist:
