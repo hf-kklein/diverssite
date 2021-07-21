@@ -24,7 +24,7 @@
                     
                     <div class="accordion" id="eventslist">
                         {{ formset.management_form}}
-                        {% for event, form, participants, particount in eventforms %}
+                        {% for event, form, participants, girls, boys, divers, gcount, bcount, dcount in eventforms %}
 
                         <div class="card">
                             <div class="card-header p-1" id="{{event.id}}_heading">
@@ -41,11 +41,17 @@
                                         {% endif %}
                                         <br>
                                         <small>
-                                            {{event.date}}
+                                            {{event.date}} 
                                         </small>
                                     </div>
                                     <div class="">
-                                        <span class="badge badge-primary badge-pill p-1 flex-shrink-1"> {{particount}} </span>
+                                        <span class="badge badge-warning badge-pill p-1 mt-1 flex-shrink-1"> <h6>♀ </h6>{{gcount|length}} </span>
+                                    </div>
+                                    <div class="">
+                                        <span class="badge badge-success badge-pill p-1 mt-1 flex-shrink-1"> <h6>♂ </h6>{{bcount|length}} </span>
+                                    </div>
+                                    <div class="">
+                                        <span class="badge badge-primary badge-pill p-1 mt-1 flex-shrink-1"> <h6>⚥ </h6>{{dcount|length}} </span>
                                     </div>
                                     {% if user.is_authenticated %}
                                     <div class="btn-group btn-group-toggle p-1 ml-auto" data-toggle="buttons">
@@ -88,24 +94,33 @@
                                     </p>
                                     {% if user.is_authenticated %}
                                     <div class="">
-                                        {% comment %} <p>
-                                            Yes:
-                                            {% for participant in content.participation_yes %}
-                                            {{participant.person}}
-                                            {% endfor %}
-                                        </p>
                                         <p>
-                                            No:
-                                            {% for participant in content.participation_no %}
-                                            {{participant.person}}
+                                            Yes:
+                                            {% for p in participants %}
+                                            {% if p.part.choicetext == "yes" %}
+                                            {{p.person.first_name}}
+                                            (#{{p.person.profile.trikotnummer}})
+                                            {% endif %}
                                             {% endfor %}
                                         </p>
                                         <p>
                                             Maybe:
-                                            {% for participant in content.participation_maybe %}
-                                            {{participant.person}}
+                                            {% for p in participants %}
+                                            {% if p.part.choicetext == "maybe" %}
+                                            {{p.person.first_name}}
+                                            (#{{p.person.profile.trikotnummer}})
+                                            {% endif %}
                                             {% endfor %}
-                                        </p> {% endcomment %}
+                                        </p>
+                                        <p>
+                                            No:
+                                            {% for p in participants %}
+                                            {% if p.part.choicetext == "no" %}
+                                            {{p.person.first_name}}
+                                            (#{{p.person.profile.trikotnummer}})
+                                            {% endif %}
+                                            {% endfor %}
+                                        </p>
                                     </div>
                                     {% else %}
                                     <div class="">
