@@ -64,6 +64,20 @@ def query_participation(user, events):
     return Participation.objects.filter(event__in=events) \
         .filter(person=user), participants, girls, boys, divers
     
+def present_on_parties(party_list):
+    new_list = []
+    for party in party_list:
+        new_party = []
+        for p in party:
+            if p.part is None:
+                pass
+            elif p.part.choice == "y":
+                new_party.append(p)
+
+        new_list.append(new_party)
+    
+    return new_list
+
 class IndexView(View):
     template_name = 'events/eventslist.html'
     info = {}
@@ -72,12 +86,9 @@ class IndexView(View):
         events = query_events(slug)
         participation, participants, girls, boys, divers = query_participation(
             request.user, events)
-        gcount = [[p for p in party if p.part.choice == "y"]
-                  for party in girls]
-        bcount = [[p for p in party if p.part.choice == "y"]
-                  for party in boys]
-        dcount = [[p for p in party if p.part.choice == "y"]
-                  for party in divers]
+        gcount = present_on_parties(girls)
+        bcount = present_on_parties(boys)
+        dcount = present_on_parties(divers)
                   
         self.info.update({"particip": [{
             "id":p.id,
