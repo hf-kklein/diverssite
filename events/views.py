@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.forms import formset_factory
 from django.contrib.auth.models import User
 import datetime as dt
-
+import random
 from .forms import EventForm
 from .models import Event, Participation, PartChoice, Categ
 from wiki.models import Article, Display
@@ -33,7 +33,6 @@ def get_profile(party, gender):
         except ObjectDoesNotExist:
             profile = Profile(
                 user=p.person,
-                trikotnummer="000",
                 gender="d"
             )
             profile.save()
