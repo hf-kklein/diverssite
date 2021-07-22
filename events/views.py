@@ -120,14 +120,14 @@ class IndexView(View):
     def post(self, request):
         EventFormSet = formset_factory(EventForm, extra=0)
         participation = self.info["particip"]
-        formset = EventFormSet(request.POST, initial=participation)
+        formset = EventFormSet(request.POST)
         if formset.is_valid():
             for form, p in zip(formset, participation):
                 if form.is_valid():
                     if form.has_changed():
-                        # TODO: problem because ID of participation is not added to the fucking participation
-                        new_p = form.save(commit=False) 
-                        new_p.pk = p["id"]
-                        new_p.save()
+                        data = form.cleaned_data
+                        participation_entry = Participation.objects.get(pk=p["id"])
+                        participation_entry.part = data["part"]
+                        participation_entry.save()
                         
         return HttpResponseRedirect(reverse('events:index'))
