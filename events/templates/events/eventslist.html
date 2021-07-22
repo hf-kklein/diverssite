@@ -97,7 +97,7 @@
                                         <p>
                                             Yes:
                                             {% for p in participants %}
-                                            {% if p.part.choicetext == "yes" %}
+                                            {% if p.part.choice == "y" %}
                                             {{p.person.first_name}}
                                             (#{{p.person.profile.trikotnummer}})
                                             {% endif %}
@@ -106,7 +106,7 @@
                                         <p>
                                             Maybe:
                                             {% for p in participants %}
-                                            {% if p.part.choicetext == "maybe" %}
+                                            {% if p.part.choice == "m" %}
                                             {{p.person.first_name}}
                                             (#{{p.person.profile.trikotnummer}})
                                             {% endif %}
@@ -115,7 +115,7 @@
                                         <p>
                                             No:
                                             {% for p in participants %}
-                                            {% if p.part.choicetext == "no" %}
+                                            {% if p.part.choice == "n" %}
                                             {{p.person.first_name}}
                                             (#{{p.person.profile.trikotnummer}})
                                             {% endif %}
