@@ -80,7 +80,6 @@ def present_on_parties(party_list):
 
 class IndexView(View):
     template_name = 'events/eventslist.html'
-    info = {}
 
     def get(self, request, slug=None):
         events = query_events(slug)
@@ -90,7 +89,7 @@ class IndexView(View):
         bcount = present_on_parties(boys)
         dcount = present_on_parties(divers)
                   
-        self.info.update({"particip": [{
+        initial = ({"particip": [{
             "id":p.id,
             "event":p.event_id, 
             "person":p.person_id, 
@@ -101,7 +100,7 @@ class IndexView(View):
 
         # TODO: Problem. initial values are somehow not used. If I can manage
         # to get this to work, I should have fixed everything, including 
-        forms = EventFormSet(initial=self.info["particip"])
+        forms = EventFormSet(initial=initial["particip"])
     
         # get posts (filtered on site)
         posts = Article.objects\
@@ -119,15 +118,20 @@ class IndexView(View):
 
     def post(self, request):
         EventFormSet = formset_factory(EventForm, extra=0)
-        participation = self.info["particip"]
+        # participation = self.info["particip"]
         formset = EventFormSet(request.POST)
         if formset.is_valid():
-            for form, p in zip(formset, participation):
+            for form in formset:
                 if form.is_valid():
                     if form.has_changed():
                         data = form.cleaned_data
-                        participation_entry = Participation.objects.get(pk=p["id"])
-                        participation_entry.part = data["part"]
-                        participation_entry.save()
+                        participation_entry = Participation.objects.filter(
+                            person=data["person"],
+                            event=data["event"]
+                        )
+                        assert len(participation_entry) == 1
+                        participation = participation_entry[0]
+                        participation.part = data["part"]
+                        participation.save()
                         
         return HttpResponseRedirect(reverse('events:index'))
