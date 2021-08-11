@@ -5,7 +5,7 @@ from django.views import  View
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import formset_factory
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import AnonymousUser, User
 import datetime as dt
 from .forms import EventForm
 from .models import Event, Participation, Categ
@@ -41,6 +41,19 @@ def get_profile(party, gender):
 
     return gender_list
 
+def get_user_or_anonymous(user):
+    if not isinstance(user, AnonymousUser):
+        return user
+
+    try:
+        anonymous = User.objects.get(username="anonymous")
+    except User.DoesNotExist:
+        anonymous = User(username="anonymous")
+        anonymous.save()
+
+    return anonymous
+
+
 def query_participation(user, events):
     # create participation objects if they do not exist for user-event combis
     participants = []
@@ -60,11 +73,11 @@ def query_participation(user, events):
         except Participation.DoesNotExist:
             Participation(event=e, person=user).save()
 
-    if isinstance(user, AnonymousUser):
-        participation = Participation.objects.none()
-    else:
-        participation = Participation.objects.filter(event__in=events) \
-            .filter(person=user)
+    # if isinstance(user, AnonymousUser):
+        # participation = Participation.objects.none()
+    # else:
+    participation = Participation.objects.filter(event__in=events) \
+        .filter(person=user)
         
     return participation, participants, girls, boys, divers
 
@@ -90,8 +103,9 @@ class IndexView(View):
 
     def get(self, request, slug=None):
         events = query_events(slug)
+        user = get_user_or_anonymous(request.user)
         participation, participants, girls, boys, divers = query_participation(
-            request.user, events)
+            user, events)
         gcount = present_on_parties(girls)
         bcount = present_on_parties(boys)
         dcount = present_on_parties(divers)
