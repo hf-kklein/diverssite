@@ -5,11 +5,10 @@ from django.views import  View
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import formset_factory
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AnonymousUser
 import datetime as dt
-import random
 from .forms import EventForm
-from .models import Event, Participation, PartChoice, Categ
+from .models import Event, Participation, Categ
 from wiki.models import Article, Display
 from users.models import Profile
 
@@ -61,8 +60,16 @@ def query_participation(user, events):
         except Participation.DoesNotExist:
             Participation(event=e, person=user).save()
 
-    return Participation.objects.filter(event__in=events) \
-        .filter(person=user), participants, girls, boys, divers
+    if isinstance(user, AnonymousUser):
+        participation = Participation.objects.none()
+    else:
+        participation = Participation.objects.filter(event__in=events) \
+            .filter(person=user)
+        
+    return participation, participants, girls, boys, divers
+
+
+    
     
 def present_on_parties(party_list):
     new_list = []
