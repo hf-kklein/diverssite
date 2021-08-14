@@ -1,134 +1,158 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.urls import reverse
-from django.views import generic, View
+from django.views import  View
 from django.utils import timezone
-from django.contrib.auth.models import User
-import json
-import datetime
-
-from .models import Event, Participation, PartChoice, Categ
+from django.core.exceptions import ObjectDoesNotExist
+from django.forms import formset_factory
+from django.contrib.auth.models import AnonymousUser, User
+import datetime as dt
+from .forms import EventForm
+from .models import Event, Participation, Categ
 from wiki.models import Article, Display
+from users.models import Profile
 
-class EventsView(View):
-    """
-    add some standard methods to all views related to events.
-    """
-    def nest_dict(self,flat):
-        result = {}
-        for k, v in flat.items():
-            self._nest_dict_rec(k, v, result)
-        return result
+def get_categ(slug):
+    if slug != None:
+        return Categ.objects.filter(slug=slug)
+    else:
+        return Categ.objects.all()
 
-    def _nest_dict_rec(self,k, v, out):
-        k, *rest = k.split('_', 1)
-        if rest:
-            self._nest_dict_rec(rest[0], v, out.setdefault(k, {}))
-        else:
-            out[k] = v
+def query_events(slug):
+    t0 = dt.datetime.combine(dt.datetime.today(), dt.time(0, 0, 0))
+    return Event.objects.filter(categ__in=get_categ(slug)) \
+        .filter(date__gte=timezone.make_aware(t0)) \
+        .order_by('date')
 
-    def create_events_dict(self):
-        # print(self.cats)
-        start_today = datetime.datetime.combine(datetime.datetime.today(), datetime.time(0, 0, 0))
-        subset_events = Event.objects.filter(categ__in=self.cats)
-        event_query = subset_events.filter(date__gte=timezone.make_aware(start_today)).order_by('date')
-        choice_query = PartChoice.objects.all()
-        choice_yes = PartChoice.objects.get(choice = 'y')
-        choice_no = PartChoice.objects.get(choice = 'n')
-        choice_maybe = PartChoice.objects.get(choice = 'm')
+def get_profile(party, gender):
+    gender_list = []
+    for p in party:
+        try:
+            profile = p.person.profile
+        except ObjectDoesNotExist:
+            profile = Profile(
+                user=p.person,
+                gender="d"
+            )
+            profile.save()
 
-        events = dict()
-        for event in event_query:
-            participation_all = event.participation_set.all()
-            participation_yes = participation_all.filter(part = choice_yes)
-            participation_no = participation_all.filter(part = choice_no)
-            participation_maybe = participation_all.filter(part = choice_maybe)
-            part_count = len(participation_all.filter(part = choice_yes))
-            try:
-                participation_user = event.participation_set.get(person = self.user_query).part.choicetext
-            except:
-                participation_user = None
+        if profile.gender == gender:
+            gender_list.append(p)
 
-            choices = dict()
-            for i in choice_query:
-                choices[i.choice] = {'choicetext': i.choicetext,
-                                     'userchoice': participation_user}
+    return gender_list
 
-            events[event.id] = {'event': event,
-                                'participation_all': participation_all,
-                                'participation_yes': participation_yes,
-                                'participation_no': participation_no,
-                                'participation_maybe': participation_maybe,
-                                'participation_count': part_count,
-                                'participation_user': participation_user,
-                                'choices': choices}
+def get_user_or_anonymous(user):
+    if not isinstance(user, AnonymousUser):
+        return user
+
+    try:
+        anonymous = User.objects.get(username="anonymous")
+    except User.DoesNotExist:
+        anonymous = User(username="anonymous")
+        anonymous.save()
+
+    return anonymous
 
 
-        return events
+def query_participation(user, events):
+    # create participation objects if they do not exist for user-event combis
+    participants = []
+    girls = []
+    boys = []
+    divers = []
+    for e in events:
+        # can be done with get_or_create()
+        try:
+            party = Participation.objects.filter(event=e)
+            # party = sorted(party, key=lambda p: p.part.pk)
+            girls.append(get_profile(party, "f"))
+            boys.append(get_profile(party, "m"))
+            divers.append(get_profile(party, "d"))
+            participants.append(party)
+            part = Participation.objects.get(event=e, person=user)
+        except Participation.DoesNotExist:
+            Participation(event=e, person=user).save()
 
-    def process_participation(self, data):
-        evlist = data["evlist"]
-        print(evlist)
-        for u in evlist:
-            for ev in evlist[u]:
-                use = User.objects.get(username=u)
-                print(use)
-                eve = Event.objects.get(pk=ev)
-                cho = PartChoice.objects.get(choice=evlist[u][ev][0])
-                p = Participation.objects.filter(person=use)
-                p = p.filter(event=eve)
-                if len(p) == 0:
-                    pnew = Participation(
-                        event = eve,
-                        person = use,
-                        part = cho
-                        )
-                    pnew.save()
-                elif len(p) == 1:
-                    p.update(part=cho)
-                else:
-                    print("error. Too many events selected.")
-                    break
+    # if isinstance(user, AnonymousUser):
+        # participation = Participation.objects.none()
+    # else:
+    participation = Participation.objects.filter(event__in=events) \
+        .filter(person=user)
+        
+    return participation, participants, girls, boys, divers
 
 
-class IndexView(EventsView):
+    
+    
+def present_on_parties(party_list):
+    new_list = []
+    for party in party_list:
+        new_party = []
+        for p in party:
+            if p.part is None:
+                pass
+            elif p.part.choice == "y":
+                new_party.append(p)
+
+        new_list.append(new_party)
+    
+    return new_list
+
+class IndexView(View):
     template_name = 'events/eventslist.html'
 
+    def get(self, request, slug=None):
+        events = query_events(slug)
+        user = get_user_or_anonymous(request.user)
+        participation, participants, girls, boys, divers = query_participation(
+            user, events)
+        gcount = present_on_parties(girls)
+        bcount = present_on_parties(boys)
+        dcount = present_on_parties(divers)
+                  
+        initial = ({"particip": [{
+            "id":p.id,
+            "event":p.event_id, 
+            "person":p.person_id, 
+            "part":p.part} for p in participation
+        ]})
+        # create form instances
+        EventFormSet = formset_factory(EventForm, extra=0)
 
+        # TODO: Problem. initial values are somehow not used. If I can manage
+        # to get this to work, I should have fixed everything, including 
+        forms = EventFormSet(initial=initial["particip"])
+    
+        # get posts (filtered on site)
+        posts = Article.objects\
+            .filter(show_on_pages=Display.objects.get(name='events'))
 
-    def get(self, request, slug = None):
-        self.allcats = Event.objects.values('categ')
-        # print(self.cats)
-        if slug != None:
-            sel_cat = Categ.objects.get(slug=slug)
-            print(sel_cat)
-            self.cats = self.allcats.filter(categ=sel_cat)
-        else:
-            self.cats = self.allcats
-        # with self make variable to class attribute, accessible to all methods
-        # print(self.cats)
-        self.user_query = request.user
-        posts = Article.objects.filter(show_on_pages = Display.objects.get(name = 'events'))
-        public_posts = posts.filter(visibility = 'public')
-        member_posts = posts.filter(visibility = 'members')
-        post_query = public_posts
-        events = self.create_events_dict()
+        context = { 'posts':  posts,
+                    'formset': forms,
+                    'eventforms': zip(
+                        events, forms, participants, girls, boys, divers,
+                        gcount, bcount, dcount),
+                    'user': request.user,
+                    'categories': get_categ(None)}
 
-
-        context = { 'posts':  post_query,
-                    'memberposts': member_posts,
-                    'events': events,
-                    'user': self.user_query,
-                    'categories': self.allcats}
         return render(request, self.template_name, context)
 
     def post(self, request):
-        data = self.nest_dict(request.POST.dict())
-        try:
-            self.process_participation(data)
-
-        except (KeyError):
-            evlist = dict()
-            print("no choices were updated")
-
+        EventFormSet = formset_factory(EventForm, extra=0)
+        # participation = self.info["particip"]
+        formset = EventFormSet(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                if form.is_valid():
+                    if form.has_changed():
+                        data = form.cleaned_data
+                        participation_entry = Participation.objects.filter(
+                            person=data["person"],
+                            event=data["event"]
+                        )
+                        assert len(participation_entry) == 1
+                        participation = participation_entry[0]
+                        participation.part = data["part"]
+                        participation.save()
+                        
         return HttpResponseRedirect(reverse('events:index'))
