@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'wiki.apps.WikiConfig',
     'mail.apps.MailConfig',
+    'ultistats.apps.UltistatsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
