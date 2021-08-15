@@ -256,6 +256,13 @@ old:
 
 + activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
 
+## Bugs and Fixes
+
+admin site is not rendered correctly: Sidebar issue
+sitebar is triggered out of unknown overflow reasons.
+Fix: Disable sidebar
+<https://stackoverflow.com/questions/64016816/django-admin-sidebar-bug>
+
 ## Roadmap
 
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>

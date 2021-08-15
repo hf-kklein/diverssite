@@ -18,6 +18,9 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
+admin.autodiscover()
+admin.site.enable_nav_sidebar = False
+
 urlpatterns = [
     path('',include('public.urls')),
     path('polls/', include('polls.urls')),
