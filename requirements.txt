@@ -1,6 +1,6 @@
 asgiref==3.3.1
 chardet==4.0.0
-Django==3.1.2
+Django==3.1.12
 django-crispy-forms==1.9.2
 django-csvimport==2.16
 django-markdownx==3.0.1
