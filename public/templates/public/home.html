@@ -29,11 +29,10 @@
     </section>
 
     <div class="album py-5 bg-light">
-      <div class="container">
         <!-- Example row of columns -->
         <div class="row">
           {% for i in published_posts %}
-          <div class="col-md-6 mb-4">
+          <div class="col mb-4">
             <div class="card mb-4 shadow-sm h-100">
               {% if i.title_image %}
               <img class="card-img-top" src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
@@ -57,7 +56,6 @@
           {% endfor %}
         </div>
       </div>
-    </div> <!-- /container -->
   </div>
   <aside class="col-md-4 mt-0">
     {% include "public/sidebar.html" %}
