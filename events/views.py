@@ -1,5 +1,5 @@
 from typing import Literal, List
-
+from django.db.models import QuerySet
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -20,7 +20,12 @@ def get_categ(slug):
     else:
         return Categ.objects.all()
 
-def query_events(slug):
+
+def query_events(slug) -> QuerySet[Event]:
+    """
+    Returns those events that have the category defined in the slug and a datetime >= today.
+    The returned QuerySet is sorted by the event date in ascending order.
+    """
     t0 = dt.datetime.combine(dt.datetime.today(), dt.time(0, 0, 0))
     return Event.objects.filter(categ__in=get_categ(slug)) \
         .filter(date__gte=timezone.make_aware(t0)) \
