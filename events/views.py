@@ -62,14 +62,14 @@ def query_participation(user, events):
     divers = []
     for e in events:
         # can be done with get_or_create()
+        party = Participation.objects.filter(event=e)
+        # party = sorted(party, key=lambda p: p.part.pk)
+        girls.append(get_profile(party, "f"))
+        boys.append(get_profile(party, "m"))
+        divers.append(get_profile(party, "d"))
+        participants.append(party)
         try:
-            party = Participation.objects.filter(event=e)
-            # party = sorted(party, key=lambda p: p.part.pk)
-            girls.append(get_profile(party, "f"))
-            boys.append(get_profile(party, "m"))
-            divers.append(get_profile(party, "d"))
-            participants.append(party)
-            part = Participation.objects.get(event=e, person=user)
+            _ = Participation.objects.get(event=e, person=user)
         except Participation.DoesNotExist:
             Participation(event=e, person=user).save()
 
