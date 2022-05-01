@@ -1,3 +1,5 @@
+from typing import Literal, List
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -24,9 +26,14 @@ def query_events(slug):
         .filter(date__gte=timezone.make_aware(t0)) \
         .order_by('date')
 
-def get_profile(party, gender):
-    gender_list = []
-    for p in party:
+
+def get_gender_list(participations, gender: Literal["f", "m", "d"]) -> List[Participation]:
+    """
+    For a given list of participations return those entries where the attending persons has the given gender.
+    If a person attends a participiation but has no gender specified in their profile, assume they're "d".
+    """
+    gender_list: List[Participation] = []
+    for p in participations:
         try:
             profile = p.person.profile
         except ObjectDoesNotExist:
@@ -65,9 +72,9 @@ def query_participation(user, events):
         try:
             party = Participation.objects.filter(event=e)
             # party = sorted(party, key=lambda p: p.part.pk)
-            girls.append(get_profile(party, "f"))
-            boys.append(get_profile(party, "m"))
-            divers.append(get_profile(party, "d"))
+            girls.append(get_gender_list(party, "f"))
+            boys.append(get_gender_list(party, "m"))
+            divers.append(get_gender_list(party, "d"))
             participants.append(party)
             part = Participation.objects.get(event=e, person=user)
         except Participation.DoesNotExist:
