@@ -72,6 +72,7 @@ def query_participation(user, events):
     girls = []
     boys = []
     divers = []
+    participation = []
     for e in events:
         # can be done with get_or_create()
         party = Participation.objects.filter(event=e)
@@ -88,8 +89,7 @@ def query_participation(user, events):
     # if isinstance(user, AnonymousUser):
         # participation = Participation.objects.none()
     # else:
-    participation = Participation.objects.filter(event__in=events) \
-        .filter(person=user)
+
         
     return participation, participants, girls, boys, divers
 
@@ -162,6 +162,7 @@ class IndexView(View):
                             person=data["person"],
                             event=data["event"]
                         )
+                        
                         assert len(participation_entry) == 1
                         participation = participation_entry[0]
                         participation.part = data["part"]
