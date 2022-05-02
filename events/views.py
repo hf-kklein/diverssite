@@ -1,5 +1,3 @@
-from typing import Literal, List
-from django.db.models import QuerySet
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -21,7 +19,7 @@ def get_categ(slug):
         return Categ.objects.all()
 
 
-def query_events(slug) -> QuerySet[Event]:
+def query_events(slug):
     """
     Returns those events that have the category defined in the slug and a datetime >= today.
     The returned QuerySet is sorted by the event date in ascending order.
@@ -32,12 +30,12 @@ def query_events(slug) -> QuerySet[Event]:
         .order_by('date')
 
 
-def get_gender_list(participations, gender: Literal["f", "m", "d"]) -> List[Participation]:
+def get_gender_list(participations, gender):
     """
     For a given list of participations return those entries where the attending persons has the given gender.
     If a person attends a participiation but has no gender specified in their profile, assume they're "d".
     """
-    gender_list: List[Participation] = []
+    gender_list = []
     for p in participations:
         try:
             profile = p.person.profile
@@ -72,6 +70,7 @@ def query_participation(user, events):
     girls = []
     boys = []
     divers = []
+    participations = []
     for e in events:
         # can be done with get_or_create()
         party = Participation.objects.filter(event=e)
@@ -80,18 +79,21 @@ def query_participation(user, events):
         boys.append(get_gender_list(party, "m"))
         divers.append(get_gender_list(party, "d"))
         participants.append(party)
-        try:
-            _ = Participation.objects.get(event=e, person=user)
-        except Participation.DoesNotExist:
-            Participation(event=e, person=user).save()
 
+        try:
+            part = Participation.objects.get(event=e, person=user)
+        except Participation.DoesNotExist:
+        # todo: does the database add some default values? do we need to refresh?
+            part = Participation(event=e, person=user)
+            part.save()
+
+        participations.append(part)
     # if isinstance(user, AnonymousUser):
         # participation = Participation.objects.none()
     # else:
-    participation = Participation.objects.filter(event__in=events) \
-        .filter(person=user)
+
         
-    return participation, participants, girls, boys, divers
+    return participations, participants, girls, boys, divers
 
 
     
@@ -162,6 +164,7 @@ class IndexView(View):
                             person=data["person"],
                             event=data["event"]
                         )
+                        
                         assert len(participation_entry) == 1
                         participation = participation_entry[0]
                         participation.part = data["part"]
