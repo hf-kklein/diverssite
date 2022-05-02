@@ -70,7 +70,7 @@ def query_participation(user, events):
     girls = []
     boys = []
     divers = []
-    participation = []
+    participations = []
     for e in events:
         # can be done with get_or_create()
         party = Participation.objects.filter(event=e)
@@ -79,17 +79,21 @@ def query_participation(user, events):
         boys.append(get_gender_list(party, "m"))
         divers.append(get_gender_list(party, "d"))
         participants.append(party)
-        try:
-            _ = Participation.objects.get(event=e, person=user)
-        except Participation.DoesNotExist:
-            Participation(event=e, person=user).save()
 
+        try:
+            part = Participation.objects.get(event=e, person=user)
+        except Participation.DoesNotExist:
+        # todo: does the database add some default values? do we need to refresh?
+            part = Participation(event=e, person=user)
+            part.save()
+
+        participations.append(part)
     # if isinstance(user, AnonymousUser):
         # participation = Participation.objects.none()
     # else:
 
         
-    return participation, participants, girls, boys, divers
+    return participations, participants, girls, boys, divers
 
 
     
