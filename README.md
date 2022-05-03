@@ -79,6 +79,23 @@ Framework.
 11. For further infor refer to: <https://docs.djangoproject.com/en/3.1/> and
     <https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website>
 
+## Code Formatting and Conventions:
+
+The code is formatted using [black](https://black.readthedocs.io/en/stable/).
+
+The imports are sorted using [isort](https://pycqa.github.io/isort/).
+
+Follow the respective installation instructions. Then run:
+```bash
+black .
+```
+or 
+```bash
+isort .
+```
+
+in the repository root directory.
+
 ## Hosting the website on a server  
 
 ### installation of the basic website
