@@ -15,15 +15,22 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='mailbox',
+            name="mailbox",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subject', models.CharField(max_length=100)),
-                ('body', models.TextField()),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('attachment', models.FileField(upload_to='')),
-                ('recipients', models.ManyToManyField(related_name='mail_recipients_set', to=settings.AUTH_USER_MODEL)),
-                ('sender', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, related_name='mail_sender_set', to=settings.AUTH_USER_MODEL)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("subject", models.CharField(max_length=100)),
+                ("body", models.TextField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                ("attachment", models.FileField(upload_to="")),
+                ("recipients", models.ManyToManyField(related_name="mail_recipients_set", to=settings.AUTH_USER_MODEL)),
+                (
+                    "sender",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="mail_sender_set",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

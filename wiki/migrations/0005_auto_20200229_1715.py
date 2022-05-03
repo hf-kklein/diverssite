@@ -7,13 +7,13 @@ import markdownx.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0004_articles_pub_date'),
+        ("wiki", "0004_articles_pub_date"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='articles',
-            name='text',
+            model_name="articles",
+            name="text",
             field=markdownx.models.MarkdownxField(),
         ),
     ]

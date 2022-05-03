@@ -9,13 +9,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('public', '0003_post_visibility'),
+        ("public", "0003_post_visibility"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='post',
-            name='author',
+            model_name="post",
+            name="author",
             field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL),
         ),
     ]

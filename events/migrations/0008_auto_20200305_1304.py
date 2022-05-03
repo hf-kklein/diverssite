@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0007_auto_20200305_1253'),
+        ("events", "0007_auto_20200305_1253"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='categ',
-            name='slug',
+            model_name="categ",
+            name="slug",
             field=models.SlugField(null=True),
         ),
         migrations.AddField(
-            model_name='event',
-            name='slug',
+            model_name="event",
+            name="slug",
             field=models.SlugField(null=True),
         ),
         migrations.AddField(
-            model_name='location',
-            name='slug',
+            model_name="location",
+            name="slug",
             field=models.SlugField(null=True),
         ),
     ]

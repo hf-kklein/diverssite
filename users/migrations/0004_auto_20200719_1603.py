@@ -7,38 +7,40 @@ import users.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0003_profile_picture'),
+        ("users", "0003_profile_picture"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='profile',
-            name='gender',
-            field=models.CharField(blank=True, choices=[('d', 'divers'), ('f', 'female'), ('m', 'male')], max_length=10, null=True),
+            model_name="profile",
+            name="gender",
+            field=models.CharField(
+                blank=True, choices=[("d", "divers"), ("f", "female"), ("m", "male")], max_length=10, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='picture',
+            model_name="profile",
+            name="picture",
             field=models.ImageField(blank=True, null=True, upload_to=users.models.user_profile_directory_path),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='place',
+            model_name="profile",
+            name="place",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='street',
+            model_name="profile",
+            name="street",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='trikotnummer',
+            model_name="profile",
+            name="trikotnummer",
             field=models.CharField(blank=True, max_length=3, null=True, unique=True),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='zip',
+            model_name="profile",
+            name="zip",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
     ]

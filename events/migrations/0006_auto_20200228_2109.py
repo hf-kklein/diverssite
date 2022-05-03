@@ -7,13 +7,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0005_auto_20200216_1528'),
+        ("events", "0005_auto_20200216_1528"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='participation',
-            name='part',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='party', to='events.PartChoice'),
+            model_name="participation",
+            name="part",
+            field=models.ForeignKey(
+                null=True, on_delete=django.db.models.deletion.PROTECT, related_name="party", to="events.PartChoice"
+            ),
         ),
     ]

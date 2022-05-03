@@ -9,18 +9,22 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('mail', '0004_auto_20200704_1642'),
+        ("mail", "0004_auto_20200704_1642"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='message',
-            name='id',
+            model_name="message",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='message',
-            name='sender',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='message_sender_set', to=settings.AUTH_USER_MODEL),
+            model_name="message",
+            name="sender",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="message_sender_set",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

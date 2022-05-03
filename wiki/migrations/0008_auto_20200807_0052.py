@@ -8,40 +8,45 @@ import wiki.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0007_auto_20200807_0031'),
+        ("wiki", "0007_auto_20200807_0031"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('text', markdownx.models.MarkdownxField()),
-                ('pub_date', models.DateField(auto_now_add=True)),
-                ('slug', models.SlugField()),
-                ('visibility', models.CharField(choices=[('public', 'Public'), ('members', 'Members')], default='public', max_length=20)),
-                ('category', models.ManyToManyField(to='wiki.Category')),
-                ('show_on_pages', models.ManyToManyField(to='wiki.Display')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("title", models.CharField(max_length=200)),
+                ("text", markdownx.models.MarkdownxField()),
+                ("pub_date", models.DateField(auto_now_add=True)),
+                ("slug", models.SlugField()),
+                (
+                    "visibility",
+                    models.CharField(
+                        choices=[("public", "Public"), ("members", "Members")], default="public", max_length=20
+                    ),
+                ),
+                ("category", models.ManyToManyField(to="wiki.Category")),
+                ("show_on_pages", models.ManyToManyField(to="wiki.Display")),
             ],
         ),
         migrations.CreateModel(
-            name='Files',
+            name="Files",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to=wiki.models.file_directory_path, verbose_name='File')),
-                ('article', models.ManyToManyField(default=None, to='wiki.Article')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("file", models.FileField(upload_to=wiki.models.file_directory_path, verbose_name="File")),
+                ("article", models.ManyToManyField(default=None, to="wiki.Article")),
             ],
         ),
         migrations.CreateModel(
-            name='Images',
+            name="Images",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(upload_to=wiki.models.file_directory_path, verbose_name='Image')),
-                ('article', models.ManyToManyField(default=None, to='wiki.Article')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("image", models.ImageField(upload_to=wiki.models.file_directory_path, verbose_name="Image")),
+                ("article", models.ManyToManyField(default=None, to="wiki.Article")),
             ],
         ),
         migrations.DeleteModel(
-            name='Articles',
+            name="Articles",
         ),
     ]

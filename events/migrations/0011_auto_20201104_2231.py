@@ -7,23 +7,25 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0010_auto_20200806_2359'),
+        ("events", "0010_auto_20200806_2359"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='location',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='events.Location'),
+            model_name="event",
+            name="location",
+            field=models.ForeignKey(
+                blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to="events.Location"
+            ),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='place',
+            model_name="location",
+            name="place",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AlterField(
-            model_name='location',
-            name='street',
+            model_name="location",
+            name="street",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
     ]

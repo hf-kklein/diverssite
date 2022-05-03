@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = 'public'
+app_name = "public"
 
 # "conventional way"
 # urlpatterns = [
@@ -19,7 +19,6 @@ app_name = 'public'
 
 urlpatterns = [
     # path('', views.index, name='index'),
-    path('', views.IndexView.as_view(), name = 'index')
-
+    path("", views.IndexView.as_view(), name="index")
     # path('', views.HomePublicNews.as_view(), name='news')
 ]

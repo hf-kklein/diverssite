@@ -9,29 +9,30 @@ from django.core.exceptions import ValidationError
 def user_profile_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     print(filename)
-    return 'profile/user_{0}/{1}'.format(instance.user.id, filename)
+    return "profile/user_{0}/{1}".format(instance.user.id, filename)
+
 
 class Settings(models.Model):
-    registration_password = models.CharField(max_length = 20, help_text="Passwort wird bei der Registrierung abgefragt")
+    registration_password = models.CharField(max_length=20, help_text="Passwort wird bei der Registrierung abgefragt")
 
     def __str__(self):
         return "User Settings"
 
     def save(self, *args, **kwargs):
         if not self.pk and Settings.objects.exists():
-        # if you'll not check for self.pk 
-        # then error will also raised in update of exists model
-            raise ValidationError('Nur bestehender Eintrag kann geändert werden')
+            # if you'll not check for self.pk
+            # then error will also raised in update of exists model
+            raise ValidationError("Nur bestehender Eintrag kann geändert werden")
         return super(Settings, self).save(*args, **kwargs)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     # additional information not contained in base user
-    gender = models.CharField(choices=(("d", "divers"),
-                                       ("f", "female"),
-                                       ("m", "male")), max_length=10, null=True,
-                              blank=True)
+    gender = models.CharField(
+        choices=(("d", "divers"), ("f", "female"), ("m", "male")), max_length=10, null=True, blank=True
+    )
     trikotnummer = models.CharField(max_length=3, null=True, unique=True, blank=True)
     mobile = models.CharField(max_length=20, null=True, blank=True)
     street = models.CharField(max_length=50, null=True, blank=True)
@@ -47,12 +48,11 @@ class Profile(models.Model):
         :returns: str -- the image url
 
         """
-        if self.picture and hasattr(self.picture, 'url'):
+        if self.picture and hasattr(self.picture, "url"):
             return self.picture.url
         else:
-            return '/static/images/default_profile.png'
+            return "/static/images/default_profile.png"
 
     #
     # def __str__(self):
     #     return self.user.name
-

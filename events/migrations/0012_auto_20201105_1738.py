@@ -7,13 +7,13 @@ import markdownx.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('events', '0011_auto_20201104_2231'),
+        ("events", "0011_auto_20201104_2231"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='event',
-            name='description',
+            model_name="event",
+            name="description",
             field=markdownx.models.MarkdownxField(blank=True, null=True),
         ),
     ]

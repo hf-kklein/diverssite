@@ -1,12 +1,15 @@
 from django.test import TestCase
 from django.core import mail
 
+
 class EmailTest(TestCase):
     def test_send_email(self):
         # Send message.
         mail.send_mail(
-            'Subject here', 'Here is the message.',
-            'from@example.com', ['to@example.com'],
+            "Subject here",
+            "Here is the message.",
+            "from@example.com",
+            ["to@example.com"],
             fail_silently=False,
         )
 
@@ -14,4 +17,4 @@ class EmailTest(TestCase):
         self.assertEqual(len(mail.outbox), 1)
 
         # Verify that the subject of the first message is correct.
-        self.assertEqual(mail.outbox[0].subject, 'Subject here')
+        self.assertEqual(mail.outbox[0].subject, "Subject here")

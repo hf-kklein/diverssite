@@ -6,25 +6,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0005_auto_20200229_1715'),
+        ("wiki", "0005_auto_20200229_1715"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Display',
+            name="Display",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.AddField(
-            model_name='articles',
-            name='visibility',
-            field=models.CharField(choices=[('public', 'Public'), ('members', 'Members')], default='public', max_length=20),
+            model_name="articles",
+            name="visibility",
+            field=models.CharField(
+                choices=[("public", "Public"), ("members", "Members")], default="public", max_length=20
+            ),
         ),
         migrations.AddField(
-            model_name='articles',
-            name='show_on_pages',
-            field=models.ManyToManyField(to='wiki.Display'),
+            model_name="articles",
+            name="show_on_pages",
+            field=models.ManyToManyField(to="wiki.Display"),
         ),
     ]
