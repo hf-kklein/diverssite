@@ -1,0 +1,21 @@
+# this is a Github Action that runs on every push (to any branch)
+# it adds a green checkmark ✔ to a commit, if the code is formatted according to black
+# it adds a red cross ❌ to a commit, if the code is not formatted with black
+# for black settings, please see pyproject.toml
+
+name: "Black"
+
+on: [push]
+jobs:
+  black:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.6"]
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Black Code Formatter
+        uses: lgeiger/black-action@v1.0.1
+        with:
+          args: ". --check"
