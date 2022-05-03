@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Event, Location, PartChoice, Participation, Categ
+from .models import Categ, Event, Location, PartChoice, Participation
 
 
 class EventAdmin(admin.ModelAdmin):

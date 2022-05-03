@@ -1,11 +1,10 @@
 from django.contrib import admin
-from simple_history.admin import SimpleHistoryAdmin
-from django.forms.widgets import CheckboxSelectMultiple
 from django.db import models
-
+from django.forms.widgets import CheckboxSelectMultiple
+from simple_history.admin import SimpleHistoryAdmin
 
 # Register your models here.
-from .models import Category, Article, Display
+from .models import Article, Category, Display
 
 
 class ArticleAdmin(SimpleHistoryAdmin):

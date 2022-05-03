@@ -1,6 +1,7 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 from django.contrib.auth.models import User
+
 from users.models import Profile
 
 users = pd.DataFrame(User.objects.all().values())

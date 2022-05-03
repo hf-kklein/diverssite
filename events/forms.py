@@ -1,6 +1,7 @@
-from .models import Participation, PartChoice
 from django.contrib.auth.models import User
-from django.forms import ModelForm, formset_factory, RadioSelect, HiddenInput, ModelChoiceField
+from django.forms import HiddenInput, ModelChoiceField, ModelForm, RadioSelect, formset_factory
+
+from .models import PartChoice, Participation
 
 
 class EventForm(ModelForm):

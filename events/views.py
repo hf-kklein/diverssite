@@ -1,16 +1,19 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
-from django.urls import reverse
-from django.views import View
-from django.utils import timezone
+import datetime as dt
+
+from django.contrib.auth.models import AnonymousUser, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import formset_factory
-from django.contrib.auth.models import AnonymousUser, User
-import datetime as dt
-from .forms import EventForm
-from .models import Event, Participation, Categ
-from wiki.models import Article, Display
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
+from django.utils import timezone
+from django.views import View
+
 from users.models import Profile
+from wiki.models import Article, Display
+
+from .forms import EventForm
+from .models import Categ, Event, Participation
 
 
 def get_categ(slug):

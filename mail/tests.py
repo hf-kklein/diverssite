@@ -1,5 +1,5 @@
-from django.test import TestCase
 from django.core import mail
+from django.test import TestCase
 
 
 class EmailTest(TestCase):

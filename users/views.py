@@ -1,12 +1,13 @@
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views import generic
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from .forms import SignupForm, ProfileForm, UpdateUserForm, AddressForm, ProfilePictureForm
+from django.views import generic
+
+from .forms import AddressForm, ProfileForm, ProfilePictureForm, SignupForm, UpdateUserForm
 from .models import Profile, Settings
 
 

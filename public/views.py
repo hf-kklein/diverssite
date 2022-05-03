@@ -1,10 +1,11 @@
-from django.views import generic
-from django.utils import timezone
 import datetime
 
-from wiki.models import Article, Display
-from events.models import Event, Categ, Participation, PartChoice
+from django.utils import timezone
+from django.views import generic
+
+from events.models import Categ, Event, PartChoice, Participation
 from public.models import Info
+from wiki.models import Article, Display
 
 
 class IndexView(generic.ListView):

@@ -1,13 +1,15 @@
+from email.utils import parseaddr
+from json import dumps
 from urllib import request
+
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views import View, generic
-from .models import Message
+
 from .forms import ComposeForm
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.models import User
-from json import dumps
-from email.utils import parseaddr
+from .models import Message
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
