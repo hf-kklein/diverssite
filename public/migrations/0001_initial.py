@@ -7,18 +7,17 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Textblock',
+            name="Textblock",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('heading', models.CharField(max_length=200)),
-                ('content', models.CharField(max_length=1000)),
-                ('pub_date', models.DateTimeField(verbose_name='date published')),
-                ('text_view', models.CharField(max_length=50)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("heading", models.CharField(max_length=200)),
+                ("content", models.CharField(max_length=1000)),
+                ("pub_date", models.DateTimeField(verbose_name="date published")),
+                ("text_view", models.CharField(max_length=50)),
             ],
         ),
     ]

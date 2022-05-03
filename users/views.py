@@ -1,12 +1,13 @@
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views import generic
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse
-from .forms import SignupForm, ProfileForm, UpdateUserForm, AddressForm, ProfilePictureForm
+from django.views import generic
+
+from .forms import AddressForm, ProfileForm, ProfilePictureForm, SignupForm, UpdateUserForm
 from .models import Profile, Settings
 
 
@@ -14,8 +15,9 @@ class Login(LoginView):
     template_name = "users/login.html"
 
 
-class AccountActivateView():
+class AccountActivateView:
     pass
+
 
 class SignUpView(generic.View):
     template_name = "users/signup.html"
@@ -23,24 +25,31 @@ class SignUpView(generic.View):
     def post(self, request):
         signup_form = SignupForm(request.POST, request.FILES)
 
-        if signup_form.is_valid() and signup_form.cleaned_data['validator'] == Settings.objects.values('registration_password')[0]['registration_password']:
+        if (
+            signup_form.is_valid()
+            and signup_form.cleaned_data["validator"]
+            == Settings.objects.values("registration_password")[0]["registration_password"]
+        ):
             user = signup_form.save(commit=False)
             user.save()
-            return HttpResponseRedirect(reverse('users:thanks'))
+            return HttpResponseRedirect(reverse("users:thanks"))
 
         else:
-            print(signup_form.cleaned_data['validator'], Settings.objects.values('registration_password')[0]['registration_password'])
+            print(
+                signup_form.cleaned_data["validator"],
+                Settings.objects.values("registration_password")[0]["registration_password"],
+            )
             error = "please make sure your information are correct."
             context = {
-                'signup_form': signup_form,
-                'error'      : error,
+                "signup_form": signup_form,
+                "error": error,
             }
             return render(request, self.template_name, context)
 
     def get(self, request):
         signup_form = SignupForm()
         context = {
-            'signup_form': signup_form,
+            "signup_form": signup_form,
         }
         return render(request, self.template_name, context)
 
@@ -55,12 +64,11 @@ class RegComplete(generic.View):
 class ProfileView(LoginRequiredMixin, generic.DetailView):
     # print(selrequest)
     model = User
-    login_url = '/users/login/'
+    login_url = "/users/login/"
     slug_field = "username"
     slug_url_kwarg = "username"
     template_name = "users/profile.html"
-    redirect_field_name = 'next'
-
+    redirect_field_name = "next"
 
     # def test_func(self, request, username):
     #     return self.request.user.username == username
@@ -77,15 +85,15 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
         self.profilepicture_form = ProfilePictureForm(instance=self.profile, prefix="pic")
 
     def get(self, request):
-        
+
         self.setup_forms(request.user)
 
         context = {
-            'updateuser_form'   : self.updateuser_form,
-            'updateprofile_form': self.updateprofile_form,
-            'updateaddress_form': self.updateaddress_form,
-            'profilepicture_form': self.profilepicture_form,
-            'profile': self.profile,
+            "updateuser_form": self.updateuser_form,
+            "updateprofile_form": self.updateprofile_form,
+            "updateaddress_form": self.updateaddress_form,
+            "profilepicture_form": self.profilepicture_form,
+            "profile": self.profile,
         }
         return render(request, self.template_name, context)
 
@@ -106,14 +114,13 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
             address.save()
             picture = profilepictureform.save(commit=False)
             picture.save()
-            return HttpResponseRedirect(reverse('users:profile'))
+            return HttpResponseRedirect(reverse("users:profile"))
         else:
             context = {
-                'updateuser_form': userform,
-                'updateprofile_form': profileform,
-                'profilepicture_form': profilepictureform,
-                'updateaddress_form': addressform,
-                'profile': self.profile,
+                "updateuser_form": userform,
+                "updateprofile_form": profileform,
+                "profilepicture_form": profilepictureform,
+                "updateaddress_form": addressform,
+                "profile": self.profile,
             }
             return render(request, self.template_name, context)
-

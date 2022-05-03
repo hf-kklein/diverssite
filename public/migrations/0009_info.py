@@ -8,16 +8,16 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('public', '0008_delete_post'),
+        ("public", "0008_delete_post"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Info',
+            name="Info",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('welcome_title', models.TextField(blank=True, null=True)),
-                ('welcome_text', models.TextField(blank=True, null=True)),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("welcome_title", models.TextField(blank=True, null=True)),
+                ("welcome_text", models.TextField(blank=True, null=True)),
             ],
         ),
     ]

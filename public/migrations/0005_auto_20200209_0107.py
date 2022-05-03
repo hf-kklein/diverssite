@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('public', '0004_auto_20200208_0829'),
+        ("public", "0004_auto_20200208_0829"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='page',
-            field=models.CharField(choices=[('home', 'Home'), ('tplb', 'Teamplanbuch')], max_length=50, null=True),
+            model_name="post",
+            name="page",
+            field=models.CharField(choices=[("home", "Home"), ("tplb", "Teamplanbuch")], max_length=50, null=True),
         ),
         migrations.AlterField(
-            model_name='post',
-            name='visibility',
-            field=models.CharField(choices=[('pub', 'Public'), ('mem', 'Members')], default='public', max_length=20),
+            model_name="post",
+            name="visibility",
+            field=models.CharField(choices=[("pub", "Public"), ("mem", "Members")], default="public", max_length=20),
         ),
     ]
