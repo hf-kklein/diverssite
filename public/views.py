@@ -21,7 +21,7 @@ class IndexView(generic.ListView):
         published_posts = public_posts.filter(pub_date__lte=timezone.now())
         start_today = datetime.datetime.combine(datetime.datetime.today(), datetime.time(0, 0, 0))
         training = Categ.objects.get(name="training")
-        yes = PartChoice.objects.filter(choicetext="yes")[0]
+        yes = PartChoice.objects.filter(choice="y")[0]
         next_trainings = (
             Event.objects.filter(categ=training).order_by("-date").filter(date__gte=timezone.make_aware(start_today))
         )
