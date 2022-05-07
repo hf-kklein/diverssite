@@ -31,13 +31,13 @@
                                 <a class="mb-0 d-flex">
                                     <div class="p-1 w-50">
                                         {% if event.categ.name == "training" %}
-                                        <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.categ.name}}</span>
+                                        <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
                                         {% elif event.categ.name == "tournament" %}
-                                        <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.categ.name}}</span>
+                                        <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
                                         {% elif event.categ.name == "social" %}
-                                        <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.categ.name}}</span>
+                                        <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
                                         {% else %}
-                                        <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.categ.name}}</span>
+                                        <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
                                         {% endif %}
                                         <br>
                                         <small>
