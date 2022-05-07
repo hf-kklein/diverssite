@@ -7,6 +7,7 @@
 <div class="card p-4">
     <h4 class="font-bold">Nächstes Training</h4>
     <p class="mb-0">{{next_training.date}}, {{next_training.location}}</p>
+    {% if user.is_authenticated %}
     <div class="row">
         <div class="col">
             <small>who's in? 👍</small>
@@ -30,6 +31,7 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
 </div>
 </div>
 
