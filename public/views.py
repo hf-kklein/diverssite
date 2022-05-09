@@ -21,9 +21,7 @@ class IndexView(generic.ListView):
         published_posts = public_posts.filter(pub_date__lte=timezone.now())
         start_today = datetime.datetime.combine(datetime.datetime.today(), datetime.time(0, 0, 0))
         yes = PartChoice.objects.filter(choice="y")[0]
-        next_events = (
-            Event.objects.all().filter(date__gte=timezone.make_aware(start_today)).order_by("date")
-        )
+        next_events = Event.objects.all().filter(date__gte=timezone.make_aware(start_today)).order_by("date")
         if len(next_events) > 0:
             next_training = next_events[0]
             participants = next_training.participation_set.all()
