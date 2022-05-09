@@ -1,52 +1,52 @@
 <div class="p-4 mb-3 bg-light rounded">
-  <h4 class="font-italic">{{ welcome.welcome_title }}</h4>
-  <p class="mb-0">{{ welcome.welcome_text }}</p>
+    <h4 class="font-italic">{{ welcome.welcome_title }}</h4>
+    <p class="mb-0">{{ welcome.welcome_text }}</p>
 </div>
 
 
 <div class="card p-4">
     <h4 class="font-bold">Nächstes Training</h4>
-    <p class="mb-0">{{next_training.date}}, {{next_training.location}}</p>
+    <p class="mb-0">{{ next_training.date }}, {{ next_training.location }}</p>
     {% if user.is_authenticated %}
-    <div class="row">
-        <div class="col">
-            <small>who's in? 👍</small>
+        <div class="row">
+            <div class="col">
+                <small>who's in? 👍</small>
+            </div>
         </div>
-    </div>    
-    <div class="container p-0 m-0">
+        <div class="container p-0 m-0">
 
-        <div class="row float-left pl-0 ml-0" style="line-height:1;"> 
+        <div class="row float-left pl-0 ml-0" style="line-height:1;">
             {% for part in coming %}
-            <div class="col m-0 p-0">
-                <img src="{{part.person.profile.image_url}}" 
-                class="img m-0 p-0" 
-                data-toggle="tooltip" 
-                data-placement="top"
-            title="{{part.person.first_name}}"
-            alt="{{part.person.first_name}}" 
-            style="object-fit:cover;
+                <div class="col m-0 p-0">
+                    <img src="{{ part.person.profile.image_url }}"
+                         class="img m-0 p-0"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="{{ part.person.first_name }}"
+                         alt="{{ part.person.first_name }}"
+                         style="object-fit:cover;
                 width:35px;
                 height:35px;
                 border: solid 1px #CCC"/>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
     {% endif %}
-</div>
+    </div>
 </div>
 
 <div class="p-4">
-  <h4 class="font-italic">Hier gibt's uns auch</h4>
-  <ol class="list-unstyled">
-    <li><a href="https://www.instagram.com/saxydivers/">Instagram</a></li>
-    <li><a href="https://twitter.com/LeipzigUltimate">Twitter</a></li>
-    <li><a href="https://www.facebook.com/SaxyDivers">Facebook</a></li>
-    <li><a href="https://github.com/flo-schu/diverssite/">GitHub</a></li>
-  </ol>
+    <h4 class="font-italic">Hier gibt's uns auch</h4>
+    <ol class="list-unstyled">
+        <li><a href="https://www.instagram.com/saxydivers/">Instagram</a></li>
+        <li><a href="https://twitter.com/LeipzigUltimate">Twitter</a></li>
+        <li><a href="https://www.facebook.com/SaxyDivers">Facebook</a></li>
+        <li><a href="https://github.com/flo-schu/diverssite/">GitHub</a></li>
+    </ol>
 </div>
 
 
 <div class="p-4">
-  <h4 class="font-italic">Schreib uns</h4>
+    <h4 class="font-italic">Schreib uns</h4>
     <a href="mailto: contact@saxy-divers.de">contact@saxy-divers.de</a></li>
 </div>

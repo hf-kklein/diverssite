@@ -1,183 +1,191 @@
 {% extends "page/base_generic.html" %}
 {% block content %}
 
-<!-- <style>
-.d-flex.w-100.justify-content-between{
- background-color: inherit;
- border-bottom: 1px solid gray;
-}
+    <!-- <style>
+    .d-flex.w-100.justify-content-between{
+     background-color: inherit;
+     border-bottom: 1px solid gray;
+    }
 
-/*
-.container-fluid{
-  padding-bottom: 50px;
-} */
-</style> -->
-<div class="container p-0 pt-3">
-    <form action="{% url 'events:index' %}" href="?next={{request.path}}" method="post" name="participation">
-        {% csrf_token %}
-        <div class="row pt-3 pb-3">
-            <aside class="col-md-3 mt-0 bg-light">
-                {% include "events/sidebar.html" %}
-            </aside>
-            <div class="col-md-9">
-                <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
-                    
-                    <div class="accordion" id="eventslist">
-                        {{ formset.management_form}}
-                        {% for event, form, participants, girls, boys, divers, gcount, bcount, dcount in eventforms %}
+    /*
+    .container-fluid{
+      padding-bottom: 50px;
+    } */
+    </style> -->
+    <div class="container p-0 pt-3">
+        <form action="{% url 'events:index' %}" href="?next={{ request.path }}" method="post" name="participation">
+            {% csrf_token %}
+            <div class="row pt-3 pb-3">
+                <aside class="col-md-3 mt-0 bg-light">
+                    {% include "events/sidebar.html" %}
+                </aside>
+                <div class="col-md-9">
+                    <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
 
-                        <div class="card">
-                            <div class="card-header p-0 m-0" id="{{event.id}}_heading">
-                                <div class="row m-0 p-0">
-                                    <div class="col pl-2 pt-2 pb-1 pr-0">
-                                        {% if event.categ.name == "training" %}
-                                        <span class="badge badge-warning mt-0" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
-                                        {% elif event.categ.name == "tournament" %}
-                                        <span class="badge badge-success mt-0" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
-                                        {% elif event.categ.name == "social" %}
-                                        <span class="badge badge-primary mt-0" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
-                                        {% else %}
-                                        <span class="badge badge-secondary mt-0" type="button" onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{event.name}}</span>
-                                        {% endif %}
-                                        <small>
-                                            {{event.location.name}}
-                                            {% if event.location.place is not None %}
-                                            - {{event.location.place}}
-                                            {% endif %}
-                                        </small>
-                                        <br>
-                                        <small>
-                                            {{event.date|date:"d.m.y"}} 
-                                        </small>
-                                    </div>
-                                    <div class="col pt-1 pb-1 pl-0 pr-0 m-1">
-                                        <span class="badge badge-warning badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>♀</h6>{{gcount|length}}</span>
-                                        <span class="badge badge-success badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>♂</h6>{{bcount|length}}</span>
-                                        <span class="badge badge-primary badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>⚥</h6>{{dcount|length}}</span>
-                                    </div>
-                                    {% if user.is_authenticated %}
-                                    <div class="d-flex flex-column align-items-end pt-2 pr-2 pb-1">
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                            {% for choice in form.part %}
-                                            <label class="btn btn-secondary pb-0 pt-2">
-                                                {{choice}}
-                                            </label>
-                                            {% endfor %}
-                                        </div>
-                                        {{form.id}}
-                                        {{form.event}}
-                                        {{form.person}}
-                                    </div>
-                                    {% endif %}
-                                    <div class="d-flex flex-column align-items-end pt-1 bt-1 mt-1 mb-1 pr-2 pb-1">
-                                        <button class="btn btn-outline-dark pb-2 pt-2 pl-1 pr-1" type="button" data-toggle="collapse" data-target="#list-{{event.id}}" aria-expanded="false" aria-controls="{{event.id}}">
-                                            details
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="collapse" id="list-{{event.id}}" aria-labelledby="{{event.id}}_heading" data-parent="#eventslist">
-                                <div class="card-body p-0 mt-0">
-                                    <ul class="list-group list-group-flush">
-                                        {% if user.is_authenticated %}
-                                        <li class="list-group-item pl-2 pt-0 pr-2 pb-1 mb-0 mt-0">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <small>who's in? 👍</small>
-                                                </div>
+                        <div class="accordion" id="eventslist">
+                            {{ formset.management_form }}
+                            {% for event, form, participants, girls, boys, divers, gcount, bcount, dcount in eventforms %}
+
+                                <div class="card">
+                                    <div class="card-header p-0 m-0" id="{{ event.id }}_heading">
+                                        <div class="row m-0 p-0">
+                                            <div class="col pl-2 pt-2 pb-1 pr-0">
+                                                {% if event.categ.name == "training" %}
+                                                    <span class="badge badge-warning mt-0" type="button"
+                                                          onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{ event.name }}</span>
+                                                {% elif event.categ.name == "tournament" %}
+                                                    <span class="badge badge-success mt-0" type="button"
+                                                          onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{ event.name }}</span>
+                                                {% elif event.categ.name == "social" %}
+                                                    <span class="badge badge-primary mt-0" type="button"
+                                                          onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{ event.name }}</span>
+                                                {% else %}
+                                                    <span class="badge badge-secondary mt-0" type="button"
+                                                          onclick="window.location.href='{% url 'events:categ' event.categ.slug %}';">{{ event.name }}</span>
+                                                {% endif %}
+                                                <small>
+                                                    {{ event.location.name }}
+                                                    {% if event.location.place is not None %}
+                                                        - {{ event.location.place }}
+                                                    {% endif %}
+                                                </small>
+                                                <br>
+                                                <small>
+                                                    {{ event.date|date:"d.m.y" }}
+                                                </small>
                                             </div>
-                                            <!-- <hr style="margin:1px; padding:0px"> -->
-                                            <div class="row float-left pl-0 ml-0" style="line-height:1;"> 
-                                                {% for p in participants %}
-                                                {% if p.part.choice == "y" %}
-                                                <div class="col m-0 p-0" >
-                                                    <img src="{{p.person.profile.image_url}}" 
-                                                    class="img m-0 p-0" 
-                                                    alt="{{p.person.first_name}}" 
-                                                    style="object-fit:cover;
+                                            <div class="col pt-1 pb-1 pl-0 pr-0 m-1">
+                                                <span class="badge badge-warning badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>♀</h6>{{ gcount|length }}</span>
+                                                <span class="badge badge-success badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>♂</h6>{{ bcount|length }}</span>
+                                                <span class="badge badge-primary badge-pill pl-1 mt-0 mb-0 ml-0 mr-0"> <h6>⚥</h6>{{ dcount|length }}</span>
+                                            </div>
+                                            {% if user.is_authenticated %}
+                                                <div class="d-flex flex-column align-items-end pt-2 pr-2 pb-1">
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        {% for choice in form.part %}
+                                                            <label class="btn btn-secondary pb-0 pt-2">
+                                                                {{ choice }}
+                                                            </label>
+                                                        {% endfor %}
+                                                    </div>
+                                                    {{ form.id }}
+                                                    {{ form.event }}
+                                                    {{ form.person }}
+                                                </div>
+                                            {% endif %}
+                                            <div class="d-flex flex-column align-items-end pt-1 bt-1 mt-1 mb-1 pr-2 pb-1">
+                                                <button class="btn btn-outline-dark pb-2 pt-2 pl-1 pr-1" type="button"
+                                                        data-toggle="collapse" data-target="#list-{{ event.id }}"
+                                                        aria-expanded="false" aria-controls="{{ event.id }}">
+                                                    details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="collapse" id="list-{{ event.id }}"
+                                         aria-labelledby="{{ event.id }}_heading" data-parent="#eventslist">
+                                        <div class="card-body p-0 mt-0">
+                                            <ul class="list-group list-group-flush">
+                                                {% if user.is_authenticated %}
+                                                    <li class="list-group-item pl-2 pt-0 pr-2 pb-1 mb-0 mt-0">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <small>who's in? 👍</small>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <hr style="margin:1px; padding:0px"> -->
+                                                        <div class="row float-left pl-0 ml-0" style="line-height:1;">
+                                                            {% for p in participants %}
+                                                                {% if p.part.choice == "y" %}
+                                                                    <div class="col m-0 p-0">
+                                                                        <img src="{{ p.person.profile.image_url }}"
+                                                                             class="img m-0 p-0"
+                                                                             alt="{{ p.person.first_name }}"
+                                                                             style="object-fit:cover;
                                                             width:70px;
                                                             height:70px;
                                                             border: solid 0px #CCC"/>
-                                                    <br class="p-0 m-0">
-                                                    <small class="pt-0 mt-0">{{p.person.first_name}}</small>
-                                                </div>
-                                                {% endif %}
-                                                {% endfor %}
-                                            </div> 
-                                        </li>
-                                        <li class="list-group-item pl-2 pt-0 pr-2 mb-0 mt-0 pb-1">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <small>who's out? 👎</small>
-                                                </div>
-                                            </div>
-                                            <div class="row float-left pl-0 ml-0" style="line-height:1;"> 
-                                                {% for p in participants %}
-                                                {% if p.part.choice == "n" %}
-                                                <div class="col m-0 p-0" >
-                                                    <img src="{{p.person.profile.image_url}}" 
-                                                    class="img m-0 p-0" 
-                                                    alt="{{p.person.first_name}}" 
-                                                    style="object-fit:cover;
+                                                                        <br class="p-0 m-0">
+                                                                        <small class="pt-0 mt-0">{{ p.person.first_name }}</small>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item pl-2 pt-0 pr-2 mb-0 mt-0 pb-1">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <small>who's out? 👎</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row float-left pl-0 ml-0" style="line-height:1;">
+                                                            {% for p in participants %}
+                                                                {% if p.part.choice == "n" %}
+                                                                    <div class="col m-0 p-0">
+                                                                        <img src="{{ p.person.profile.image_url }}"
+                                                                             class="img m-0 p-0"
+                                                                             alt="{{ p.person.first_name }}"
+                                                                             style="object-fit:cover;
                                                             width:70px;
                                                             height:70px;
                                                             border: solid 1px #CCC"/>
-                                                    <br>
-                                                    <small>{{p.person.first_name}}</small>
-                                                </div>
-                                                {% endif %}
-                                                {% endfor %}
-                                            </div> 
-                                        </li>
-                                        <li class="list-group-item pl-2 pt-0 pr-2 pb-1 mb-0 mt-0">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <small>who doesn't know yet? 🤔</small>
-                                                </div>
-                                            </div>
-                                            <div class="row float-left pl-0 ml-0" style="line-height:1;"> 
-                                                {% for p in participants %}
-                                                {% if p.part.choice == "m" %}
-                                                <div class="col m-0 p-0" >
-                                                    <img src="{{p.person.profile.image_url}}" 
-                                                    class="img m-0 p-0" 
-                                                    alt="{{p.person.first_name}}" 
-                                                    style="object-fit:cover;
+                                                                        <br>
+                                                                        <small>{{ p.person.first_name }}</small>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item pl-2 pt-0 pr-2 pb-1 mb-0 mt-0">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <small>who doesn't know yet? 🤔</small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row float-left pl-0 ml-0" style="line-height:1;">
+                                                            {% for p in participants %}
+                                                                {% if p.part.choice == "m" %}
+                                                                    <div class="col m-0 p-0">
+                                                                        <img src="{{ p.person.profile.image_url }}"
+                                                                             class="img m-0 p-0"
+                                                                             alt="{{ p.person.first_name }}"
+                                                                             style="object-fit:cover;
                                                             width:70px;
                                                             height:70px;
                                                             border: solid 1px #CCC"/>
-                                                    <br>
-                                                    <small>{{p.person.first_name}}</small>
-                                                </div>
+                                                                        <br>
+                                                                        <small>{{ p.person.first_name }}</small>
+                                                                    </div>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </li>
                                                 {% endif %}
-                                                {% endfor %}
-                                            </div> 
-                                        </li>
-                                        {% endif %}
-                                        <li class="list-group-item pl-2 pb-0 pt-2 pr-2">
-                                            <small>
-                                                {{event.formatted_markdown|safe}}
-                                            </small>
-                                        </li>
-                                        {% if user.is_staff %}
-                                        <li class="list-group-item pl-2 pt-2 pb-2 pr-2">
-                                            <div class="d-flex w-100 justify-content-between m-0">
-                                                
-                                                <a class="btn btn-light m-0" role="button" href="{% url 'admin:events_event_change' event.id %}?next={{request.path}}">
-                                                    edit event
-                                                </a>
-                                            </div>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
+                                                <li class="list-group-item pl-2 pb-0 pt-2 pr-2">
+                                                    <small>
+                                                        {{ event.formatted_markdown|safe }}
+                                                    </small>
+                                                </li>
+                                                {% if user.is_staff %}
+                                                    <li class="list-group-item pl-2 pt-2 pb-2 pr-2">
+                                                        <div class="d-flex w-100 justify-content-between m-0">
+
+                                                            <a class="btn btn-light m-0" role="button"
+                                                               href="{% url 'admin:events_event_change' event.id %}?next={{ request.path }}">
+                                                                edit event
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 {% endblock %}
