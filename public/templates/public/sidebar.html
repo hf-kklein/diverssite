@@ -1,10 +1,10 @@
 <div class="row">
-<div class="col-md-6 m-0 pl-3 pt-3 bg-light rounded">
-    <h4 class="font-italic">{{ welcome.welcome_title }}</h4>
-    <p class="mb-0">{{ welcome.welcome_text }}</p>
+<div class="col-md-12 p-3 text-center bg-light">
+    <h1 class="font-italic">{{ welcome.welcome_title }}</h1>
+    <p>{{ welcome.welcome_text }}</p>
 </div>
 
-<div class="col-md-6 pt-3">
+<div class="col-md-6 pt-3 pb-3 mx-auto">
 <div class="card m-0 mt-0">
     <a class="card-header p-2" href="{% url 'events:index' %}">
         <h4 class="font-bold pb-0 mb-0">Nächstes Event</h4>
