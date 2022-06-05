@@ -7,8 +7,14 @@
 <div class="col-md-6 pt-3 pb-3 mx-auto">
 <div class="card m-0 mt-0">
     <a class="card-header p-2" href="{% url 'events:index' %}">
-        <h4 class="font-bold pb-0 mb-0">Nächstes Event</h4>
-        <p class="mb-0 pt-0">{{next_training.name}}: {{ next_training.date|date:"d.m.y" }}, {{ next_training.location }}</p>
+        <h4 class="font-bold pb-0 mb-0">Up next</h4>
+        <p class="mb-0 pt-0">
+            {% if next_training.name == "" %}
+            Training: {{ next_training.date}}
+            {% else %}
+            {{next_training.name}}: {{ next_training.date|date:"d.m.y" }}, {{ next_training.location }}
+            {% endif %}
+        </p>
     </a>
     {% if user.is_authenticated %}
     <div class "card-body p-2">
