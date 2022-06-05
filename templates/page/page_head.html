@@ -1,4 +1,4 @@
-<div class="row flex justify-content-between align-items-center">
+<div class="row flex justify-content-between align-items-center pl-3 pr-3 pt-2 pb-2 m-0">
   <div class="col-6 text-left">
     <a class="lead text-dark" href="{% url 'public:index' %}">Divers Ultimate</a>
   </div>
@@ -19,7 +19,7 @@
   </div>
 </div>
 <div class="collapse" id="collapseProfile">
-  <div class="row flex pt-2">
+  <div class="row flex pt-0 pb-2 pr-3">
     <div class="col-4"> </div>
     <div class="col-8 text-right">
       {% if user.is_authenticated %}
