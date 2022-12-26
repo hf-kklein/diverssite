@@ -6,16 +6,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0002_auto_20210228_1205'),
+        ("wiki", "0002_auto_20210228_1205"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='Files',
-            new_name='File',
+            old_name="Files",
+            new_name="File",
         ),
         migrations.RenameModel(
-            old_name='Images',
-            new_name='Image',
+            old_name="Images",
+            new_name="Image",
         ),
     ]

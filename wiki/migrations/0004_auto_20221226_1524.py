@@ -7,52 +7,52 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0003_auto_20221226_1443'),
+        ("wiki", "0003_auto_20221226_1443"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='file',
-            name='date',
+            model_name="file",
+            name="date",
             field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='file',
-            name='time',
+            model_name="file",
+            name="time",
             field=models.TimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='file',
-            name='title',
+            model_name="file",
+            name="title",
             field=models.CharField(blank=True, default=None, max_length=20),
         ),
         migrations.AddField(
-            model_name='image',
-            name='date',
+            model_name="image",
+            name="date",
             field=models.DateField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='image',
-            name='time',
+            model_name="image",
+            name="time",
             field=models.TimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='image',
-            name='title',
+            model_name="image",
+            name="title",
             field=models.CharField(blank=True, default=None, max_length=20),
         ),
         migrations.AlterField(
-            model_name='file',
-            name='article',
-            field=models.ManyToManyField(blank=True, default=None, to='wiki.Article'),
+            model_name="file",
+            name="article",
+            field=models.ManyToManyField(blank=True, default=None, to="wiki.Article"),
         ),
         migrations.AlterField(
-            model_name='image',
-            name='article',
-            field=models.ManyToManyField(blank=True, default=None, to='wiki.Article'),
+            model_name="image",
+            name="article",
+            field=models.ManyToManyField(blank=True, default=None, to="wiki.Article"),
         ),
     ]
