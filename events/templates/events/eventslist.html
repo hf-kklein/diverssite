@@ -12,15 +12,38 @@
       padding-bottom: 50px;
     } */
     </style> -->
-    <div class="container p-0 pt-3">
-        <form action="{% url 'events:index' %}" href="?next={{ request.path }}" method="post" name="participation">
+    <div class="row d-flex pt-3 pb-3 m-0">
+        <form class="col-md-12 p-0 m-0" action="{% url 'events:index' %}" href="?next={{ request.path }}" method="post" name="participation">
             {% csrf_token %}
-            <div class="row pt-3 pb-3">
-                <aside class="col-md-3 mt-0 bg-light">
+                <div class="row m-0 pl-2 pr-2 bg-light">
                     {% include "events/sidebar.html" %}
-                </aside>
-                <div class="col-md-9">
-                    <div class="container" style="height: calc(75vh - 100px); overflow-y: scroll;">
+                </div>
+                <div class="sticky-top row m-0 p-2 bg-light justify-content-between">
+                    <div class="col m-0">
+                        <span class="badge badge-warning" type="button" onclick="window.location.href='{% url 'events:categ' 'training' %}';">training</span>
+                        <span class="badge badge-success" type="button" onclick="window.location.href='{% url 'events:categ' 'tournament' %}';">tournaments</span>
+                        <span class="badge badge-primary" type="button" onclick="window.location.href='{% url 'events:categ' 'social' %}';">social</span>
+                        <span class="badge badge-secondary" type="button" onclick="window.location.href='{% url 'events:categ' 'other' %}';">other</span>
+                        </div>
+
+                        <div class="col m-0">
+                        {% if user.is_staff %}
+                        <a class="btn btn-primary rounded mb-1" type="button" name="button" href="{% url 'admin:events_event_add' %}">
+                            add an event
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                        </a>
+                        {% endif %} 
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-primary rounded mb-1" type="submit">save</button>
+                        {% endif %}
+                    </div>
+
+                </div>
+
 
                         <div class="accordion" id="eventslist">
                             {{ formset.management_form }}
@@ -183,9 +206,6 @@
                                 </div>
                             {% endfor %}
                         </div>
-                    </div>
-                </div>
-            </div>
         </form>
     </div>
 {% endblock %}
