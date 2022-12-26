@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse
+from django.http.response import FileResponse
+from django.shortcuts import render, reverse, get_object_or_404
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 from .forms import AddressForm, ProfileForm, ProfilePictureForm, SignupForm, UpdateUserForm
 from .models import Profile, Settings
@@ -124,3 +126,11 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
                 "profile": self.profile,
             }
             return render(request, self.template_name, context)
+
+
+@login_required
+def secure(request, user, file):
+    user_id = user.split("_")[1]
+    profile = get_object_or_404(Profile, user=user_id)
+    response = FileResponse(profile.picture)
+    return response

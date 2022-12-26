@@ -1,9 +1,13 @@
+import os
+from django.http.response import FileResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views import View, generic
+from django.contrib.auth.decorators import login_required
 
-from .models import Article, Category
+from .models import Article, Category, Image, File
+from . import models
 
 # Create your views here.
 
@@ -34,6 +38,20 @@ class IndexView(View):
         }
 
         return render(request, self.template_name, context)
+
+
+@login_required
+def secure(request, file):
+    if "image" in file:
+        model = Image
+    elif "file" in file:
+        model = File
+    else:
+        raise NotImplementedError
+
+    file = get_object_or_404(model, file=f"private/wiki/{file}")
+    response = FileResponse(file.file)
+    return response
 
 
 class DetailView(UserPassesTestMixin, generic.DetailView):

@@ -17,6 +17,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+import wiki, users
 
 admin.autodiscover()
 admin.site.enable_nav_sidebar = False
@@ -31,4 +32,7 @@ urlpatterns = [
     path("wiki/", include("wiki.urls")),
     path("markdownx/", include("markdownx.urls")),
     path("mail/", include("mail.urls")),
+    # these protect private media files
+    path("media/private/wiki/<str:file>", wiki.views.secure, name="secure"),
+    path("media/private/profile/<str:user>/<str:file>", users.views.secure, name="secure"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
