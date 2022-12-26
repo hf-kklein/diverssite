@@ -241,7 +241,16 @@ export email_pw=XXXXXX
 export email_port=587
 ```
 
+## Development
+
+### Migrations
+
+always only migrate the app you have been working on e.g.
+```python3 manage.py makemigrations wiki```
+
 ## Maintenance
+
+### server
 
 server restart:
 
@@ -273,14 +282,14 @@ old:
 
 + activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
 
-## Bugs and Fixes
+### Bugs and Fixes
 
 admin site is not rendered correctly: Sidebar issue
 sitebar is triggered out of unknown overflow reasons.
 Fix: Disable sidebar
 <https://stackoverflow.com/questions/64016816/django-admin-sidebar-bug>
 
-## Roadmap
+### Roadmap
 
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 + [X] add history and revert possibilities
