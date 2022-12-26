@@ -273,6 +273,19 @@ old:
 
 + activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
 
+## Backup
+
+see <https://django-dbbackup.readthedocs.io/en/master/index.html>
+
+creating backups is done with:
+
+```bash
+python3 manage.py dbbackup
+python3 manage.py mediabackup
+```
+
+for restoring backups see the documentation
+
 ## Bugs and Fixes
 
 admin site is not rendered correctly: Sidebar issue
