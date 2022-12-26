@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "csvimport.app.CSVImportConf",
     "simple_history",
+    "dbbackup",
 ]
 
 AUTHENTICATION_BACKENDS = ["users.backends.EmailBackend"]
@@ -171,3 +172,6 @@ DEFAULT_FROM_EMAIL = os.environ.get(
 SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "") != "False"
 CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "") != "False"
 SECURE_SSL_REDIRECT = os.environ.get("SSL_REDIRECT", "") != "False"
+
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": os.environ.get("BACKUP_LOCATION", "backup")}
