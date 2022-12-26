@@ -26,12 +26,14 @@ vis_choice = (("public", "Public"), ("members", "Members"))
 
 
 def file_directory_path(instance, filename):
-    slug = slugify(
+    slug = slugify("-".join([
+        type(instance).__name__, 
         instance.title,
-        instance.pub_date,
-    )
-    fileslug = slugify(filename)
-    return "wiki/{0}/{1}".format(slug, fileslug)
+        instance.date.strftime("%Y%m%d") + 
+        instance.time.strftime("%H%M%S%f")
+    ]))
+    ext = filename.split(".")[-1]
+    return f"wiki/{slug}.{ext}"
 
 
 class Article(models.Model):
@@ -58,13 +60,19 @@ class Article(models.Model):
 
 # https://stackoverflow.com/questions/34006994/how-to-upload-multiple-images-to-a-blog-post-in-django/34007383
 # hier gehts weiter
-class Images(models.Model):
-    article = models.ManyToManyField(Article, default=None)
+class Image(models.Model):
+    title = models.CharField(max_length=20, default=None, blank=True)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    article = models.ManyToManyField(Article, default=None, blank=True)
     image = models.ImageField(upload_to=file_directory_path, verbose_name="Image")
     # history = HistoricalRecords()
 
 
-class Files(models.Model):
-    article = models.ManyToManyField(Article, default=None)
+class File(models.Model):
+    title = models.CharField(max_length=20, default=None, blank=True)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    article = models.ManyToManyField(Article, default=None, blank=True)
     file = models.FileField(upload_to=file_directory_path, verbose_name="File")
     # history = HistoricalRecords()
