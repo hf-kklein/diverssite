@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0005_auto_20221226_1742'),
+        ("wiki", "0005_auto_20221226_1742"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='image',
-            old_name='image',
-            new_name='file',
+            model_name="image",
+            old_name="image",
+            new_name="file",
         ),
     ]

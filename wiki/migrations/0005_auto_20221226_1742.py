@@ -6,26 +6,26 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0004_auto_20221226_1524'),
+        ("wiki", "0004_auto_20221226_1524"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='file',
-            name='article',
+            model_name="file",
+            name="article",
         ),
         migrations.RemoveField(
-            model_name='image',
-            name='article',
+            model_name="image",
+            name="article",
         ),
         migrations.AddField(
-            model_name='article',
-            name='files',
-            field=models.ManyToManyField(blank=True, default=None, to='wiki.File'),
+            model_name="article",
+            name="files",
+            field=models.ManyToManyField(blank=True, default=None, to="wiki.File"),
         ),
         migrations.AddField(
-            model_name='article',
-            name='images',
-            field=models.ManyToManyField(blank=True, default=None, to='wiki.Image'),
+            model_name="article",
+            name="images",
+            field=models.ManyToManyField(blank=True, default=None, to="wiki.Image"),
         ),
     ]

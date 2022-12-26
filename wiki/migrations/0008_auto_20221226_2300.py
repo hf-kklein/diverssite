@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0007_image_event'),
+        ("wiki", "0007_image_event"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='file',
-            name='public',
+            model_name="file",
+            name="public",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='image',
-            name='public',
+            model_name="image",
+            name="public",
             field=models.BooleanField(default=False),
         ),
     ]
