@@ -36,6 +36,24 @@ def file_directory_path(instance, filename):
     return f"wiki/{slug}.{ext}"
 
 
+# https://stackoverflow.com/questions/34006994/how-to-upload-multiple-images-to-a-blog-post-in-django/34007383
+# hier gehts weiter
+class Image(models.Model):
+    title = models.CharField(max_length=20, default=None, blank=True)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    image = models.ImageField(upload_to=file_directory_path, verbose_name="Image")
+    # history = HistoricalRecords()
+
+
+class File(models.Model):
+    title = models.CharField(max_length=20, default=None, blank=True)
+    date = models.DateField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    file = models.FileField(upload_to=file_directory_path, verbose_name="File")
+    # history = HistoricalRecords()
+
+
 class Article(models.Model):
     category = models.ManyToManyField(Category)
     title = models.CharField(max_length=200)
@@ -46,6 +64,8 @@ class Article(models.Model):
     show_on_pages = models.ManyToManyField(Display)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True)
     history = HistoricalRecords()
+    files = models.ManyToManyField(File, default=None, blank=True)
+    images = models.ManyToManyField(Image, default=None, blank=True)
 
     # Create your models here.
 
@@ -56,23 +76,3 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
-
-
-# https://stackoverflow.com/questions/34006994/how-to-upload-multiple-images-to-a-blog-post-in-django/34007383
-# hier gehts weiter
-class Image(models.Model):
-    title = models.CharField(max_length=20, default=None, blank=True)
-    date = models.DateField(auto_now_add=True)
-    time = models.TimeField(auto_now_add=True)
-    article = models.ManyToManyField(Article, default=None, blank=True)
-    image = models.ImageField(upload_to=file_directory_path, verbose_name="Image")
-    # history = HistoricalRecords()
-
-
-class File(models.Model):
-    title = models.CharField(max_length=20, default=None, blank=True)
-    date = models.DateField(auto_now_add=True)
-    time = models.TimeField(auto_now_add=True)
-    article = models.ManyToManyField(Article, default=None, blank=True)
-    file = models.FileField(upload_to=file_directory_path, verbose_name="File")
-    # history = HistoricalRecords()
