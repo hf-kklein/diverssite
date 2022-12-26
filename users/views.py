@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddressForm, ProfileForm, ProfilePictureForm, SignupForm, UpdateUserForm
 from .models import Profile, Settings
 
+
 class Login(LoginView):
     template_name = "users/login.html"
 
@@ -125,6 +126,7 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
                 "profile": self.profile,
             }
             return render(request, self.template_name, context)
+
 
 @login_required
 def secure(request, user, file):

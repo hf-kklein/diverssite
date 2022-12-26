@@ -32,9 +32,7 @@ urlpatterns = [
     path("wiki/", include("wiki.urls")),
     path("markdownx/", include("markdownx.urls")),
     path("mail/", include("mail.urls")),
-
     # these protect private media files
     path("media/private/wiki/<str:file>", wiki.views.secure, name="secure"),
-    path("media/private/profile/<str:user>/<str:file>", users.views.secure, name="secure")
-
+    path("media/private/profile/<str:user>/<str:file>", users.views.secure, name="secure"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

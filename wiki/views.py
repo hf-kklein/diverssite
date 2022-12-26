@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Article, Category, Image, File
 from . import models
+
 # Create your views here.
 
 
@@ -38,10 +39,11 @@ class IndexView(View):
 
         return render(request, self.template_name, context)
 
+
 @login_required
 def secure(request, file):
     if "image" in file:
-        model = Image  
+        model = Image
     elif "file" in file:
         model = File
     else:

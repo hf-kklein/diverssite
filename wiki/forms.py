@@ -3,7 +3,6 @@ from django.forms.widgets import CheckboxSelectMultiple
 
 
 class ArticleAdminForm(forms.ModelForm):
-
     class Meta:
         widgets = {
             "category": CheckboxSelectMultiple,

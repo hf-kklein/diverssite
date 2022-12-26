@@ -5,8 +5,10 @@ from django.utils.text import slugify
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 from simple_history.models import HistoricalRecords
+
 # Create your models here.
 from events.models import Event
+
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -36,15 +38,10 @@ def file_directory_path(instance, filename):
     title = "unnamed" if instance.title == "" else instance.title
     public = "public" if instance.public else "private"
 
-    slug = slugify("-".join([
-        type(instance).__name__, 
-        event,
-        date,
-        title
-    ]))
+    slug = slugify("-".join([type(instance).__name__, event, date, title]))
 
     similar_files = [i.file.name for i in Image.objects.all() if slug in i.file.name]
-    
+
     slug = slug + "-" + str(len(similar_files))
 
     ext = filename.split(".")[-1]
@@ -64,7 +61,6 @@ class Image(models.Model):
 
     def __str__(self):
         return os.path.basename(self.file.path)
-
 
     def image_url(self):
         """
@@ -86,12 +82,11 @@ class File(models.Model):
     time = models.TimeField(auto_now_add=True)
     file = models.FileField(upload_to=file_directory_path, verbose_name="File")
     public = models.BooleanField(default=False)
-    
+
     # history = HistoricalRecords()
 
     def __str__(self):
         return os.path.basename(self.file.path)
-
 
     def file_url(self):
         if self.file and hasattr(self.file, "url"):
@@ -107,10 +102,10 @@ class File(models.Model):
 
             if ".docx" in url or ".doc" in url:
                 return "/static/images/word.png"
-            
+
             if ".pdf" in url:
                 return "/static/images/pdf.png"
-            
+
             else:
                 return "/static/images/document.png"
 
