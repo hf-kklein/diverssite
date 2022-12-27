@@ -265,7 +265,7 @@ after changes to the django app have been made:
 + migrate changes if necessary:   ```python3 manage.py migrate```
 + restart gunicorn:  ```sudo systemctl restart gunicorn```
 + check if site works. If server error occurs, it could be because changes rely
-  on model values which have not been +et. This can be directly tackled in the
+  on model values which have not been set. This can be directly tackled in the
   admin view --> <https://mysite.de/admin>
 + restart postfix:  ```sudo systemctl restart postfix```
 + restart dovecot:  ```sudo systemctl restart dovecot```

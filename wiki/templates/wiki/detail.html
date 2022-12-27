@@ -39,7 +39,7 @@
       <div class="row m-0 mt-2">
         {% for file in article.files.all %}
         {% if file.public or user.is_authenticated %}
-        <a href="{{ file.file_url }}">
+        <a class="pr-2 pl-2" href="{{ file.file_url }}">
             <div class="col m-0 p-0">
                 <img src="{{ file.file_type_icon }}"
                     class="img m-0 p-0"
@@ -47,7 +47,7 @@
                             width:64px;
                             height:64px" />
             </div>
-            <p>{{ file.title }}</p>
+            <small>{{ file.title }}</small>
         </a>
         {%endif%}
         {% endfor %}
