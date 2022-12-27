@@ -7,13 +7,16 @@ import wiki.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0008_auto_20221226_2300'),
+        ("wiki", "0008_auto_20221226_2300"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='image',
-            name='thumbnail',
-            field=models.ImageField(default='/static/images/default_profile_thumbnail.png', upload_to=wiki.models.file_directory_path_tumbnail),
+            model_name="image",
+            name="thumbnail",
+            field=models.ImageField(
+                default="/static/images/default_profile_thumbnail.png",
+                upload_to=wiki.models.file_directory_path_tumbnail,
+            ),
         ),
     ]

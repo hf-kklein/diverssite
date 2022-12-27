@@ -52,9 +52,9 @@ class Profile(models.Model):
     zip = models.CharField(max_length=50, null=True, blank=True)
     picture = models.ImageField(upload_to=user_profile_directory_path, null=True, blank=True)
     thumbnail = models.ImageField(
-        upload_to=file_directory_path_tumbnail, 
-        default="/static/images/default_profile_thumbnail.png",#
-        editable=False
+        upload_to=file_directory_path_tumbnail,
+        default="/static/images/default_profile_thumbnail.png",  #
+        editable=False,
     )
 
     def image_url(self):
@@ -112,9 +112,10 @@ class Profile(models.Model):
             self.thumbnail.file = File(buf)
             self.thumbnail.name = thumb_path
 
-            # save image to media with thumbnail path property 
+            # save image to media with thumbnail path property
             tiny_img.save(self.thumbnail.path, format="JPEG")
 
         super(Profile, self).save(*args, **kwargs)
+
     # def __str__(self):
     #     return self.user.name
