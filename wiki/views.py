@@ -25,6 +25,7 @@ def nest_articles_in_categories(articles):
 
     return category_system
 
+
 class IndexView(View):
     template_name = "wiki/index.html"
 
@@ -32,9 +33,7 @@ class IndexView(View):
         articles = get_articles_for_user(user=request.user)
         category_system = nest_articles_in_categories(articles=articles)
 
-        articles_query = articles.filter(
-            pub_date__lte=timezone.now()
-        ).order_by("-pub_date")[:5]
+        articles_query = articles.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
         context = {
             "articles": articles_query,
@@ -89,4 +88,3 @@ class DetailView(UserPassesTestMixin, generic.DetailView):
         }
 
         return render(request, self.template_name, context)
-
