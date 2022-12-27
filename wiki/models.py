@@ -84,12 +84,15 @@ class Image(models.Model):
         :returns: str -- the image url
 
         """
+        default = "/static/images/default_profile.png"
         if self.file and hasattr(self.file, "url"):
+            if default in self.file.url:
+                return default
             return self.file.url
         else:
-            return "/static/images/default_profile.png"
+            return default
 
-    def image_url(self):
+    def thumb_url(self):
         """
         Returns the URL of the image associated with this Object.
         If an image hasn't been uploaded yet, it returns a stock image
@@ -97,10 +100,14 @@ class Image(models.Model):
         :returns: str -- the image url
 
         """
+        default = "/static/images/default_profile_thumbnail.png"
+
         if self.thumbnail and hasattr(self.thumbnail, "url"):
+            if default in self.thumbnail.url:
+                return default
             return self.thumbnail.url
         else:
-            return "/static/images/default_profile_thumbnail.png"
+            return default
 
     def save(self, *args, **kwargs):
         if not self.file:

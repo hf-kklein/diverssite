@@ -65,10 +65,13 @@ class Profile(models.Model):
         :returns: str -- the image url
 
         """
+        default = "/static/images/default_profile.png"
         if self.picture and hasattr(self.picture, "url"):
+            if default in self.picture.url:
+                return default
             return self.picture.url
         else:
-            return "/static/images/default_profile.png"
+            return default
 
     def thumb_url(self):
         """
@@ -78,10 +81,14 @@ class Profile(models.Model):
         :returns: str -- the image url
 
         """
+        default = "/static/images/default_profile_thumbnail.png"
+
         if self.thumbnail and hasattr(self.thumbnail, "url"):
+            if default in self.thumbnail.url:
+                return default
             return self.thumbnail.url
         else:
-            return "/static/images/default_profile_thumbnail.png"
+            return default
 
     def save(self, *args, **kwargs):
         if not self.picture:
