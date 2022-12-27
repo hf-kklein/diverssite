@@ -4,6 +4,7 @@ venv
 testvenv
 .idea
 media
+backup
 /.vscode/
 env.ps1
 db.sqlite3

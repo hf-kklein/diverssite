@@ -145,7 +145,6 @@ in the repository root directory.
    ```
 
    paste these variables and replace the values with real stuff. Make sure
-   PGPASSWORD and PGUSER contain the same values as 'usr' and 'pwd'
 
    ```bash
    export server_ip=REAL_SERVER_IP
@@ -159,8 +158,6 @@ in the repository root directory.
    export SSL_REDIRECT=True
    export CSRF_COOKIE_SECURE="False"
    export SESSION_COOKIE_SECURE="False"
-   export PGPASSWORD=SAME_PASSWORD_AS_pwd
-   export PGUSER=SAME_USER_AS_usr
    ```
 
    ```set -a; source ~/sites/diverssite/.env; set +a```  # try out if .env works
@@ -281,6 +278,19 @@ after changes to the django app have been made:
 old:
 
 + activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
+
+### Backup
+
+see <https://django-dbbackup.readthedocs.io/en/master/index.html>
+
+creating backups is done with:
+
+```bash
+python3 manage.py dbbackup
+python3 manage.py mediabackup
+```
+
+for restoring backups see the documentation
 
 ### Bugs and Fixes
 
