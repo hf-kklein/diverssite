@@ -1,4 +1,8 @@
 import os
+import io
+import PIL
+from PIL import ImageOps
+from django.core.files import File
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
@@ -27,7 +31,7 @@ class Display(models.Model):
 vis_choice = (("public", "Public"), ("members", "Members"))
 
 
-def file_directory_path(instance, filename):
+def file_directory_path(instance, filename, check_similar=True):
     try:
         event = instance.event.name
         date = instance.event.date.strftime("%Y%m%d")
@@ -40,12 +44,17 @@ def file_directory_path(instance, filename):
 
     slug = slugify("-".join([type(instance).__name__, event, date, title]))
 
-    similar_files = [i.file.name for i in Image.objects.all() if slug in i.file.name]
-
-    slug = slug + "-" + str(len(similar_files))
+    if check_similar:
+        similar_files = [i.file.name for i in Image.objects.all() if slug in i.file.name]
+        slug = slug + "-" + str(len(similar_files))
 
     ext = filename.split(".")[-1]
     return f"{public}/wiki/{slug}.{ext}"
+
+def file_directory_path_tumbnail(instance, filename):
+    path = file_directory_path(instance, filename, check_similar=False)
+    head, ext = os.path.splitext(path)
+    return f"{head}-thumb{ext}"
 
 
 # https://stackoverflow.com/questions/34006994/how-to-upload-multiple-images-to-a-blog-post-in-django/34007383
@@ -56,6 +65,11 @@ class Image(models.Model):
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
     file = models.ImageField(upload_to=file_directory_path, verbose_name="Image")
+    thumbnail = models.ImageField(
+        upload_to=file_directory_path_tumbnail, 
+        default="/static/images/default_profile_thumbnail.png",
+        editable=False
+    )
     public = models.BooleanField(default=False)
     # history = HistoricalRecords()
 
@@ -75,6 +89,45 @@ class Image(models.Model):
         else:
             return "/static/images/default_profile.png"
 
+    def image_url(self):
+        """
+        Returns the URL of the image associated with this Object.
+        If an image hasn't been uploaded yet, it returns a stock image
+
+        :returns: str -- the image url
+
+        """
+        if self.thumbnail and hasattr(self.thumbnail, "url"):
+            return self.thumbnail.url
+        else:
+            return "/static/images/default_profile_thumbnail.png"
+
+    def save(self, *args, **kwargs):
+        if not self.file:
+            self.thumbnail = None
+        else:
+            # extract path from old file and append thumbnail
+            thumb_path = file_directory_path_tumbnail(self, os.path.basename(self.file.path))
+
+            # create byte buffer
+            buf = io.BytesIO()
+
+            # open original image, transpose to address exif tags,
+            # resize and save to buffer
+            thumbnail_size = 100, 100
+            tiny_img = PIL.Image.open(self.file)
+            tiny_img = ImageOps.exif_transpose(tiny_img)
+            tiny_img.thumbnail(thumbnail_size)
+            tiny_img.save(buf, format="JPEG")
+
+            # save new objects to thumbnail field
+            self.thumbnail.file = File(buf)
+            self.thumbnail.name = thumb_path
+
+            # save image to media with thumbnail path property 
+            tiny_img.save(self.thumbnail.path, format="JPEG")
+
+        super(Image, self).save(*args, **kwargs)
 
 class File(models.Model):
     title = models.CharField(max_length=20, default=None, blank=True)
