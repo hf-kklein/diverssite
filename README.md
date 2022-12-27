@@ -145,7 +145,6 @@ in the repository root directory.
    ```
 
    paste these variables and replace the values with real stuff. Make sure
-   PGPASSWORD and PGUSER contain the same values as 'usr' and 'pwd'
 
    ```bash
    export server_ip=REAL_SERVER_IP
@@ -159,8 +158,6 @@ in the repository root directory.
    export SSL_REDIRECT=True
    export CSRF_COOKIE_SECURE="False"
    export SESSION_COOKIE_SECURE="False"
-   export PGPASSWORD=SAME_PASSWORD_AS_pwd
-   export PGUSER=SAME_USER_AS_usr
    ```
 
    ```set -a; source ~/sites/diverssite/.env; set +a```  # try out if .env works
@@ -241,7 +238,16 @@ export email_pw=XXXXXX
 export email_port=587
 ```
 
+## Development
+
+### Migrations
+
+always only migrate the app you have been working on e.g.
+```python3 manage.py makemigrations wiki```
+
 ## Maintenance
+
+### server
 
 server restart:
 
@@ -259,7 +265,7 @@ after changes to the django app have been made:
 + migrate changes if necessary:   ```python3 manage.py migrate```
 + restart gunicorn:  ```sudo systemctl restart gunicorn```
 + check if site works. If server error occurs, it could be because changes rely
-  on model values which have not been +et. This can be directly tackled in the
+  on model values which have not been set. This can be directly tackled in the
   admin view --> <https://mysite.de/admin>
 + restart postfix:  ```sudo systemctl restart postfix```
 + restart dovecot:  ```sudo systemctl restart dovecot```
@@ -273,7 +279,7 @@ old:
 
 + activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
 
-## Backup
+### Backup
 
 see <https://django-dbbackup.readthedocs.io/en/master/index.html>
 
@@ -286,14 +292,14 @@ python3 manage.py mediabackup
 
 for restoring backups see the documentation
 
-## Bugs and Fixes
+### Bugs and Fixes
 
 admin site is not rendered correctly: Sidebar issue
 sitebar is triggered out of unknown overflow reasons.
 Fix: Disable sidebar
 <https://stackoverflow.com/questions/64016816/django-admin-sidebar-bug>
 
-## Roadmap
+### Roadmap
 
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 + [X] add history and revert possibilities
