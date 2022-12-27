@@ -51,6 +51,7 @@ def file_directory_path(instance, filename, check_similar=True):
     ext = filename.split(".")[-1]
     return f"{public}/wiki/{slug}.{ext}"
 
+
 def file_directory_path_tumbnail(instance, filename):
     path = file_directory_path(instance, filename, check_similar=False)
     head, ext = os.path.splitext(path)
@@ -66,9 +67,7 @@ class Image(models.Model):
     time = models.TimeField(auto_now_add=True)
     file = models.ImageField(upload_to=file_directory_path, verbose_name="Image")
     thumbnail = models.ImageField(
-        upload_to=file_directory_path_tumbnail, 
-        default="/static/images/default_profile_thumbnail.png",
-        editable=False
+        upload_to=file_directory_path_tumbnail, default="/static/images/default_profile_thumbnail.png", editable=False
     )
     public = models.BooleanField(default=False)
     # history = HistoricalRecords()
@@ -131,10 +130,11 @@ class Image(models.Model):
             self.thumbnail.file = File(buf)
             self.thumbnail.name = thumb_path
 
-            # save image to media with thumbnail path property 
+            # save image to media with thumbnail path property
             tiny_img.save(self.thumbnail.path, format="JPEG")
 
         super(Image, self).save(*args, **kwargs)
+
 
 class File(models.Model):
     title = models.CharField(max_length=20, default=None, blank=True)
