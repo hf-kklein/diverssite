@@ -13,7 +13,7 @@ def trim_leading_slash(url):
 
 def run():
     media = trim_leading_slash(settings.MEDIA_URL)
-    
+
     # move images
     images = Image.objects.all()
 

@@ -4,6 +4,7 @@
 from wiki.models import Image
 from users.models import Profile
 
+
 def run():
     images = Image.objects.all()
     for img in images:

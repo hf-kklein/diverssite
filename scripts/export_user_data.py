@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from users.models import Profile
 
+
 def run():
     users = pd.DataFrame(User.objects.all().values())
     profiles = pd.DataFrame(Profile.objects.all().values())
@@ -15,7 +16,6 @@ def run():
         .set_index("id")
         .sort_index()
     )
-
 
     data["list_name"] = data["first_name"] + " " + data["last_name"]
     data["list_name"] = np.where(data["list_name"] == " ", data["username"], data["list_name"])
