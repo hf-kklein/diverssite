@@ -21,12 +21,12 @@
         {% if img.public or user.is_authenticated %}
         <a href="{{ img.image_url }}">
             <div class="col m-0 p-0">
-                <img src="{{ img.image_url }}"
+                <img src="{{ img.thumb_url }}"
                     class="img m-0 p-0"
-                    alt= "{{ img.image_url }}" 
+                    alt= "{{ img.thumb_url }}" 
                     style="object-fit:cover;
-                            width:200px;
-                            height:200px;
+                            width:100px;
+                            height:100px;
                             border: solid 1px #CCC"/>
             </div>
         </a>

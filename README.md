@@ -245,6 +245,10 @@ export email_port=587
 always only migrate the app you have been working on e.g.
 ```python3 manage.py makemigrations wiki```
 
+for changes that affect a database retrospectively, use of django-extensions `runscript` is recommended
+
+`python3 manage.py runscript save_models`
+
 ## Maintenance
 
 ### server
