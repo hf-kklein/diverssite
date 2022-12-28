@@ -14,7 +14,6 @@ from django.core.files import File
 # Create your models here.
 def user_profile_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    print(filename)
     return "profile/user_{0}/{1}".format(instance.user.id, filename)
 
 
