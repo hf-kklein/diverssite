@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "csvimport.app.CSVImportConf",
     "simple_history",
     "dbbackup",
+    "django_extensions",
 ]
 
 AUTHENTICATION_BACKENDS = ["users.backends.EmailBackend"]

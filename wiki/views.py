@@ -9,32 +9,35 @@ from django.contrib.auth.decorators import login_required
 from .models import Article, Category, Image, File
 from . import models
 
-# Create your views here.
+
+def get_articles_for_user(user):
+    if user.is_active:
+        return Article.objects.all()
+    else:
+        return Article.objects.filter(visibility="public")
+
+
+def nest_articles_in_categories(articles):
+    categories = Category.objects.all()
+    category_system = dict()
+    for cat in categories:
+        category_system[cat] = articles.filter(category=cat)
+
+    return category_system
 
 
 class IndexView(View):
     template_name = "wiki/index.html"
-    # context_object_name = 'latest_question_list'
 
     def get(self, request):
-        # with self make variable to class attribute, accessible to all methods
-        # self.user_query = request.user
-        # post_query = Post.objects.filter(page = 'events')
-        category_query = Category.objects.all()
-        if request.user.is_active:
-            articles = Article.objects.all()
-        else:
-            articles = Article.objects.filter(visibility="public")
-        articles_query = articles.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
+        articles = get_articles_for_user(user=request.user)
+        category_system = nest_articles_in_categories(articles=articles)
 
-        category_system = dict()
-        for cat in category_query:
-            category_system[cat] = articles.filter(category=cat)
+        articles_query = articles.filter(pub_date__lte=timezone.now()).order_by("-pub_date")[:5]
 
         context = {
             "articles": articles_query,
             "categories": category_system,
-            # 'user': self.user_query
         }
 
         return render(request, self.template_name, context)
@@ -60,6 +63,10 @@ class DetailView(UserPassesTestMixin, generic.DetailView):
     template_name = "wiki/detail.html"
 
     def test_func(self):
+        """
+        test function for class UserPassesTestMixin to regulate access to
+        article
+        """
         u = self.request.user
         a = Article.objects.get(slug=self.kwargs["slug"])
         if u.is_active:
@@ -70,23 +77,14 @@ class DetailView(UserPassesTestMixin, generic.DetailView):
             return False
 
     def get(self, request, slug):
-        # with self make variable to class attribute, accessible to all methods
-        # self.user_query = request.user
-        # post_query = Post.objects.filter(page = 'events')
-        category_query = Category.objects.all()
-
-        category_system = dict()
-        for cat in category_query:
-            category_system[cat] = Article.objects.filter(category=cat)
+        articles = get_articles_for_user(user=request.user)
+        category_system = nest_articles_in_categories(articles=articles)
 
         article = Article.objects.get(slug=slug)
 
         context = {
-            # 'posts':  post_query,
             "categories": category_system,
             "article": article,
         }
 
         return render(request, self.template_name, context)
-
-    # def post(self, request):

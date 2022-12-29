@@ -79,18 +79,14 @@ Framework.
 11. For further infor refer to: <https://docs.djangoproject.com/en/3.1/> and
     <https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website>
 
-## Code Formatting and Conventions:
+## Code Formatting and Conventions
 
 The code is formatted using [black](https://black.readthedocs.io/en/stable/).
-
 The imports are sorted using [isort](https://pycqa.github.io/isort/).
-
 Follow the respective installation instructions. Then run:
+
 ```bash
 black .
-```
-or 
-```bash
 isort .
 ```
 
@@ -191,52 +187,48 @@ in the repository root directory.
 
 8. set up SSL certificate
 
-follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
-(set up for Ubuntu 18.04 and Nginx)
+   follow the instructions on <https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx>
+   (set up for Ubuntu 18.04 and Nginx)
 
 9. Set up the SMTP Server with Postfix and Dovecot
 
-What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
-I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
-https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
-https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
+   What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
+   I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
+   <https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu>
+   <https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot>
 
-Warning: Here monit is used to automatically restart postfix. Monit caused problems in starting 
-postfix. Prefer to not install it
+   Warning: Here monit is used to automatically restart postfix. Monit caused problems in starting
+   postfix. Prefer to not install it
 
-+ set hostname: This may actually be not required because later on we fix the hostname in postfix config
-```sudo hostnamectl set-hostname mail.saxy-divers.de```
-+ follow the rest of the tutorial
+   + set hostname: This may actually be not required because later on we fix the hostname in postfix config
+   ```sudo hostnamectl set-hostname mail.saxy-divers.de```
+   + follow the rest of the tutorial
+   + open the aliases file
+   ```sudo nano /etc/aliases```
+   + add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
+   ```root:          your@mail.de```
+   + updating certificate to email instead of creating a new one:
+   ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+   + dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
+   + enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
 
-+ open the aliases file
-```sudo nano /etc/aliases```
+   To check problems of postifx and dovecot inspect the log
 
-+ add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
-```root:          your@mail.de```
+   + check mailbox:
+   ```nano /var/mail/florian```
+   + check log:
+   ```nano /var/log/mail.log```
 
-+ updating certificate to email instead of creating a new one:
-```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+   + then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
 
-+ dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
-+ enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
-
-To check problems of postifx and dovecot inspect the log
-
-+ check mailbox:
-```nano /var/mail/florian```
-+ check log:
-```nano /var/log/mail.log```
-
-+ then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
-
-```bash
-export email_tls=True
-export email_default_from=ultimail@saxy-divers.de
-export email_host=mail.saxy-divers.de
-export email_usr=XXXXXX
-export email_pw=XXXXXX
-export email_port=587
-```
+   ```bash
+   export email_tls=True
+   export email_default_from=ultimail@saxy-divers.de
+   export email_host=mail.saxy-divers.de
+   export email_usr=XXXXXX
+   export email_pw=XXXXXX
+   export email_port=587
+   ```
 
 ## Development
 
@@ -245,16 +237,20 @@ export email_port=587
 always only migrate the app you have been working on e.g.
 ```python3 manage.py makemigrations wiki```
 
+for changes that affect a database retrospectively, use of django-extensions `runscript` is recommended
+
+`python3 manage.py runscript save_models`
+
 ## Maintenance
 
 ### server
 
-server restart:
+#### server restart
 
 + sudo hostnamectl set-hostname mail.saxy-divers.de (not sure if this is really necessary)
 + sudo systemctl restart gunicorn nginx postfix dovecot
 
-after changes to the django app have been made:
+#### after changes to the django app have been made
 
 + NEVER push settings from the develop branch
 + push if needed changes from main branch
@@ -275,10 +271,6 @@ after changes to the django app have been made:
   ```sudo useradd -m username```
   ```sudo passwd username```
 
-old:
-
-+ activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
-
 ### Backup
 
 see <https://django-dbbackup.readthedocs.io/en/master/index.html>
@@ -292,9 +284,10 @@ python3 manage.py mediabackup
 
 for restoring backups see the documentation
 
-### Bugs and Fixes
+### Known Issues and Fixes
 
-admin site is not rendered correctly: Sidebar issue
+#### admin site is not rendered correctly - Sidebar issue
+
 sitebar is triggered out of unknown overflow reasons.
 Fix: Disable sidebar
 <https://stackoverflow.com/questions/64016816/django-admin-sidebar-bug>
@@ -319,7 +312,7 @@ Fix: Disable sidebar
 + [ ] Zugang zu contact@saxy-divers.de und ultimail@saxy-divers.de auf webseite
 + [x] fix emails
 
-Wünsche
+### Wünsche
 
 + Mailbenachrichtigung bei neuem turnier
 + kategorien anlegen
