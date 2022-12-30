@@ -288,6 +288,25 @@ python3 manage.py mediabackup
 
 for restoring backups see the documentation
 
+### upgrade system
+
++ first open a port on ufw wtih the rule `1022/tcp` for ssh access on 
+a different port and add it in 
++ do it very slowly according to the instructions and make sure the port is added in `sudo nano /etc/ssh/sshd_config` as `Port 1022`
+
+in case the upgrade messes with the previously used python version
+follow the to ansper in <https://stackoverflow.com/questions/61541281/python-3-7-venv-broken-after-upgrade-to-ubuntu-20-04>
+
+there will be several updates to existing configuration files necessary
+it is recommended to start the services one by one and inspect error messages: `sudo systemctl start SERVICE` to check errormessages exchange `start` with `status`
+- gunicorn (potential python migration issues)
+- nginx (occupied port: <https://stackoverflow.com/questions/42303401/nginx-will-not-start-address-already-in-use> check used ports `sudo netstat -tulpn`)
+- postfix
+- dovecot (configuration files: /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/dovecot.conf)
+
+#### disable unneeded services
+`sudo systemctl disable apache2.service` --> blocks port 80
+
 ### Known Issues and Fixes
 
 #### admin site is not rendered correctly - Sidebar issue
