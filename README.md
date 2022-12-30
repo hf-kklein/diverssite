@@ -179,6 +179,10 @@ in the repository root directory.
 7. follow instructions on how to set up gunicorn and nginx.
    <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04>
 
+   to get started with nginx, check this guide. It is really helpful 
+   to understand what nginx does
+   <https://nginx.org/en/docs/beginners_guide.html>
+
    to reset the server after changes:
 
    ```bash

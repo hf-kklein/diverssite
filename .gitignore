@@ -14,3 +14,4 @@ testdb
 data
 stats
 *.code-workspace
+config
