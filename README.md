@@ -22,6 +22,7 @@ Framework.
    + On linux you may need to install pip ```sudo apt install python3-pip```
    + [install git if necessary](https://git-scm.com/downloads))
    + Text editor of your choice (Visual Studio Code, Pycharm, Notepad, Vim, ...) (<https://code.visualstudio.com/>).
+   + sudo apt install postgresql libpq-dev
 
 1. clone repository into new directory
    ```git clone git@github.com:flo-schu/diverssite.git```
@@ -48,7 +49,9 @@ Framework.
    Pip is the store where you can get all the tools
    update pip: ```python -m pip install --upgrade pip```
    ```pip install -r requirements.txt```
-
+   or install
+   ```pip install .```
+   
 6. create a '.env' file. This files contains all custom settings, which are
    imported when the app is launched. A different version of this is used in
    production (when the site is online), which then contains only absolutely
