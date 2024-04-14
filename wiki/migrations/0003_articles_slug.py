@@ -6,14 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('wiki', '0002_auto_20200228_2124'),
+        ("wiki", "0002_auto_20200228_2124"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='articles',
-            name='slug',
-            field=models.SlugField(default='test'),
+            model_name="articles",
+            name="slug",
+            field=models.SlugField(default="test"),
             preserve_default=False,
         ),
     ]

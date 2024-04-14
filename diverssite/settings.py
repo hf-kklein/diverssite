@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 from pprint import pprint
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,69 +24,71 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
-ALLOWED_HOSTS = ['saxy-divers.de', os.environ.get('server_ip')]
+ALLOWED_HOSTS = ["saxy-divers.de", os.environ.get("server_ip")]
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
-    'public.apps.PublicConfig',
-    'events.apps.EventsConfig',
-    'users.apps.UsersConfig',
-    'wiki.apps.WikiConfig',
-    'mail.apps.MailConfig',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'markdownx',
-    'crispy_forms',
-    'csvimport.app.CSVImportConf',
-    'simple_history',
+    "polls.apps.PollsConfig",
+    "public.apps.PublicConfig",
+    "events.apps.EventsConfig",
+    "users.apps.UsersConfig",
+    "wiki.apps.WikiConfig",
+    "mail.apps.MailConfig",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "markdownx",
+    "crispy_forms",
+    "csvimport.app.CSVImportConf",
+    "simple_history",
+    "dbbackup",
+    "django_extensions",
 ]
 
-AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
+AUTHENTICATION_BACKENDS = ["users.backends.EmailBackend"]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
 ]
 
-ROOT_URLCONF = 'diverssite.urls'
+ROOT_URLCONF = "diverssite.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'diverssite.wsgi.application'
+WSGI_APPLICATION = "diverssite.wsgi.application"
 
 
 # Database
@@ -96,13 +99,13 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # },
-    'default': {
-        'ENGINE': os.environ.get('engine'),
-        'NAME': os.environ.get('db'),
-        'USER': os.environ.get('usr'),
-        'PASSWORD': os.environ.get('pwd'),
-        'HOST':     os.environ.get('host'),
-        'sql_mode': 'STRICT_ALL_TABLES'
+    "default": {
+        "ENGINE": os.environ.get("engine"),
+        "NAME": os.environ.get("db"),
+        "USER": os.environ.get("usr"),
+        "PASSWORD": os.environ.get("pwd"),
+        "HOST": os.environ.get("host"),
+        "sql_mode": "STRICT_ALL_TABLES",
     }
 }
 
@@ -112,16 +115,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -129,11 +132,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/"
 
-TIME_ZONE = 'Europe/Berlin'
+TIME_ZONE = "Europe/Berlin"
 
 USE_I18N = True
 
@@ -144,28 +147,32 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, '/static')
+STATIC_ROOT = os.path.join(BASE_DIR, "/static")
 
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (
-
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "static"),
 )
 
-EMAIL_BACKEND = os.environ.get('email_backend', 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST = os.environ.get('email_host','localhost')
-EMAIL_PORT = os.environ.get('email_port',25)
-EMAIL_HOST_USER = os.environ.get('email_usr','')
-EMAIL_HOST_PASSWORD = os.environ.get('email_pw','')
-EMAIL_USE_TLS = os.environ.get('email_tls', '') != 'False'
-DEFAULT_FROM_EMAIL = os.environ.get('email_default_from',)
+EMAIL_BACKEND = os.environ.get("email_backend", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.environ.get("email_host", "localhost")
+EMAIL_PORT = os.environ.get("email_port", 25)
+EMAIL_HOST_USER = os.environ.get("email_usr", "")
+EMAIL_HOST_PASSWORD = os.environ.get("email_pw", "")
+EMAIL_USE_TLS = os.environ.get("email_tls", "") != "False"
+DEFAULT_FROM_EMAIL = os.environ.get(
+    "email_default_from",
+)
 
 
-SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', '') != 'False'
-CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', '') != 'False'
-SECURE_SSL_REDIRECT = os.environ.get('SSL_REDIRECT', '') != 'False'
+SESSION_COOKIE_SECURE = os.environ.get("SESSION_COOKIE_SECURE", "") != "False"
+CSRF_COOKIE_SECURE = os.environ.get("CSRF_COOKIE_SECURE", "") != "False"
+SECURE_SSL_REDIRECT = os.environ.get("SSL_REDIRECT", "") != "False"
+
+DBBACKUP_STORAGE = "django.core.files.storage.FileSystemStorage"
+DBBACKUP_STORAGE_OPTIONS = {"location": os.environ.get("BACKUP_LOCATION", "backup")}

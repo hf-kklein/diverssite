@@ -1,9 +1,12 @@
 __pycache__
+build
+*.egg-info
 .env
 venv
 testvenv
 .idea
 media
+backup
 /.vscode/
 env.ps1
 db.sqlite3
@@ -13,3 +16,4 @@ testdb
 data
 stats
 *.code-workspace
+config

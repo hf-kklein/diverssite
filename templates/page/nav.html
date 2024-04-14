@@ -1,11 +1,10 @@
 {% load static %}
-<nav class="nav sticky-top justify-content-between">
-
-  <a class="nav-link text-muted" href="{% url 'public:index'%}">Home</a>
-  <a class="nav-link text-muted" href="{% url 'events:index' %}">Events</a>
-  <a class="nav-link text-muted" href="{% url 'wiki:index' %}">Wiki</a>
-  {% comment %} <a class="nav-link text-muted" href="#">Fotos</a>
-  <a class="nav-link text-muted" href="#">Novembernebel</a> {% endcomment %}
-  <a class="nav-link text-muted" href="#">Fotos</a>
-  <a class="nav-link text-muted" href="#">Novembernebel</a>
-</nav>
+<div class="row pl-3 pr-3 pt-1 pb-1 m-0 justify-content-between">
+    <a class="nav-link text-muted" href="{% url 'public:index'%}">Home</a>
+    <a class="nav-link text-muted" href="{% url 'events:index' %}">Events</a>
+    <a class="nav-link text-muted" href="{% url 'wiki:index' %}">Wiki</a>
+    {% comment %} <a class="nav-link text-muted" href="#">Fotos</a>
+    <a class="nav-link text-muted" href="#">Novembernebel</a> {% endcomment %}
+    <a class="nav-link text-muted" href="#">Fotos</a>
+    <a class="nav-link text-muted" href="#">Novembernebel</a>
+</div>

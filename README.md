@@ -22,6 +22,7 @@ Framework.
    + On linux you may need to install pip ```sudo apt install python3-pip```
    + [install git if necessary](https://git-scm.com/downloads))
    + Text editor of your choice (Visual Studio Code, Pycharm, Notepad, Vim, ...) (<https://code.visualstudio.com/>).
+   + sudo apt install postgresql libpq-dev
 
 1. clone repository into new directory
    ```git clone git@github.com:flo-schu/diverssite.git```
@@ -48,7 +49,9 @@ Framework.
    Pip is the store where you can get all the tools
    update pip: ```python -m pip install --upgrade pip```
    ```pip install -r requirements.txt```
-
+   or install
+   ```pip install .```
+   
 6. create a '.env' file. This files contains all custom settings, which are
    imported when the app is launched. A different version of this is used in
    production (when the site is online), which then contains only absolutely
@@ -78,6 +81,19 @@ Framework.
 
 11. For further infor refer to: <https://docs.djangoproject.com/en/3.1/> and
     <https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website>
+
+## Code Formatting and Conventions
+
+The code is formatted using [black](https://black.readthedocs.io/en/stable/).
+The imports are sorted using [isort](https://pycqa.github.io/isort/).
+Follow the respective installation instructions. Then run:
+
+```bash
+black .
+isort .
+```
+
+in the repository root directory.
 
 ## Hosting the website on a server  
 
@@ -128,7 +144,6 @@ Framework.
    ```
 
    paste these variables and replace the values with real stuff. Make sure
-   PGPASSWORD and PGUSER contain the same values as 'usr' and 'pwd'
 
    ```bash
    export server_ip=REAL_SERVER_IP
@@ -142,8 +157,6 @@ Framework.
    export SSL_REDIRECT=True
    export CSRF_COOKIE_SECURE="False"
    export SESSION_COOKIE_SECURE="False"
-   export PGPASSWORD=SAME_PASSWORD_AS_pwd
-   export PGUSER=SAME_USER_AS_usr
    ```
 
    ```set -a; source ~/sites/diverssite/.env; set +a```  # try out if .env works
@@ -169,6 +182,10 @@ Framework.
 7. follow instructions on how to set up gunicorn and nginx.
    <https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04>
 
+   to get started with nginx, check this guide. It is really helpful 
+   to understand what nginx does
+   <https://nginx.org/en/docs/beginners_guide.html>
+
    to reset the server after changes:
 
    ```bash
@@ -177,61 +194,70 @@ Framework.
 
 8. set up SSL certificate
 
-follow the instructions on https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx
-(set up for Ubuntu 18.04 and Nginx)
+   follow the instructions on <https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx>
+   (set up for Ubuntu 18.04 and Nginx)
 
 9. Set up the SMTP Server with Postfix and Dovecot
 
-What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
-I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
-https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu
-https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot
+   What is needed for the whole thing to work is an smtp server with an AUTH function. For this in turn
+   I needed an DNS record for the mailserver, but actually everything is described in the next two tutorials. Those are brilliant. Work through them step by step. I added below where I deviated from the instructions
+   <https://www.linuxbabe.com/mail-server/setup-basic-postfix-mail-sever-ubuntu>
+   <https://www.linuxbabe.com/mail-server/secure-email-server-ubuntu-postfix-dovecot>
 
-Warning: Here monit is used to automatically restart postfix. Monit caused problems in starting 
-postfix. Prefer to not install it
+   Warning: Here monit is used to automatically restart postfix. Monit caused problems in starting
+   postfix. Prefer to not install it
 
-+ set hostname: This may actually be not required because later on we fix the hostname in postfix config
-```sudo hostnamectl set-hostname mail.saxy-divers.de```
-+ follow the rest of the tutorial
+   + set hostname: This may actually be not required because later on we fix the hostname in postfix config
+   ```sudo hostnamectl set-hostname mail.saxy-divers.de```
+   + follow the rest of the tutorial
+   + open the aliases file
+   ```sudo nano /etc/aliases```
+   + add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
+   ```root:          your@mail.de```
+   + updating certificate to email instead of creating a new one:
+   ```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+   + dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
+   + enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
 
-+ open the aliases file
-```sudo nano /etc/aliases```
+   To check problems of postifx and dovecot inspect the log
 
-+ add the line to aliases file, so that error mails are sent to an external mail in case the server breaks down
-```root:          your@mail.de```
+   + check mailbox:
+   ```nano /var/mail/florian```
+   + check log:
+   ```nano /var/log/mail.log```
 
-+ updating certificate to email instead of creating a new one:
-```certbot --expand -d saxy-divers.de,mail.saxy-divers.de```
+   + then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
 
-+ dont use the auth_username_format = %n option. I think it will be simpler to just use usernames.
-+ enabling monit at the end of part 1 tutorial caused problems. Disabling it fixed postifx shutting down repeatedly
+   ```bash
+   export email_tls=True
+   export email_default_from=ultimail@saxy-divers.de
+   export email_host=mail.saxy-divers.de
+   export email_usr=XXXXXX
+   export email_pw=XXXXXX
+   export email_port=587
+   ```
 
-To check problems of postifx and dovecot inspect the log
+## Development
 
-+ check mailbox:
-```nano /var/mail/florian```
-+ check log:
-```nano /var/log/mail.log```
+### Migrations
 
-+ then add the environmental variables to the settings file and add them to the .env file on the server like under point 3. email_usr and email_pw müssen gesetzt sein. Dafür muss auf dem SMTP Server ein benutzer existieren. Dies sollte aber schon im Tutorial geschehen sein.
+always only migrate the app you have been working on e.g.
+```python3 manage.py makemigrations wiki```
 
-```bash
-export email_tls=True
-export email_default_from=ultimail@saxy-divers.de
-export email_host=mail.saxy-divers.de
-export email_usr=XXXXXX
-export email_pw=XXXXXX
-export email_port=587
-```
+for changes that affect a database retrospectively, use of django-extensions `runscript` is recommended
+
+`python3 manage.py runscript save_models`
 
 ## Maintenance
 
-server restart:
+### server
+
+#### server restart
 
 + sudo hostnamectl set-hostname mail.saxy-divers.de (not sure if this is really necessary)
 + sudo systemctl restart gunicorn nginx postfix dovecot
 
-after changes to the django app have been made:
+#### after changes to the django app have been made
 
 + NEVER push settings from the develop branch
 + push if needed changes from main branch
@@ -242,7 +268,7 @@ after changes to the django app have been made:
 + migrate changes if necessary:   ```python3 manage.py migrate```
 + restart gunicorn:  ```sudo systemctl restart gunicorn```
 + check if site works. If server error occurs, it could be because changes rely
-  on model values which have not been +et. This can be directly tackled in the
+  on model values which have not been set. This can be directly tackled in the
   admin view --> <https://mysite.de/admin>
 + restart postfix:  ```sudo systemctl restart postfix```
 + restart dovecot:  ```sudo systemctl restart dovecot```
@@ -252,18 +278,47 @@ after changes to the django app have been made:
   ```sudo useradd -m username```
   ```sudo passwd username```
 
-old:
+### Backup
 
-+ activate environmental variables with:   ```set -a; source ~/sites/diverssite/.env; set +a```  # not necessary any longer because a dotenv (.env) is used
+see <https://django-dbbackup.readthedocs.io/en/master/index.html>
 
-## Bugs and Fixes
+creating backups is done with:
 
-admin site is not rendered correctly: Sidebar issue
+```bash
+python3 manage.py dbbackup
+python3 manage.py mediabackup
+```
+
+for restoring backups see the documentation
+
+### upgrade system
+
++ first open a port on ufw wtih the rule `1022/tcp` for ssh access on 
+a different port and add it in 
++ do it very slowly according to the instructions and make sure the port is added in `sudo nano /etc/ssh/sshd_config` as `Port 1022`
+
+in case the upgrade messes with the previously used python version
+follow the to ansper in <https://stackoverflow.com/questions/61541281/python-3-7-venv-broken-after-upgrade-to-ubuntu-20-04>
+
+there will be several updates to existing configuration files necessary
+it is recommended to start the services one by one and inspect error messages: `sudo systemctl start SERVICE` to check errormessages exchange `start` with `status`
+- gunicorn (potential python migration issues)
+- nginx (occupied port: <https://stackoverflow.com/questions/42303401/nginx-will-not-start-address-already-in-use> check used ports `sudo netstat -tulpn`)
+- postfix
+- dovecot (configuration files: /etc/dovecot/conf.d/10-ssl.conf /etc/dovecot/dovecot.conf)
+
+#### disable unneeded services
+`sudo systemctl disable apache2.service` --> blocks port 80
+
+### Known Issues and Fixes
+
+#### admin site is not rendered correctly - Sidebar issue
+
 sitebar is triggered out of unknown overflow reasons.
 Fix: Disable sidebar
 <https://stackoverflow.com/questions/64016816/django-admin-sidebar-bug>
 
-## Roadmap
+### Roadmap
 
 + [X] enable email login --> <https://django-allauth.readthedocs.io/en/latest/installation.html>
 + [X] add history and revert possibilities
@@ -283,7 +338,7 @@ Fix: Disable sidebar
 + [ ] Zugang zu contact@saxy-divers.de und ultimail@saxy-divers.de auf webseite
 + [x] fix emails
 
-Wünsche
+### Wünsche
 
 + Mailbenachrichtigung bei neuem turnier
 + kategorien anlegen
