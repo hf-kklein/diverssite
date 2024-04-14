@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
@@ -25,7 +26,18 @@ class Location(models.Model):
 # Create your models here.
 class Event(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(
+        max_length=50,
+        validators=[
+            RegexValidator(
+                regex=r'^[a-zA-ZäöüÄÖÜß\d\s]+$',
+                message='Der Titel des Events darf aus Buchstaben, Zahlen und Leerzeichen bestehen.',
+                # und v.a. keine Sonderzeichen enthalten:
+                # https://github.com/flo-schu/diverssite/issues/101
+                code='invalid_name'
+            )
+        ]
+    )
     categ = models.ForeignKey(Categ, null=True, on_delete=models.PROTECT)
     date = models.DateTimeField()
     description = MarkdownxField(null=True, blank=True)
